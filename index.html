@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>PPC Cards — Multiplayer Card Games · OFC Poker, Palace, Rummy, Scala 40, Hearts</title>
+<meta name="description" content="PPC Cards — multiplayer card games with friends or bots. OFC poker (Pineapple & Classic), Palace, Rummy, Scala 40, Hearts and Solitaire. Crossplay on iOS, Android and PC." />
+<link rel="canonical" href="https://ppc.casino/" />
+<meta name="theme-color" content="#262421" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="PPC Cards — Multiplayer Card Games" />
+<meta property="og:description" content="OFC poker, Palace, Rummy, Scala 40, Hearts & Solitaire. Play with friends or bots — crossplay on iOS, Android and PC." />
+<meta property="og:url" content="https://ppc.casino/" />
+<meta property="og:image" content="https://ppc.casino/og-image.png" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<style>
+:root {
+  --gold:#f4dc9c; --gold-line:#c9a447; --gold-on-grad:#3a2a08;
+  --text:#f1efe6; --muted:#aab1ad;
+}
+* { box-sizing:border-box; }
+html, body { margin:0; background:#262421; }
+body {
+  font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  min-height:100vh; color:var(--text);
+  background:linear-gradient(180deg, #33312D 0%, #262421 100%);
+  text-transform:uppercase;
+  -webkit-font-smoothing:antialiased;
+}
+a { color:inherit; text-decoration:none; }
+
+.site-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px; border-bottom:1px solid rgba(201,164,71,.25);
+  max-width:1040px; margin:0 auto;
+}
+.site-logo { display:flex; align-items:center; gap:10px; }
+.site-logo .mark {
+  font-family:Georgia,'Times New Roman',serif; font-weight:600;
+  letter-spacing:.3em; font-size:13px; color:var(--gold);
+}
+.site-nav { display:flex; gap:18px; font-size:10px; letter-spacing:.18em; color:var(--muted); }
+.site-nav a:hover { color:var(--gold); }
+
+.hero { text-align:center; padding:64px 24px 48px; }
+.hero-mark {
+  font-family:Georgia,'Times New Roman',serif; font-weight:600; letter-spacing:.3em;
+  font-size:clamp(30px, 8vw, 44px); line-height:1;
+  background:linear-gradient(160deg,#f4dc9c,#e8c46b);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+}
+.hero-platforms {
+  font-family:Georgia,'Times New Roman',serif; font-weight:500;
+  letter-spacing:.22em; font-size:11px; color:#7a8190; margin-top:14px;
+}
+.hero-platforms .dot { color:#5a626d; padding:0 6px; }
+.hero-blurb {
+  font-size:12px; letter-spacing:.14em; color:var(--muted);
+  margin:18px auto 0; max-width:430px; line-height:1.8;
+}
+.hero-ctas { display:flex; gap:12px; justify-content:center; margin-top:30px; flex-wrap:wrap; align-items:center; }
+
+.appstore-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:#000; border:1px solid #555; border-radius:10px;
+  padding:10px 20px; color:#fff;
+}
+.appstore-badge .txt { text-align:left; text-transform:none; }
+.appstore-badge .txt .small { display:block; font-size:9px; color:#bbb; }
+.appstore-badge .txt .big { display:block; font-size:14px; font-weight:600; }
+.appstore-badge.soon { opacity:.45; cursor:default; }
+
+.play-free-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  background:linear-gradient(160deg,#f4dc9c,#e8c46b);
+  border:1px solid var(--gold-line); border-radius:999px;
+  padding:12px 24px; color:var(--gold-on-grad);
+  font-size:11px; font-weight:700; letter-spacing:.14em; cursor:pointer;
+}
+.play-free-btn:hover { filter:brightness(1.05); }
+.hero-note { font-size:9px; letter-spacing:.16em; color:#7a8190; margin-top:12px; }
+.hero-note .dot { color:#5a626d; padding:0 4px; }
+
+.games { padding:0 22px 48px; }
+.games-label, .support-label {
+  text-align:center; font-size:10px; letter-spacing:.24em;
+  color:var(--gold-line); margin-bottom:16px;
+}
+.games-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:12px;
+  max-width:520px; margin:0 auto;
+}
+.variant-card {
+  border-radius:18px; padding:22px 12px 18px; display:flex; flex-direction:column;
+  align-items:center; justify-content:space-between; text-align:center; gap:8px;
+  aspect-ratio:1.05/1; transition:transform .15s ease, border-color .15s ease;
+  position:relative;
+}
+.variant-card:hover { transform:translateY(-2px); }
+.variant-card-ico { font-size:54px; line-height:1; transform-origin:center; will-change:transform; }
+.variant-card.ofc       .variant-card-ico { animation: vc-ico-cards    2.2s ease-in-out infinite; }
+.variant-card.rummy     .variant-card-ico { animation: vc-ico-grid     2.6s ease-in-out infinite; }
+.variant-card.solitaire .variant-card-ico { animation: vc-ico-cards-fl 2.4s ease-in-out infinite; }
+.variant-card.scala40   .variant-card-ico { animation: vc-ico-stairs   2.4s ease-in-out infinite; }
+.variant-card.palace    .variant-card-ico { animation: vc-ico-stack    2.4s ease-in-out infinite; }
+.variant-card.hearts    .variant-card-ico { animation: vc-ico-heart    1.6s ease-in-out infinite; }
+@keyframes vc-ico-cards    { 0%,100% { transform:rotate(-3deg); } 50% { transform:rotate(3deg); } }
+@keyframes vc-ico-heart    { 0%,8%,30%,100% { transform:scale(1); } 14% { transform:scale(1.20); } 22% { transform:scale(.96); } }
+@keyframes vc-ico-stack    { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+@keyframes vc-ico-grid     { 0%,100% { transform:rotate(0); } 50% { transform:rotate(8deg); } }
+@keyframes vc-ico-stairs   { 0%,100% { transform:translateY(2px) translateX(-2px); } 50% { transform:translateY(-2px) translateX(2px); } }
+@keyframes vc-ico-cards-fl { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px) rotate(-2deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .variant-card .variant-card-ico { animation:none !important; }
+}
+.variant-card-title { font-weight:800; font-size:14px; letter-spacing:.1em; }
+.variant-card-sub { font-size:9px; opacity:.75; letter-spacing:.16em; }
+.variant-card.ofc { background:linear-gradient(160deg,#f4dc9c,#e8c46b); border:1.5px solid #c9a447; }
+.variant-card.ofc .variant-card-ico { color:#4a3a10; }
+.variant-card.ofc .variant-card-title { color:#3a2a08; }
+.variant-card.ofc .variant-card-sub { color:#7a5a18; }
+.variant-card.rummy { background:linear-gradient(160deg,#ff8a78,#e84030); border:1.5px solid #b02018; }
+.variant-card.rummy .variant-card-ico { color:#4a0a08; }
+.variant-card.rummy .variant-card-title { color:#3a0606; }
+.variant-card.rummy .variant-card-sub { color:#7a1a14; }
+.variant-card.solitaire { background:linear-gradient(160deg,#b8e0bf,#88c895); border:1.5px solid #4ca85f; }
+.variant-card.solitaire .variant-card-ico { color:#0e3a1d; }
+.variant-card.solitaire .variant-card-title { color:#072a13; }
+.variant-card.solitaire .variant-card-sub { color:#1b6a32; }
+.variant-card.scala40 { background:linear-gradient(160deg,#b8c4f0,#8aa0e0); border:1.5px solid #5070c4; }
+.variant-card.scala40 .variant-card-ico { color:#0e1638; }
+.variant-card.scala40 .variant-card-title { color:#080e28; }
+.variant-card.scala40 .variant-card-sub { color:#1a2858; }
+.variant-card.palace { background:linear-gradient(160deg,#c8d990,#a8c050); border:1.5px solid #80a020; }
+.variant-card.palace .variant-card-ico { color:#233008; }
+.variant-card.palace .variant-card-title { color:#1a2406; }
+.variant-card.palace .variant-card-sub { color:#3c4d10; }
+.variant-card.hearts { background:linear-gradient(160deg,#ffc4cf,#f495a8); border:1.5px solid #c84960; }
+.variant-card.hearts .variant-card-ico { color:#5a0e1a; }
+.variant-card.hearts .variant-card-title { color:#4a0a15; }
+.variant-card.hearts .variant-card-sub { color:#8a1f30; }
+.games-note { text-align:center; font-size:9px; letter-spacing:.14em; color:#7a8190; margin-top:14px; }
+.games-note .dot { color:#5a626d; padding:0 4px; }
+
+.support { border-top:1px solid rgba(201,164,71,.25); padding:28px 22px; text-align:center; }
+.support-line { font-size:12px; letter-spacing:.12em; color:var(--text); margin-top:10px; text-transform:none; }
+.support-line a { color:var(--gold); }
+.support-line a:hover { text-decoration:underline; }
+
+.site-footer {
+  border-top:1px solid rgba(201,164,71,.25); padding:16px 22px;
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  font-size:9px; letter-spacing:.14em; color:#7a8190;
+  max-width:1040px; margin:0 auto;
+}
+.site-footer a:hover { color:var(--gold); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-logo">
+    <svg viewBox="0 0 52 47" width="30" height="27" aria-label="PPC Cards logo">
+      <defs>
+        <linearGradient id="ppc-gold-grad" x1="0" y1="0" x2="0.6" y2="1">
+          <stop offset="0%" stop-color="#f4dc9c" />
+          <stop offset="100%" stop-color="#e8c46b" />
+        </linearGradient>
+      </defs>
+      <rect x="12" y="2"  width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="22" y="2"  width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="32" y="2"  width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="2"  y="18" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="12" y="18" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="22" y="18" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="32" y="18" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="42" y="18" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="2"  y="34" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="12" y="34" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="22" y="34" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="32" y="34" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+      <rect x="42" y="34" width="8" height="11" rx="1.5" fill="url(#ppc-gold-grad)" stroke="#c9a447" stroke-width="0.4" />
+    </svg>
+    <span class="mark">PPC CARDS</span>
+  </div>
+  <nav class="site-nav">
+    <a href="#games">Games</a>
+    <a href="#support">Support</a>
+    <a href="https://ofc.ppc.casino/privacy.html">Privacy</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1 class="hero-mark">PPC CARDS</h1>
+  <div class="hero-platforms">iOS <span class="dot">&middot;</span> Android <span class="dot">&middot;</span> PC &nbsp;&mdash;&nbsp; Crossplay Available</div>
+  <p class="hero-blurb">Multiplayer card games with friends or bots. OFC poker, Palace, Rummy, Scala 40, Hearts &amp; more.</p>
+  <div class="hero-ctas">
+    <!-- APP STORE BADGE — currently in review. When Apple approves, replace this <span> with:
+         <a class="appstore-badge" href="https://apps.apple.com/app/id6778567066"> ... same inner HTML ... </a> -->
+    <span class="appstore-badge soon" title="Coming soon to the App Store">
+      <i class="ti ti-brand-apple" style="font-size:22px;" aria-hidden="true"></i>
+      <span class="txt"><span class="small">Coming soon to the</span><span class="big">App Store</span></span>
+    </span>
+    <!-- FREE-WEB-PLAY START — delete this whole block (incl. the hero-note below) once the paid app is live on both stores -->
+    <a class="play-free-btn" href="https://ofc.ppc.casino">
+      <i class="ti ti-player-play" style="font-size:15px;" aria-hidden="true"></i>
+      Play free in your browser
+    </a>
+  </div>
+  <div class="hero-note">Free web version &mdash; no install needed <span class="dot">&middot;</span> Android coming soon</div>
+  <!-- FREE-WEB-PLAY END -->
+</section>
+
+<section class="games" id="games">
+  <div class="games-label">The Games</div>
+  <div class="games-grid">
+    <div class="variant-card ofc">
+      <i class="ti ti-cards variant-card-ico" aria-hidden="true"></i>
+      <div>
+        <div class="variant-card-title">OFC</div>
+        <div class="variant-card-sub">Pineapple &middot; Classic</div>
+      </div>
+    </div>
+    <div class="variant-card rummy">
+      <i class="ti ti-layout-grid variant-card-ico" aria-hidden="true"></i>
+      <div>
+        <div class="variant-card-title">Rummy</div>
+        <div class="variant-card-sub">Gin &middot; 500</div>
+      </div>
+    </div>
+    <div class="variant-card solitaire">
+      <i class="ti ti-cards-filled variant-card-ico" aria-hidden="true"></i>
+      <div>
+        <div class="variant-card-title">Solitaire</div>
+        <div class="variant-card-sub">Klondike &middot; Race</div>
+      </div>
+    </div>
+    <div class="variant-card scala40">
+      <i class="ti ti-stairs-up variant-card-ico" aria-hidden="true"></i>
+      <div>
+        <div class="variant-card-title">Scala 40</div>
+        <div class="variant-card-sub">Italian Meld</div>
+      </div>
+    </div>
+    <div class="variant-card palace">
+      <i class="ti ti-stack-2 variant-card-ico" aria-hidden="true"></i>
+      <div>
+        <div class="variant-card-title">Palace</div>
+        <div class="variant-card-sub">Prince Rules</div>
+      </div>
+    </div>
+    <div class="variant-card hearts">
+      <i class="ti ti-heart variant-card-ico" aria-hidden="true"></i>
+      <div>
+        <div class="variant-card-title">Hearts</div>
+        <div class="variant-card-sub">Trick-Taking</div>
+      </div>
+    </div>
+  </div>
+  <div class="games-note">Crossplay <span class="dot">&middot;</span> Play with friends or bots <span class="dot">&middot;</span> Free to play</div>
+</section>
+
+<section class="support" id="support">
+  <div class="support-label">Support</div>
+  <div class="support-line">Questions or issues? <a href="mailto:admin@ppc.casino">admin@ppc.casino</a></div>
+</section>
+
+<footer class="site-footer">
+  <span>&copy; 2026 PPC Cards</span>
+  <a href="https://ofc.ppc.casino/privacy.html">Privacy Policy</a>
+</footer>
+
+</body>
+</html>

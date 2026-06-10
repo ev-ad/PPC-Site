@@ -30,12 +30,23 @@
 </header>
 <div class="account-wrap">
 
-  <div id="signedout" class="card-dark" style="text-align:center; padding:34px 22px;">
-    <div style="font-family:Georgia,'Times New Roman',serif; letter-spacing:.22em; font-size:16px; color:#f4dc9c;">YOUR TABLE AWAITS</div>
+  <div id="signedout" class="card-dark" style="text-align:center; padding:30px 22px;">
+    <div style="font-family:Georgia,'Times New Roman',serif; letter-spacing:.22em; font-size:15px; color:#f4dc9c;">YOUR TABLE AWAITS</div>
     <div style="font-size:9px; letter-spacing:.12em; color:#aab1ad; margin-top:10px; line-height:1.8;">Sign in to see your stats and account info</div>
-    <button class="btn-gold" id="google-btn" style="margin-top:18px;"><i class="ti ti-brand-google" style="font-size:14px;" aria-hidden="true"></i>Sign in with Google</button>
+    <div class="auth-stack">
+      <button class="btn-auth google" id="google-btn"><i class="ti ti-brand-google" style="font-size:13px;" aria-hidden="true"></i>Sign in with Google</button>
+      <button class="btn-auth apple" id="apple-btn"><i class="ti ti-brand-apple" style="font-size:14px;" aria-hidden="true"></i>Sign in with Apple</button>
+    </div>
+    <div class="auth-div">or email</div>
+    <form class="auth-stack" style="margin-top:0;" id="email-form">
+      <input class="auth-input" type="email" id="email" placeholder="email@example.com" autocomplete="email" required />
+      <input class="auth-input" type="password" id="password" placeholder="Password" autocomplete="current-password" required />
+      <button class="btn-auth email" type="submit">Sign in</button>
+    </form>
+    <div class="auth-links"><a id="forgot-link">Forgot password?</a> <span class="dot">&middot;</span> New here? Create your account in the app</div>
     <div class="auth-error hidden" id="auth-error"></div>
-    <div class="guest-note">Played as a guest? Guest accounts live on your device &mdash; open the app and link Google in Settings to see them here.</div>
+    <div class="auth-msg hidden" id="auth-msg"></div>
+    <div class="guest-note">Played as a guest? Guest accounts live on your device &mdash; open the app and link an account in Settings to see them here.</div>
   </div>
 
   <div id="signedin" class="hidden">
@@ -52,14 +63,14 @@
       <div class="stat-hero-num" id="overall-rate">&mdash;</div>
       <div class="stat-hero-sub" id="overall-sub"></div>
     </div>
-    <div class="stat-pills" id="stat-pills"></div>
+    <div class="stat-rows" id="stat-rows"></div>
     <div class="guest-note">Stats cover finished matches synced to your account. In-progress games count once they wrap up.</div>
   </div>
 
 </div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, OAuthProvider, signInWithPopup, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const app = initializeApp({
@@ -83,6 +94,23 @@ const VARIANTS = [
 ];
 const KEYMAP = { classic: "pineapple", rummy500: "rummy" };
 const $ = (id) => document.getElementById(id);
+
+const FRIENDLY = {
+  "auth/invalid-credential": "Wrong email or password.",
+  "auth/wrong-password": "Wrong email or password.",
+  "auth/user-not-found": "No account with that email - create one in the app first.",
+  "auth/invalid-email": "That email address does not look right.",
+  "auth/too-many-requests": "Too many tries - wait a minute and try again.",
+  "auth/popup-closed-by-user": "Sign-in window was closed before finishing.",
+  "auth/missing-password": "Enter your password."
+};
+function showError(e) {
+  const el = $("auth-error");
+  el.textContent = FRIENDLY[e && e.code] || ("Sign-in failed: " + ((e && e.code) || "unknown error"));
+  el.classList.remove("hidden");
+  $("auth-msg").classList.add("hidden");
+}
+function clearNotes() { $("auth-error").classList.add("hidden"); $("auth-msg").classList.add("hidden"); }
 
 function aggregate(matches) {
   const b = {};
@@ -114,22 +142,24 @@ async function renderSignedIn(user) {
   $("avatar").textContent = name.charAt(0).toUpperCase();
   const created = user.metadata && user.metadata.creationTime ? new Date(user.metadata.creationTime) : null;
   const since = created ? created.toLocaleDateString("en-US", { month: "long", year: "numeric" }) : "";
-  const provider = (user.providerData && user.providerData[0] && user.providerData[0].providerId === "google.com") ? "Google account" : "Linked account";
-  $("acct-meta").textContent = [user.email, provider, since ? "Member since " + since : ""].filter(Boolean).join(" \u00b7 ");
+  const pid = user.providerData && user.providerData[0] && user.providerData[0].providerId;
+  const provider = pid === "google.com" ? "Google account" : pid === "apple.com" ? "Apple account" : pid === "password" ? "Email account" : "Linked account";
+  $("acct-meta").textContent = [user.email, provider, since ? "Member since " + since : ""].filter(Boolean).join(" · ");
   const b = aggregate(data.matches);
   let hands = 0, wins = 0, losses = 0, pushes = 0;
   for (const k in b) { hands += b[k].hands; wins += b[k].wins; losses += b[k].losses; pushes += b[k].pushes; }
-  $("overall-rate").textContent = hands > 0 ? Math.round((wins / hands) * 100) + "%" : "\u2014";
-  $("overall-sub").textContent = hands > 0 ? hands + " hands \u00b7 " + wins + " W \u00b7 " + losses + " L \u00b7 " + pushes + " push" : "No finished matches yet \u2014 go play one";
-  const pills = $("stat-pills");
-  pills.innerHTML = "";
+  $("overall-rate").textContent = hands > 0 ? Math.round((wins / hands) * 100) + "%" : "—";
+  $("overall-sub").textContent = hands > 0 ? hands + " hands · " + wins + " W · " + losses + " L · " + pushes + " push" : "No finished matches yet — go play one";
+  const rows = $("stat-rows");
+  rows.innerHTML = "";
   for (const [k, label, icon, vclass] of VARIANTS) {
     const s = b[k];
-    const val = s.hands > 0 ? Math.round((s.wins / s.hands) * 100) + "% \u00b7 " + s.wins + "W " + s.losses + "L" : "\u2014";
+    const big = s.hands > 0 ? Math.round((s.wins / s.hands) * 100) + "%" : "—";
+    const sub = s.hands > 0 ? s.wins + " W · " + s.losses + " L" : "Not played yet";
     const el = document.createElement("div");
-    el.className = "stat-pill " + vclass;
-    el.innerHTML = '<span class="sp-name t1"><i class="ti ' + icon + '" aria-hidden="true"></i>' + label + '</span><span class="sp-val t2">' + val + "</span>";
-    pills.appendChild(el);
+    el.className = "stat-row " + vclass;
+    el.innerHTML = '<span class="sr-name t1"><i class="ti ' + icon + '" aria-hidden="true"></i>' + label + '</span><span class="sr-right"><span class="sr-big t1">' + big + '</span><span class="sr-sub t2">' + sub + "</span></span>";
+    rows.appendChild(el);
   }
 }
 
@@ -140,14 +170,32 @@ function renderSignedOut() {
 }
 
 $("google-btn").addEventListener("click", async () => {
-  $("auth-error").classList.add("hidden");
+  clearNotes();
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch (e) { showError(e); }
+});
+$("apple-btn").addEventListener("click", async () => {
+  clearNotes();
   try {
-    await signInWithPopup(auth, new GoogleAuthProvider());
-  } catch (e) {
-    const el = $("auth-error");
-    el.textContent = "Sign-in failed: " + ((e && e.code) || "unknown error");
+    const p = new OAuthProvider("apple.com");
+    p.addScope("email"); p.addScope("name");
+    await signInWithPopup(auth, p);
+  } catch (e) { showError(e); }
+});
+$("email-form").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  clearNotes();
+  try { await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value); } catch (e) { showError(e); }
+});
+$("forgot-link").addEventListener("click", async () => {
+  clearNotes();
+  const e = $("email").value.trim();
+  if (!e) { showError({ code: "auth/invalid-email" }); return; }
+  try {
+    await sendPasswordResetEmail(auth, e);
+    const el = $("auth-msg");
+    el.textContent = "Password reset email sent to " + e + " - check your inbox.";
     el.classList.remove("hidden");
-  }
+  } catch (err) { showError(err); }
 });
 $("signout-btn").addEventListener("click", () => signOut(auth));
 onAuthStateChanged(auth, (user) => { user ? renderSignedIn(user) : renderSignedOut(); });

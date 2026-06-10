@@ -93,17 +93,20 @@ a { color:inherit; text-decoration:none; }
   color:var(--gold-line); margin-bottom:16px;
 }
 .games-grid {
-  display:grid; grid-template-columns:1fr 1fr; gap:12px;
-  max-width:520px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px;
+  max-width:640px; margin:0 auto;
+}
+@media (max-width:480px) {
+  .games-grid { grid-template-columns:1fr 1fr; }
 }
 .variant-card {
-  border-radius:18px; padding:22px 12px 18px; display:flex; flex-direction:column;
-  align-items:center; justify-content:space-between; text-align:center; gap:8px;
-  aspect-ratio:1.05/1; transition:transform .15s ease, border-color .15s ease;
+  border-radius:14px; padding:14px 10px 12px; display:flex; flex-direction:column;
+  align-items:center; text-align:center; gap:6px;
+  transition:transform .15s ease, border-color .15s ease;
   position:relative;
 }
 .variant-card:hover { transform:translateY(-2px); }
-.variant-card-ico { font-size:54px; line-height:1; transform-origin:center; will-change:transform; }
+.variant-card-ico { font-size:32px; line-height:1; transform-origin:center; will-change:transform; }
 .variant-card.ofc       .variant-card-ico { animation: vc-ico-cards    2.2s ease-in-out infinite; }
 .variant-card.rummy     .variant-card-ico { animation: vc-ico-grid     2.6s ease-in-out infinite; }
 .variant-card.solitaire .variant-card-ico { animation: vc-ico-cards-fl 2.4s ease-in-out infinite; }
@@ -119,32 +122,39 @@ a { color:inherit; text-decoration:none; }
 @media (prefers-reduced-motion: reduce) {
   .variant-card .variant-card-ico { animation:none !important; }
 }
-.variant-card-title { font-weight:800; font-size:14px; letter-spacing:.1em; }
-.variant-card-sub { font-size:9px; opacity:.75; letter-spacing:.16em; }
+.variant-card-title { font-weight:800; font-size:12px; letter-spacing:.1em; }
+.variant-card-sub { font-size:8px; opacity:.75; letter-spacing:.14em; margin-top:2px; }
+.variant-card-desc { font-size:9px; letter-spacing:.06em; line-height:1.5; }
 .variant-card.ofc { background:linear-gradient(160deg,#f4dc9c,#e8c46b); border:1.5px solid #c9a447; }
 .variant-card.ofc .variant-card-ico { color:#4a3a10; }
 .variant-card.ofc .variant-card-title { color:#3a2a08; }
 .variant-card.ofc .variant-card-sub { color:#7a5a18; }
+.variant-card.ofc .variant-card-desc { color:#5e4612; }
 .variant-card.rummy { background:linear-gradient(160deg,#ff8a78,#e84030); border:1.5px solid #b02018; }
 .variant-card.rummy .variant-card-ico { color:#4a0a08; }
 .variant-card.rummy .variant-card-title { color:#3a0606; }
 .variant-card.rummy .variant-card-sub { color:#7a1a14; }
+.variant-card.rummy .variant-card-desc { color:#5c1210; }
 .variant-card.solitaire { background:linear-gradient(160deg,#b8e0bf,#88c895); border:1.5px solid #4ca85f; }
 .variant-card.solitaire .variant-card-ico { color:#0e3a1d; }
 .variant-card.solitaire .variant-card-title { color:#072a13; }
 .variant-card.solitaire .variant-card-sub { color:#1b6a32; }
+.variant-card.solitaire .variant-card-desc { color:#14512a; }
 .variant-card.scala40 { background:linear-gradient(160deg,#b8c4f0,#8aa0e0); border:1.5px solid #5070c4; }
 .variant-card.scala40 .variant-card-ico { color:#0e1638; }
 .variant-card.scala40 .variant-card-title { color:#080e28; }
 .variant-card.scala40 .variant-card-sub { color:#1a2858; }
+.variant-card.scala40 .variant-card-desc { color:#16204a; }
 .variant-card.palace { background:linear-gradient(160deg,#c8d990,#a8c050); border:1.5px solid #80a020; }
 .variant-card.palace .variant-card-ico { color:#233008; }
 .variant-card.palace .variant-card-title { color:#1a2406; }
 .variant-card.palace .variant-card-sub { color:#3c4d10; }
+.variant-card.palace .variant-card-desc { color:#2f3d0c; }
 .variant-card.hearts { background:linear-gradient(160deg,#ffc4cf,#f495a8); border:1.5px solid #c84960; }
 .variant-card.hearts .variant-card-ico { color:#5a0e1a; }
 .variant-card.hearts .variant-card-title { color:#4a0a15; }
 .variant-card.hearts .variant-card-sub { color:#8a1f30; }
+.variant-card.hearts .variant-card-desc { color:#701825; }
 .games-note { text-align:center; font-size:9px; letter-spacing:.14em; color:#7a8190; margin-top:14px; }
 .games-note .dot { color:#5a626d; padding:0 4px; }
 
@@ -226,6 +236,7 @@ a { color:inherit; text-decoration:none; }
         <div class="variant-card-title">OFC</div>
         <div class="variant-card-sub">Pineapple &middot; Classic</div>
       </div>
+      <div class="variant-card-desc">Open Face Chinese poker &mdash; build three rows, score royalties</div>
     </div>
     <div class="variant-card rummy">
       <i class="ti ti-layout-grid variant-card-ico" aria-hidden="true"></i>
@@ -233,6 +244,7 @@ a { color:inherit; text-decoration:none; }
         <div class="variant-card-title">Rummy</div>
         <div class="variant-card-sub">Gin &middot; 500</div>
       </div>
+      <div class="variant-card-desc">Draw, meld and knock &mdash; classic Gin plus Rummy 500</div>
     </div>
     <div class="variant-card solitaire">
       <i class="ti ti-cards-filled variant-card-ico" aria-hidden="true"></i>
@@ -240,6 +252,7 @@ a { color:inherit; text-decoration:none; }
         <div class="variant-card-title">Solitaire</div>
         <div class="variant-card-sub">Klondike &middot; Race</div>
       </div>
+      <div class="variant-card-desc">Classic Klondike &mdash; play solo or race friends to clear first</div>
     </div>
     <div class="variant-card scala40">
       <i class="ti ti-stairs-up variant-card-ico" aria-hidden="true"></i>
@@ -247,6 +260,7 @@ a { color:inherit; text-decoration:none; }
         <div class="variant-card-title">Scala 40</div>
         <div class="variant-card-sub">Italian Meld</div>
       </div>
+      <div class="variant-card-desc">Italian rummy &mdash; open with 40 points of melds, last one standing wins</div>
     </div>
     <div class="variant-card palace">
       <i class="ti ti-stack-2 variant-card-ico" aria-hidden="true"></i>
@@ -254,6 +268,7 @@ a { color:inherit; text-decoration:none; }
         <div class="variant-card-title">Palace</div>
         <div class="variant-card-sub">Prince Rules</div>
       </div>
+      <div class="variant-card-desc">Shed your cards first &mdash; 2s reset the pile, 10s burn it</div>
     </div>
     <div class="variant-card hearts">
       <i class="ti ti-heart variant-card-ico" aria-hidden="true"></i>
@@ -261,6 +276,7 @@ a { color:inherit; text-decoration:none; }
         <div class="variant-card-title">Hearts</div>
         <div class="variant-card-sub">Trick-Taking</div>
       </div>
+      <div class="variant-card-desc">Dodge hearts and the Queen of Spades &mdash; lowest score wins</div>
     </div>
   </div>
   <div class="games-note">Crossplay <span class="dot">&middot;</span> Play with friends or bots <span class="dot">&middot;</span> Free to play</div>

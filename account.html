@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Account — PPC Cards</title>
+<meta name="description" content="Sign in to see your PPC Cards stats and account info." />
+<link rel="canonical" href="https://ppc.casino/account" />
+<meta name="theme-color" content="#1d1b18" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Account — PPC Cards" />
+<meta property="og:description" content="Sign in to see your PPC Cards stats and account info." />
+<meta property="og:url" content="https://ppc.casino/account" />
+<meta property="og:image" content="https://ppc.casino/og-image.png" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<header class="nav">
+  <a class="nav-logo" href="/"><svg viewBox="0 0 52 47" width="26" height="23" aria-label="PPC Cards logo"><defs><linearGradient id="ppcg" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0%" stop-color="#f4dc9c"/><stop offset="100%" stop-color="#e8c46b"/></linearGradient></defs><rect x="12" y="2" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="22" y="2" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="32" y="2" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="2" y="18" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="12" y="18" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="22" y="18" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="32" y="18" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="42" y="18" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="2" y="34" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="12" y="34" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="22" y="34" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="32" y="34" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/><rect x="42" y="34" width="8" height="11" rx="1.5" fill="url(#ppcg)" stroke="#c9a447" stroke-width="0.4"/></svg><span class="mark">PPC CARDS</span></a>
+  <nav class="nav-links">
+    <a href="/#games">Games</a>
+    <a href="/support">Support</a>
+    <a class="pill-outline" id="nav-account" href="/account"><i class="ti ti-user" style="font-size:11px;" aria-hidden="true"></i><span id="nav-account-label">Sign in</span></a>
+  </nav>
+</header>
+<div class="account-wrap">
+
+  <div id="signedout" class="card-dark" style="text-align:center; padding:34px 22px;">
+    <div style="font-family:Georgia,'Times New Roman',serif; letter-spacing:.22em; font-size:16px; color:#f4dc9c;">YOUR TABLE AWAITS</div>
+    <div style="font-size:9px; letter-spacing:.12em; color:#aab1ad; margin-top:10px; line-height:1.8;">Sign in to see your stats and account info</div>
+    <button class="btn-gold" id="google-btn" style="margin-top:18px;"><i class="ti ti-brand-google" style="font-size:14px;" aria-hidden="true"></i>Sign in with Google</button>
+    <div class="auth-error hidden" id="auth-error"></div>
+    <div class="guest-note">Played as a guest? Guest accounts live on your device &mdash; open the app and link Google in Settings to see them here.</div>
+  </div>
+
+  <div id="signedin" class="hidden">
+    <div class="card-dark acct-row">
+      <div class="avatar" id="avatar">?</div>
+      <div style="flex:1;">
+        <div class="acct-name" id="acct-name"></div>
+        <div class="acct-meta" id="acct-meta"></div>
+      </div>
+      <button class="signout-btn" id="signout-btn">Sign out</button>
+    </div>
+    <div class="stat-hero">
+      <div class="section-label" style="margin-bottom:0;">Overall win rate</div>
+      <div class="stat-hero-num" id="overall-rate">&mdash;</div>
+      <div class="stat-hero-sub" id="overall-sub"></div>
+    </div>
+    <div class="stat-pills" id="stat-pills"></div>
+    <div class="guest-note">Stats cover finished matches synced to your account. In-progress games count once they wrap up.</div>
+  </div>
+
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyCAGnoLhx77L7hpk47-CNkP9PK9dyyvZVQ",
+  authDomain: "ofc-app-ppc.firebaseapp.com",
+  projectId: "ofc-app-ppc",
+  storageBucket: "ofc-app-ppc.firebasestorage.app",
+  messagingSenderId: "1098024814200",
+  appId: "1:1098024814200:web:778ae2edb1098c26374f8d"
+});
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const VARIANTS = [
+  ["pineapple", "OFC",       "ti-cards",        "v-ofc"],
+  ["rummy",     "RUMMY",     "ti-layout-grid",  "v-rummy"],
+  ["solitaire", "SOLITAIRE", "ti-cards-filled", "v-solitaire"],
+  ["scala40",   "SCALA 40",  "ti-stairs-up",    "v-scala40"],
+  ["palace",    "PALACE",    "ti-stack-2",      "v-palace"],
+  ["hearts",    "HEARTS",    "ti-heart",        "v-hearts"]
+];
+const KEYMAP = { classic: "pineapple", rummy500: "rummy" };
+const $ = (id) => document.getElementById(id);
+
+function aggregate(matches) {
+  const b = {};
+  for (const [k] of VARIANTS) b[k] = { hands: 0, wins: 0, losses: 0, pushes: 0 };
+  for (const m of (matches || [])) {
+    if (!m) continue;
+    let k = m.gameType || "pineapple";
+    k = KEYMAP[k] || k;
+    if (!b[k]) k = "pineapple";
+    b[k].hands  += m.hands  || 0;
+    b[k].wins   += m.wins   || 0;
+    b[k].losses += m.losses || 0;
+    b[k].pushes += m.pushes || 0;
+  }
+  return b;
+}
+
+async function renderSignedIn(user) {
+  $("signedout").classList.add("hidden");
+  $("signedin").classList.remove("hidden");
+  $("nav-account-label").textContent = (user.displayName || "Account").split(" ")[0];
+  let data = {};
+  try {
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (snap.exists()) data = snap.data() || {};
+  } catch (e) { console.warn("user doc read failed:", e && e.message); }
+  const name = data.name || user.displayName || "Player";
+  $("acct-name").textContent = name;
+  $("avatar").textContent = name.charAt(0).toUpperCase();
+  const created = user.metadata && user.metadata.creationTime ? new Date(user.metadata.creationTime) : null;
+  const since = created ? created.toLocaleDateString("en-US", { month: "long", year: "numeric" }) : "";
+  const provider = (user.providerData && user.providerData[0] && user.providerData[0].providerId === "google.com") ? "Google account" : "Linked account";
+  $("acct-meta").textContent = [user.email, provider, since ? "Member since " + since : ""].filter(Boolean).join(" \u00b7 ");
+  const b = aggregate(data.matches);
+  let hands = 0, wins = 0, losses = 0, pushes = 0;
+  for (const k in b) { hands += b[k].hands; wins += b[k].wins; losses += b[k].losses; pushes += b[k].pushes; }
+  $("overall-rate").textContent = hands > 0 ? Math.round((wins / hands) * 100) + "%" : "\u2014";
+  $("overall-sub").textContent = hands > 0 ? hands + " hands \u00b7 " + wins + " W \u00b7 " + losses + " L \u00b7 " + pushes + " push" : "No finished matches yet \u2014 go play one";
+  const pills = $("stat-pills");
+  pills.innerHTML = "";
+  for (const [k, label, icon, vclass] of VARIANTS) {
+    const s = b[k];
+    const val = s.hands > 0 ? Math.round((s.wins / s.hands) * 100) + "% \u00b7 " + s.wins + "W " + s.losses + "L" : "\u2014";
+    const el = document.createElement("div");
+    el.className = "stat-pill " + vclass;
+    el.innerHTML = '<span class="sp-name t1"><i class="ti ' + icon + '" aria-hidden="true"></i>' + label + '</span><span class="sp-val t2">' + val + "</span>";
+    pills.appendChild(el);
+  }
+}
+
+function renderSignedOut() {
+  $("signedin").classList.add("hidden");
+  $("signedout").classList.remove("hidden");
+  $("nav-account-label").textContent = "Sign in";
+}
+
+$("google-btn").addEventListener("click", async () => {
+  $("auth-error").classList.add("hidden");
+  try {
+    await signInWithPopup(auth, new GoogleAuthProvider());
+  } catch (e) {
+    const el = $("auth-error");
+    el.textContent = "Sign-in failed: " + ((e && e.code) || "unknown error");
+    el.classList.remove("hidden");
+  }
+});
+$("signout-btn").addEventListener("click", () => signOut(auth));
+onAuthStateChanged(auth, (user) => { user ? renderSignedIn(user) : renderSignedOut(); });
+</script>
+<footer class="footer">
+  <span>&copy; 2026 PPC Cards</span>
+  <span><a href="mailto:admin@ppc.casino" style="text-transform:none;">admin@ppc.casino</a><span class="dot">&middot;</span><a href="https://ofc.ppc.casino/privacy.html">Privacy Policy</a></span>
+</footer>
+</body>
+</html>

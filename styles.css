@@ -345,3 +345,24 @@ a { color:inherit; text-decoration:none; }
 }
 @keyframes wm-fade { to { opacity:1; } }
 @media (prefers-reduced-motion: reduce) { .hero-wordmark { animation:none; opacity:1; } }
+
+/* per-variant icon idle animations — timings/values from App.js .variant-card-ico,
+   composed with --tilt so tilted watermark icons keep their static rotation */
+@keyframes vcw-cards    { 0%,100% { transform:rotate(calc(var(--tilt,0deg) - 3deg)); } 50% { transform:rotate(calc(var(--tilt,0deg) + 3deg)); } }
+@keyframes vcw-heart    { 0%,8%,30%,100% { transform:rotate(var(--tilt,0deg)) scale(1); } 14% { transform:rotate(var(--tilt,0deg)) scale(1.20); } 22% { transform:rotate(var(--tilt,0deg)) scale(.96); } }
+@keyframes vcw-stack    { 0%,100% { transform:rotate(var(--tilt,0deg)) translateY(0); } 50% { transform:rotate(var(--tilt,0deg)) translateY(-4px); } }
+@keyframes vcw-grid     { 0%,100% { transform:rotate(var(--tilt,0deg)); } 50% { transform:rotate(calc(var(--tilt,0deg) + 8deg)); } }
+@keyframes vcw-stairs   { 0%,100% { transform:rotate(var(--tilt,0deg)) translate(-2px,2px); } 50% { transform:rotate(var(--tilt,0deg)) translate(2px,-2px); } }
+@keyframes vcw-cards-fl { 0%,100% { transform:rotate(var(--tilt,0deg)) translateY(0); } 50% { transform:rotate(calc(var(--tilt,0deg) - 2deg)) translateY(-3px); } }
+.v-ofc .big-ico, .v-ofc .big-ico-left, .stat-row.v-ofc .sr-name i             { animation: vcw-cards    2.2s ease-in-out infinite; transform-origin:center; will-change:transform; }
+.v-rummy .big-ico, .v-rummy .big-ico-left, .stat-row.v-rummy .sr-name i       { animation: vcw-grid     2.6s ease-in-out infinite; transform-origin:center; will-change:transform; }
+.v-solitaire .big-ico, .v-solitaire .big-ico-left, .stat-row.v-solitaire .sr-name i { animation: vcw-cards-fl 2.4s ease-in-out infinite; transform-origin:center; will-change:transform; }
+.v-scala40 .big-ico, .v-scala40 .big-ico-left, .stat-row.v-scala40 .sr-name i { animation: vcw-stairs   2.4s ease-in-out infinite; transform-origin:center; will-change:transform; }
+.v-palace .big-ico, .v-palace .big-ico-left, .stat-row.v-palace .sr-name i    { animation: vcw-stack    2.4s ease-in-out infinite; transform-origin:center; will-change:transform; }
+.v-hearts .big-ico, .v-hearts .big-ico-left, .stat-row.v-hearts .sr-name i    { animation: vcw-heart    1.6s ease-in-out infinite; transform-origin:center; will-change:transform; }
+.bento-card.flagship .big-ico { --tilt:8deg; }
+.takeover .big-ico { --tilt:10deg; }
+.takeover .big-ico-left { --tilt:-12deg; }
+@media (prefers-reduced-motion: reduce) {
+  .big-ico, .big-ico-left, .stat-row .sr-name i { animation:none !important; }
+}

@@ -1,0 +1,2096 @@
+{
+  "current": "0.24.4",
+  "lastBumpDate": "2026-06-11",
+  "versions": [
+    {
+      "version": "0.24.4",
+      "date": "2026-06-11",
+      "notes": "Fix in-game notification spam"
+    },
+    {
+      "version": "0.24.3",
+      "date": "2026-06-11",
+      "notes": "v0.21.12 — Pineapple/Classic round limit picker (10 or 20 with 50-point cap)."
+    },
+    {
+      "version": "0.24.2",
+      "date": "2026-06-11",
+      "notes": "v0.21.11 — Stop invite-notification spam: 60s cooldown + skip pushes to friends already in the game."
+    },
+    {
+      "version": "0.24.1",
+      "date": "2026-06-11",
+      "notes": "v0.21.10 — Paid undo: drag glowing cards to hand or another row (swap on collision)."
+    },
+    {
+      "version": "0.24.0",
+      "date": "2026-06-11",
+      "notes": "v0.21.9 — Paid undo edit mode: persistent pill, this-round card highlight, undoCard callable."
+    },
+    {
+      "version": "0.23.3",
+      "date": "2026-06-10",
+      "notes": "v0.21.8 — Fix startup welcome flicker."
+    },
+    {
+      "version": "0.23.2",
+      "date": "2026-06-10",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.23.1",
+      "date": "2026-06-10",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.23.0",
+      "date": "2026-06-10",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.22.1",
+      "date": "2026-06-09",
+      "notes": "v0.21.7 — Bot mode undo gated by IAP."
+    },
+    {
+      "version": "0.22.0",
+      "date": "2026-06-09",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.21.2",
+      "date": "2026-06-07",
+      "notes": "v0.21.6 — Build fix: drop orphaned IS_IOS const."
+    },
+    {
+      "version": "0.21.1",
+      "date": "2026-06-07",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.21.0",
+      "date": "2026-06-07",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.20.21",
+      "date": "2026-06-06",
+      "notes": "v0.21.4 — Scala 40: drag-to-stage melds, opening guard on discard, flashing turn pill."
+    },
+    {
+      "version": "0.20.20",
+      "date": "2026-06-06",
+      "notes": "v0.21.3 — Admin tooling: unlock paid features per user."
+    },
+    {
+      "version": "0.20.19",
+      "date": "2026-06-06",
+      "notes": "v0.21.2 — Games landing skipped, sign-in provider badge accurate, copy polish."
+    },
+    {
+      "version": "0.20.18",
+      "date": "2026-06-06",
+      "notes": "v0.21.1 — Cleanup pass. Smaller bundle, faster boot."
+    },
+    {
+      "version": "0.20.17",
+      "date": "2026-06-06",
+      "notes": "v0.21.0 — Unified release. Single feature set across web and iOS. Cleaner navigation, faster load."
+    },
+    {
+      "version": "0.20.16",
+      "date": "2026-06-06",
+      "notes": "v0.20.16 — iPad max-width wrapper + iPhone SE row floor"
+    },
+    {
+      "version": "0.20.15",
+      "date": "2026-06-06",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.20.14",
+      "date": "2026-06-06",
+      "notes": "Strip Dumplings purchase + new Undo Unlock IAP. BuyCoinsModal now early-returns null at the top so every mount site no-ops without per-site edits; the Buy Dumplings modal is fully retired. Header + GameplayChrome coin pills are display-only on web (no onClick, no '+' affordance) and stay hidden on iOS via IS_IOS_BUILD as before. Users still earn Dumplings through gameplay; the purchase flow is gone. New users.unlockedUndo boolean. functions/index.js: undoLast now rejects out-of-grace placements ('Undo only available during the 4-second grace window') and rejects in-grace placements without unlockedUndo ('Undo Unlock not purchased'). Dropped the legacy Dumpling cost branch and the FieldValue.increment(-1) charge. New exports.purchaseUndoUnlock callable accepts an opaque receipt + platform string, flips users.unlockedUndo=true, stores receipt + platform + timestamp for later StoreKit / Stripe verification. Client undo handler: outside grace -> toast; inside grace + locked -> opens UndoUnlockModal; inside grace + unlocked -> fires undoLast. New UndoUnlockModal: bash.99 one-time per-user, gold CTA button + Not Now. Top-level state syncs unlockedUndo from users/{pid} via existing snapshot + visibility-resync listeners. Needs firebase deploy --only functions."
+    },
+    {
+      "version": "0.20.13",
+      "date": "2026-06-06",
+      "notes": "Fix screenname clobber on sign-in + unblock rename when setScreenname callable isn't deployed. signInGoogle + signInApple now (a) read users/{uid} BEFORE writing - if an existing screenname is present, keep it instead of overwriting with the provider display name, and (b) use setDoc with merge:true so a brand-new uid actually creates the doc (updateDoc silently no-oped on missing docs, leaving the auto-screenname useEffect to win the race and assign an AdjNoun42 generic name). Settings saveName: if the setScreenname callable returns a non-validation error (e.g. function not yet deployed, transient internal), fall back to a direct updateDoc with name + nameLower + lastScreennameChange so the user can still rename. Validation errors (already-exists, rate limit, invalid-argument) still surface their server message and skip the fallback."
+    },
+    {
+      "version": "0.20.12",
+      "date": "2026-06-06",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.20.11",
+      "date": "2026-06-06",
+      "notes": "Phase 1 Dumplings strip for all-ages submission. IS_IOS_BUILD gates the Dumplings balance pill in Header + GameplayChrome so the iOS Capacitor build appears completely Dumpling-free. Web build retains the pill so the existing OFC casual coin flow + casino games (web-only) continue to work. Undo behavior split: web keeps the legacy 1-Dumpling cost out-of-grace; iOS blocks out-of-grace undo entirely with 'Undo only available during the 4-second grace' (Phase 2 will replace this with the IAP swap product once App Store Connect is configured). privacy.html rating note updated to 9+. IOS_SUBMISSION.md age-rating + review-notes guidance updated to reflect no virtual currency, no IAP yet, chat moderated."
+    },
+    {
+      "version": "0.20.10",
+      "date": "2026-06-06",
+      "notes": "Sign-out copy soften + screenname uniqueness. Sign-out modal body now says 'You can sign back in anytime to pick up where you left off - your screenname, stats, and friends are saved to your account' instead of the scary 'stats and games will be inaccessible' line. Settings 'Danger zone' section is now just 'Account' with neutral framing and the 'Sign out & reset account / Starts fresh. Stats will be lost' copy replaced with 'Sign out / Your screenname, stats, and friends stay saved'. Server: new setScreenname callable handles user-facing renames with 60-day rate limit + uniqueness check across users.nameLower. Existing adminUpdateScreenname callable now shares the same uniqueness check via ensureNameAvailable helper. Both write users.nameLower (lowercased trimmed name) alongside users.name so the unique-index query is fast. Client saveName in Settings switches from direct updateDoc to calling setScreenname; errors (taken / rate-limited) surface as toasts. Needs firebase deploy --only functions."
+    },
+    {
+      "version": "0.20.9",
+      "date": "2026-06-06",
+      "notes": "Apple sign-in button CSS — drop opacity:.4 and pointer-events:none that were left over from the disabled 'SOON' placeholder state. Also remove the now-unused .soon pill rule. Button now renders at full prominence and fires the click handler."
+    },
+    {
+      "version": "0.20.8",
+      "date": "2026-06-06",
+      "notes": "Domain + contact sweep. privacy.html email updated to admin@ppc.casino. IOS_SUBMISSION.md Privacy Policy URL + Support URL flipped from ppccards.com to ofc.ppc.casino (the live Cloudflare Pages domain). Contact email added to the App Store Connect listing fields."
+    },
+    {
+      "version": "0.20.7",
+      "date": "2026-06-06",
+      "notes": "Sign in with Apple. SignInScreen Apple button is now wired (was 'SOON' placeholder before). New signInApple handler uses Firebase OAuthProvider('apple.com') with name + email scopes, mirrors the Google signin anonymous-link/credential-recovery flow. Apple provider must be enabled in Firebase Console - Authentication - Sign-in methods once Dave's Apple Developer Team ID + APNs Auth Key are available. Until then the button surfaces 'sign-in failed' toast which is the expected Apple provider-not-configured response. Code-side complete."
+    },
+    {
+      "version": "0.20.6",
+      "date": "2026-06-06",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.20.5",
+      "date": "2026-06-06",
+      "notes": "Privacy policy. New public/privacy.html covering Firebase Auth/Firestore/FCM data collection, user rights (block/delete/export), and contact info. About page Privacy tile now opens /privacy.html in a new tab instead of showing a 'coming soon' toast."
+    },
+    {
+      "version": "0.20.4",
+      "date": "2026-06-06",
+      "notes": "Internal maintenance."
+    },
+    {
+      "version": "0.20.3",
+      "date": "2026-06-06",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.20.2",
+      "date": "2026-06-06",
+      "notes": "Internal maintenance."
+    },
+    {
+      "version": "0.20.1",
+      "date": "2026-06-06",
+      "notes": "v0.14.53 OFC: drop 10-hand match cap. Match ends only when someone hits 50 points; matchEndReason is hardcoded to 'win50'. Stats badge dropped 'Hand X / 10' wording to just 'Hand X'. MatchOverScreen subtitle is now always 'First to 50 - won by'. Top-level MAX_HANDS const removed."
+    },
+    {
+      "version": "0.19.0",
+      "date": "2026-06-04",
+      "notes": "v0.14.51 Palace felt embers. Replaces the 12 static palace-spark divs in the felt with drifting embers in Palace lime/olive tile color. App.js: new .palace-ember + .palace-ember.lg classes + palace-ember-rise keyframe (6s/8s linear infinite). Embers anchor at bottom:-8px, drift upward to translateY(-340px) with slight x-drift and fade out at the top. Lime green core (#d4e890) with rgba(168,192,80,.85) drop-shadow halo. PalaceGame.js: swapped all 12 palace-spark / palace-spark-lg divs for palace-ember / palace-ember.lg with bottom-anchored left positions and staggered animation-delays 0s through 5.1s so the field is continuously moving. Works in both portrait and landscape. Bot felt picks it up automatically via shared felt render."
+    },
+    {
+      "version": "0.18.4",
+      "date": "2026-06-01",
+      "notes": "v0.14.49 Palace setup copy + rules align with v0.14.38 deal change. PalaceSetupView (PalaceGame.js L500) label updated from old 'Tap to flip face-up - unselected go face-down' / '3 picked - the rest go face-down' to 'Pick 3 to go face up - unselected 3 are in your hand' / '3 picked - unselected 3 are in your hand'. Now matches what actually happens: face-down stack was pre-dealt blind in togglePalaceReady, the 6 visible cards split into 3 face-up + 3 hand on pick. Palace rules block (App.js L3624) Setup list rewritten: '3 random face-down cards go to your palace (you don't see them)' + 'You're dealt 6 more - pick 3 for your face-up palace' + 'The other 3 stay in your hand to play'. Old copy implied the face-down were chosen from the 6 visible which hasn't been the case since v0.14.38."
+    },
+    {
+      "version": "0.18.3",
+      "date": "2026-06-01",
+      "notes": "v0.14.48 Kill double turn notification at SW source. Removed messaging.onBackgroundMessage handler from public/firebase-messaging-sw.js. The server payload includes both top-level notification (title, body) and webpush.notification (icon, badge, tag, renotify). In FCM web that combo causes the system to auto-display the notification AND fire onBackgroundMessage which then calls showNotification again - same notification shown twice. v0.14.29 fixed the foreground client double but never touched the SW side; this is the remaining duplicate Dave kept seeing. Now FCM auto-display handles the show exactly once using the existing payload; the notificationclick handler stays unchanged so deep-link to ?view=activeGames + tableInvite branch still work. iOS Capacitor build is unaffected (uses native APNs, not this SW). Cleanup: removed 365 trailing NUL bytes from the file (write-tool artifact). User devices pick up the new SW on next page load."
+    },
+    {
+      "version": "0.18.2",
+      "date": "2026-06-01",
+      "notes": "v0.14.47 Admin moderation queue. AdminPanel gains a Moderation Queue section under User chats. Load flags button calls new adminGetModerationFlags callable which returns up to 100 most-recent moderationFlags docs with reporter/target names resolved. Each row shows reporter -> target -> flagged message text + timestamp. Actions: Open target (loads target user into the existing lookup pane for further action like chatBlocked toggle), Dismiss (calls adminDeleteModerationFlag). Two new admin callables in functions/admin.js (adminGetModerationFlags, adminDeleteModerationFlag), gated by existing requireAdmin helper. No firestore.rules changes. Needs firebase deploy --only functions after push."
+    },
+    {
+      "version": "0.18.1",
+      "date": "2026-06-01",
+      "notes": "v0.14.46 Chat moderation - flag + block. Apple Guideline 1.2 prereq for App Store submission, also useful in the live web product. Adds three-dot button to incoming TableChat + ThreadView messages opening an action sheet with Flag / Block / Cancel. Flag writes to new moderationFlags Firestore collection with reporter, target, threadId, msgId, msgText, fromName, flaggedAt; Dave reviews via Firebase console (24h SLA per Apple). Block adds target UID to users/{pid}.blockedUids array, filtered out of both chat surfaces on next render via self-subscribed blockedUids set. Two new exported helpers fileModerationFlag + blockUserForChat next to archiveVariantMatch. firestore.rules updated: users update allowlist gains blockedUids; new moderationFlags rule block allows create-only by authed user with reporter==auth.uid and serverTimestamp flaggedAt, read/update/delete are admin-only. Needs paste-and-publish of complete firestore.rules in Firebase Console (provided next message)."
+    },
+    {
+      "version": "0.18.0",
+      "date": "2026-06-01",
+      "notes": "v0.14.45 iOS strip phase 1 — feature-flag the casino sub-app + Buy Dumplings IAP behind REACT_APP_FEATURE_TIER=ios. New const IS_IOS_BUILD at top of App.js. GamesLanding casino tile gated. 5 view routes gated (casinoGames, keno, blackjack, roulette, competitiveBuyIn). BuyCoinsModal guarded with early-return-null at component top so all 14 mount sites collectively no-op without per-site edits. Web build (Cloudflare Pages, default env) keeps everything intact and accessible exactly as today. Capacitor build with REACT_APP_FEATURE_TIER=ios hides the casino entry point + casino game routes + IAP modal. Dumplings balance and earning path stay visible everywhere because Dumplings will be repurposed as in-game currency for non-gambling features. Competitive Pineapple has no active entry point in production today, so its UI was already dead - the competitiveBuyIn view gate is defensive. Next phases: chat moderation + Sign in with Apple + privacy policy. No server/rules changes."
+    },
+    {
+      "version": "0.17.11",
+      "date": "2026-05-31",
+      "notes": "v0.14.44 Pineapple casual round-advance delay fix. App.js L8879: before setting the 4s lockGrace undo window, check whether every other seated player already has placedThisRound=true. If yes - you are the last to finish placing - skip the grace and commit placedThisRound=true immediately via the same updateDoc path competitive uses. If at least one opponent is still placing, keep the 4s grace as today so you can still undo while they think. Net effect: in casual, when you are the second-to-finish you still get your 4s window; when you are the last to finish the round advances instantly instead of forcing the whole table to wait for an undo you cannot use anyway. No server changes."
+    },
+    {
+      "version": "0.17.10",
+      "date": "2026-05-31",
+      "notes": "v0.14.43 Hearts winner-leads + Palace retro-sweep. (1) Hearts: HeartsGame.js L789 was newTurn = order[(indexOf(winner)+1) % 4] which rotated the lead past the actual winner. Canonical Hearts rule is trick winner leads the next trick - swap to newTurn = winner.uid. Likely the source of the bot freeze Dave saw after hearts broke (wrong rotation landed turn on the wrong player). (2) Palace retro-sweep: App.js new useEffect after the user-doc listener. On first boot per device (guarded by localStorage flag palace_archive_swept_v1), walks matchesArchive, filters Palace entries where firstPlace=false, refetches palaceGames/{matchId} source doc for each, and if players[pid].finishPlace === 1 builds a corrected entry with firstPlace=true wins=1 losses=0. After all checks, writes the corrected matches array via updateDoc. Source docs that no longer exist (older games, post-rematch cleanup) can't be recovered. Bot games never archived so they stay missing - separate task."
+    },
+    {
+      "version": "0.17.9",
+      "date": "2026-05-31",
+      "notes": "v0.14.42 Hearts pass-cards larger. HeartsPassingView card size sm -> lg (28x39 -> 62x88). 13 cards wrap to 3 rows of 4-5 at lg, fits screen at 340px wide easily. Selection border and padding unchanged. Hearts pass freeze on hearts-broken is a separate diagnosis - shipping pass cards independently, freeze fix needs Dave's repro scenario."
+    },
+    {
+      "version": "0.17.8",
+      "date": "2026-05-31",
+      "notes": "v0.14.41 Fix Palace summary rendering literal '\\u00b7' instead of middle dot. JSX text content doesn't process backslash escape sequences (only JS string literals do), so all 5 spots in PalaceFinishedView + PalaceWinningCardHold that used \\u00b7 / \\u2026 as bare JSX text were rendering as the raw 6-char sequence ('1ST \\u00b7 NAME', 'palace conquered \\u00b7 won by', etc.). Replaced with literal middle-dot + ellipsis characters. Only fixed JSX-text positions; the same escapes inside template literals (${} \\u00b7) already worked correctly because those evaluate as JS strings."
+    },
+    {
+      "version": "0.17.7",
+      "date": "2026-05-31",
+      "notes": "v0.14.40 Palace stats — multiplayer archive was reading game.players[pid].finishOrder which doesn't exist on the player doc. Server writes finishPlace (1-indexed; set when the player empties their stacks). myFin was always undefined, firstPlace always false, and every multiplayer match recorded as a loss. Swap to finishPlace and check === 1. Bot games still don't archive at all - separate follow-up. No server changes."
+    },
+    {
+      "version": "0.17.6",
+      "date": "2026-05-31",
+      "notes": "v0.14.39 Fix update banner not firing on iOS PWA. src/index.js — after every reg.update() resolve, re-poll reg.waiting and dispatch sw-update-available if a waiting worker exists. Previously only the initial registration call checked reg.waiting; the 30s setInterval + visibilitychange + focus refreshes only relied on updatefound, which iOS WebKit sometimes skips when updates happen in the background. With this change, the explicit reg.waiting poll runs on every refresh path so even when updatefound doesn't fire, the banner still latches on the next 30s tick."
+    },
+    {
+      "version": "0.17.5",
+      "date": "2026-05-31",
+      "notes": "v0.14.38 Palace setup rule fix — deal 3 face-down blind + 6 to pick from. Previously the 3 face-down cards were the leftover after picking 3 of 6 visible face-up, then 3 more were dealt for the hand. Canonical Palace deals face-down blindly first, so the player has no control over which 3 are buried. Server: togglePalaceReady now deals 3 to faceDown + 6 to setupChoices per player (deck.splice(0,3) then deck.splice(0,6)). palaceChooseTopCards: leftover 3 from setupChoices goes directly to hand; second deal-from-deck step removed since hand is now derived. Bot transitionToSetup + applySetup mirror. PalaceSetupView UI unchanged - player still picks 3 of 6 visible cards, blind face-down stack is silently dealt. Total cards per player remains 9 (3 fd + 3 fu + 3 hand). Needs firebase deploy --only functions."
+    },
+    {
+      "version": "0.17.4",
+      "date": "2026-05-31",
+      "notes": "v0.14.37 Palace red board glow + chained activity strip. (1) Board glow — App.js new keyframe palace-felt-pickup-glow + .palace-felt.pickup-flash class. PalaceGame.js felt className now conditional on isMyTurn && noLegalMove. Olive base swings to a red-tinted base on a 1.2s cycle with inset 36px red haze + outer 26px red ring + border brightens to rgba(255,120,120,.85). Slower than the pill strobe (0.7s) so they layer instead of locking in unison. (2) Chained activity — when recentPlays[1] is a 10-burn or 2-wild by the same player as recentPlays[0] (i.e. extra-turn trigger), portrait strip + landscape column now render TRIGGER chip + arrow + FOLLOWUP chip instead of just the latest entry. Trigger gets the bright treatment (gold for burn, green for 2-wild via new .trigger and .trigger-wild classes), follow-up is muted (.followup class). 2-card plays also get a 'wild' suffix when the rank is 2 so it's labeled as such. Palace only."
+    },
+    {
+      "version": "0.17.3",
+      "date": "2026-05-31",
+      "notes": "v0.14.36 Palace red pickup flash. Adds .turn-pill-flash.red variant + turn-pill-flash-strong-red keyframe in App.js next to the existing gold strong-flash block — same 0.7s strobe, swung to red (resting #a23030->#3a0808 with #ff8888 text, peak #ffd6d6->#f49c9c with double-ring red glow + dark #3a0808 text + 4% scale tick). PalaceGame.js L760 — pill className now conditional on noLegalMove (already computed at L754): isMyTurn && noLegalMove -> 'turn-pill-flash red', isMyTurn -> 'turn-pill-flash', otherwise no flash. Pill body text also swaps from BEAT/PLAY <= X to 'PICK UP' so the user knows why the pill went red. Palace only — Hearts/Rummy/Scala 40 stay on gentle pulse since they don't have a pickup mechanic."
+    },
+    {
+      "version": "0.17.2",
+      "date": "2026-05-31",
+      "notes": "v0.14.35 HURRY UP push notif + PlayerCountPicker loading fix. functions/index.js — both turn-notification titles ('Your turn') flipped to 'HURRY UP' (OFC notifyOnTurn L129 + variant notifyVariantTurn L212). Body still carries the variant for context so the lock screen reads 'HURRY UP / Palace'. PlayerCountPicker (App.js L2869) — local picking state. On tile tap, immediately swap the picker for a loading body with VariantLoadingBody + 'Setting up your table…' message + N-player [variant] caption. Fixes the bug where after selecting number of players the tiles briefly re-rendered with pineapple tint because pendingMaxFor null-out in the parent fell back to variant='pineapple' before the next view mounted. Needs firebase deploy --only functions to land the new titles."
+    },
+    {
+      "version": "0.17.1",
+      "date": "2026-05-31",
+      "notes": "v0.14.34 Palace stats fix — end-of-game summary was showing all 0s because the recentPlays counter loop read p.from but server writes p.uid (field-name mismatch in both PalaceFinishedView L1130 and the archive effect L1253). Worse, even with that fix the summary only saw the last 8 plays because the server caps recentPlays.slice(0,8). Real fix: persistent per-player counters on the game doc. Server (functions/palace.js): blankPlayer now seeds players[uid].playStats = {burns,blindFails,picksForced,plays}; playPalaceCards bumps burns/blindFails/plays inside the txn; palacePickUpPile bumps picksForced. Client (PalaceGame.js): PalaceFinishedView reads from players[id].playStats with fallback to zeros for legacy games. Archive effect (L1247) reads from same source. Bot's initBotGame seeds the counters; bot applyPlay + applyPickUp bump them locally so bot summaries also reflect full-match totals. Needs firebase deploy --only functions to land server bumps."
+    },
+    {
+      "version": "0.17.0",
+      "date": "2026-05-31",
+      "notes": "v0.14.33 Palace end-of-game polish — rich summary screen modeled on Pineapple MatchOverScreen (subtitle, big Georgia winner name, gold-bordered FINISH ORDER card with cards-remaining per player, trophy/flame icons for 1st/last, PALACE STATS grid with burns/blind/picked per player, rematch + back buttons) replacing the spartan trophy view. Added 2.4s winning-card hold between the last play and the summary mount so the pile-top card that sealed the game is actually visible. Wired multiplayer rematch end-to-end: host calls createPalaceGame, writes nextGameId on old finished doc, opponents auto-route via new joinPalaceGameById listener, old doc deleted 2.5s later. Bot rematch reinits local state. firestore.rules palaceGames update gained a second branch allowing nextGameId-only writes on stage=finished docs by seated players. Needs rules publish + functions noop."
+    },
+    {
+      "version": "0.16.2",
+      "date": "2026-05-30",
+      "notes": "v0.14.32 Palace turn pill strong flash. Swap .turn-pill-pulse (gentle 2.2s breathe) for new .turn-pill-flash (0.7s strobe) on PalaceGame.js L734 portrait pill when isMyTurn. App.js: new turn-pill-flash-strong keyframe alongside existing turn-pill-pulse-gold block - 5 properties animate together at peak (gradient swings to cream-white, border thickens to 1.5px #fff8d6, double-ring box-shadow 28px inner + 64px outer + inset white glow, text color inverts to dark #1a1208, +4% scale tick). 85 BPM strobe. Palace only - other variants stay on gentle pulse."
+    },
+    {
+      "version": "0.16.1",
+      "date": "2026-05-30",
+      "notes": "v0.14.31 Rematch: delete old game doc after rematch lobby is created so it stops showing up in Active Games. startRematch (App.js ~L10360) creates the new doc + writes nextGameId on the old doc + setGameId(newId), then schedules a deleteDoc(old) 2.5s later. The 2.5s window covers the opponent's listener round-trip and joinGameById call so their bounce-out-on-delete handler doesn't fire before they've already switched to the new gameId via the auto-route useEffect (L7159). Only the host issues the delete; opponent's join is idempotent and not coupled to cleanup. Firestore games update+delete rules both allow it (host is in resource.data.order). Fix: previously both old matchOver doc and new lobby doc lived side-by-side in the Active Games listener (where('order', 'array-contains', pid)), showing as duplicate."
+    },
+    {
+      "version": "0.16.0",
+      "date": "2026-05-30",
+      "notes": "v0.14.30 Palace face-down reveal animation + drop 'blind' label in favor of the actual card. PalaceGame.js: tap on a face-down card now sets a local revealingFD={card,idx} state, renders that slot with a new .palace-fd-reveal wrapper (back + front faces stacked with backface-visibility:hidden), CSS keyframe palace-fd-flip rotateY 0->180 over 500ms with a gold glow at the midpoint, then fires onPlay after the 500ms dwell. Both activity views (PalaceActivityRow + the inline horizontal strip) replace the bare 'Blind fail' / 'blind fail' label with the actual card rank+suit + ' fail' (server already sends entry.card on blind-fail recentPlays entries from functions/palace.js). The play() toast that previously read 'Blind fail - pile picked up' now reads '<card> - pile picked up' so the player learns what they whiffed on."
+    },
+    {
+      "version": "0.15.0",
+      "date": "2026-05-29",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.14.29",
+      "date": "2026-05-28",
+      "notes": "v0.14.29 notification fixes: (1) kill double-notification by replacing the foreground new Notification() call with showToast — toast fires whether tab is focused or background, so FCM is now the sole system-notification channel and never doubles up; (2) toast now shows in-app when it becomes your turn (was previously silent for focused tabs — just chime + title flash); (3) all 'Your turn' FCM links changed from / to /?view=activeGames so tapping the push deep-links into Active Games. App boots: useState(view) reads ?view=<name> from URL on first render, allowlists the value, and pops the param off via history.replaceState so refresh doesn't re-trigger."
+    },
+    {
+      "version": "0.14.28",
+      "date": "2026-05-28",
+      "notes": "v0.14.28 Casino hub: flip Blackjack + Roulette tiles back to 'Soon' while we polish the games. Keno stays live as the only playable casino game. Routes, server callables, and component code stay intact (RouletteGame.js, BlackjackGame.js, functions/roulette.js, functions/blackjack.js) — only the live flag + onClick wiring removed from the hub tiles. Easy flip back when fixes land."
+    },
+    {
+      "version": "0.14.27",
+      "date": "2026-05-28",
+      "notes": "v0.14.27 Roulette v1: European single-zero solo-vs-wheel. Server functions/roulette.js stateless playRoulette callable (crypto RNG winning number, validates each bet, atomic debit/credit). Bet types: straight 35:1, column 2:1, dozen 2:1, red/black 1:1, odd/even 1:1, low/high 1:1. Client src/RouletteGame.js with no-scroll fit per one_screen_casino_games rule: slim chrome, last-spins history strip, full-width 0 strip, bet area flex:1 with grid-template-rows:repeat(12,1fr) so cells fill leftover space, sideways even-money rail LEFT, sideways dozens rail RIGHT, single chip selector (1/5/25/100/500 conic-gradient chips), Total Bet + Clear + Spin bottom bar. Wheel modal pops up on Spin (CSS conic-gradient wheel rotates 1080+random deg with cubic-bezier deceleration over 2.4s), settles on winning pocket, then cinema overlay on any straight 35:1 hit (wine halos + sparks + STRAIGHT! banner + payout). Hub: Roulette tile now live, view router gated, main Header hidden for roulette view."
+    },
+    {
+      "version": "0.14.26",
+      "date": "2026-05-28",
+      "notes": "v0.14.26 Blackjack: pill text 21->BLACKJACK (.30em letter-spacing), mirror-symmetric layout (You head moves below player cards so pill sits centered between card rows), full-viewport flex fill (bj-shell 100dvh column + bj-stage flex:1 + card rows flex:1 absorb every pixel), cards bumped 82x116 -> 96x136"
+    },
+    {
+      "version": "0.14.25",
+      "date": "2026-05-28",
+      "notes": "v0.14.25 Blackjack: cards bumped 62x88->82x116 via scoped CSS var override, drop min-height:600 (felt grows to content, no more dead space at bottom), card-row min-height/empty-placeholder height bumped to 124px to match"
+    },
+    {
+      "version": "0.14.24",
+      "date": "2026-05-28",
+      "notes": "v0.14.24 Blackjack: drop main Header, single tiered bet chip with tap/drag zone (1/5/25/100/500 tier colors), conic-gradient edge spots, expanded felt 520->600. Turn-pill pulse sweep across Palace + Rummy + Hearts + Scala40 + Blackjack 21 pill (gold pulse for card variants, green pulse for BJ) when isMyTurn."
+    },
+    {
+      "version": "0.14.23",
+      "date": "2026-05-28",
+      "notes": "v0.14.23 Blackjack v1: solo vs dealer, 6-deck shoe, H17, BJ 3:2, double any 2 + DAS, split to 4 hands (split aces 1 card no resplit), late surrender, server-authoritative callables (startBlackjackRound + playBlackjackAction), card flip animation, blackjack cinema"
+    },
+    {
+      "version": "0.14.22",
+      "date": "2026-05-28",
+      "notes": "v0.14.22 keno grouped grids + wager/speed unified row + smaller cells/balls; palace pile-shadow removed"
+    },
+    {
+      "version": "0.14.21",
+      "date": "2026-05-28",
+      "notes": "v0.14.21 keno redesign — speed to far right of chrome, drop spot/wager pill, single wager row with WAGER label, drawn-balls strip at bottom, KENO/N HITS center pill, auto-return after dwell, standard Game King paytable"
+    },
+    {
+      "version": "0.14.20",
+      "date": "2026-05-28",
+      "notes": "OFC: drop right-aligned row-eval, preload card SVGs, gate hover lift to hover-capable pointers"
+    },
+    {
+      "version": "0.14.19",
+      "date": "2026-05-28",
+      "notes": "Remove Keno Header + tighter cells/paytable/wager so 10-spot fits no-scroll"
+    },
+    {
+      "version": "0.14.18",
+      "date": "2026-05-28",
+      "notes": "Palace hand: flex-shrink 0 on cards so they keep 62x88 and the frame scrolls"
+    },
+    {
+      "version": "0.14.17",
+      "date": "2026-05-28",
+      "notes": "Revert Palace hand: drop size=md, restore default 62x88 cards with horizontal scroll"
+    },
+    {
+      "version": "0.14.16",
+      "date": "2026-05-28",
+      "notes": "Keno chrome parity: Header restored + GameplayChrome gets End + Rules buttons"
+    },
+    {
+      "version": "0.14.15",
+      "date": "2026-05-28",
+      "notes": "Palace hand cards size md + alignItems center; pile/face-up/deck bumped to lg; Keno tighter padding for single-screen"
+    },
+    {
+      "version": "0.14.14",
+      "date": "2026-05-28",
+      "notes": "Palace hand: justify safe center — centered when row fits, scrolls when long"
+    },
+    {
+      "version": "0.14.13",
+      "date": "2026-05-28",
+      "notes": "Revert Palace hand center + pile lg — restore original single-row scroll with sort pills"
+    },
+    {
+      "version": "0.14.12",
+      "date": "2026-05-28",
+      "notes": "Keno: persist picks across plays, paytable shows coin payouts, half-size cinema. Palace: center hand row, bigger pile top."
+    },
+    {
+      "version": "0.14.11",
+      "date": "2026-05-28",
+      "notes": "Back to Lobby buttons across all variants + Keno fullscreen chrome + wager presets to 500"
+    },
+    {
+      "version": "0.14.10",
+      "date": "2026-05-28",
+      "notes": "Push notifications fire on non-OFC invites (Palace, Rummy, Scala40, Hearts, Solitaire)"
+    },
+    {
+      "version": "0.14.9",
+      "date": "2026-05-28",
+      "notes": "Keno paytable 2-col grid for 4+ tiers — no-scroll at 10 spot"
+    },
+    {
+      "version": "0.14.8",
+      "date": "2026-05-28",
+      "notes": "Keno v1 — playKeno callable, full game screen, draw animation, paytable, cinemas, synth sounds"
+    },
+    {
+      "version": "0.14.7",
+      "date": "2026-05-28",
+      "notes": "CasinoHub back goes to the Card/Casino picker, not the Card Games hub"
+    },
+    {
+      "version": "0.14.6",
+      "date": "2026-05-28",
+      "notes": "Lobby button always returns to main menu, including Pineapple/Classic bot games"
+    },
+    {
+      "version": "0.14.5",
+      "date": "2026-05-28",
+      "notes": "Casino hub shell: Games split into Card / Casino, four casino tiles dim Soon"
+    },
+    {
+      "version": "0.14.4",
+      "date": "2026-05-28",
+      "notes": "Card reuse cleanup: MeldChip in Card.js, T2CinemaOverlay extract, Palace canonical placeholder"
+    },
+    {
+      "version": "0.14.3",
+      "date": "2026-05-28",
+      "notes": "Pineapple odds v2: row labels trimmed + centered, pill anchored left, Monte Carlo coverage gated at 3+ placed"
+    },
+    {
+      "version": "0.14.2",
+      "date": "2026-05-28",
+      "notes": "OFC: startHand + advanceRound moved to server callables (closes hand-mutation + score-forge)"
+    },
+    {
+      "version": "0.14.1",
+      "date": "2026-05-28",
+      "notes": "Pineapple: live odds-to-make pill on partial rows (flush + trips)"
+    },
+    {
+      "version": "0.14.0",
+      "date": "2026-05-28",
+      "notes": "Pineapple: placement shadow on target slot + royalty pill on completed rows"
+    },
+    {
+      "version": "0.13.22",
+      "date": "2026-05-27",
+      "notes": "Perf: stable Row key, spread cardProps, rules-box layer promotion"
+    },
+    {
+      "version": "0.13.21",
+      "date": "2026-05-27",
+      "notes": "Swipe-to-delete on active games, invites, and friend requests"
+    },
+    {
+      "version": "0.13.20",
+      "date": "2026-05-27",
+      "notes": "Bot end-match clears localStorage + activeGames listener active on the activeGames page"
+    },
+    {
+      "version": "0.13.19",
+      "date": "2026-05-27",
+      "notes": "activeGames visibility-resync — Your turn updates without app refresh"
+    },
+    {
+      "version": "0.13.18",
+      "date": "2026-05-27",
+      "notes": "In-app themed confirm modal (replaces native browser confirm at 5 of 6 sites)"
+    },
+    {
+      "version": "0.13.17",
+      "date": "2026-05-27",
+      "notes": "useFourColor singleton: module-level subscriber set drives all Card instances from ONE pair of storage + custom-event listeners (was 120 listeners with 60 cards on screen). Per-card setOn subscribes/unsubscribes on mount only."
+    },
+    {
+      "version": "0.13.16",
+      "date": "2026-05-27",
+      "notes": "Polish batch (6 audit items): ThreadView restore draft on send fail (#24); friend menu trigger as button (#25, a11y); publicProfiles visibility-resync (#23); TableChat mark-as-seen debounced by latest msg id (#12, write cost); crypto.getRandomValues for OFC game codes (#6, collisions); solitaire join wrapped in transaction (#7, race)"
+    },
+    {
+      "version": "0.13.15",
+      "date": "2026-05-27",
+      "notes": "firestore.rules: rebuild complete file via Python heredoc — prior Write tool was truncating mid-file (cross-mount), audit caught that scala40Games/heartsGames/solitaireGames blocks were missing. 219 lines, balanced braces, all 19 match blocks present"
+    },
+    {
+      "version": "0.13.14",
+      "date": "2026-05-27",
+      "notes": "firestore.rules audit patch: OFC scores write guarded by playing→between/matchOver transition (was blocking advanceRound entirely); add email/photoURL/provider to users allowlist (was blocking Google + email sign-in profile sync)"
+    },
+    {
+      "version": "0.13.13",
+      "date": "2026-05-27",
+      "notes": "firestore.rules: economy lockdown — users/{uid} field-allowlist (blocks self-grant of coins/friends/friendRequests/chatBlocked); variant game docs restricted to join-only client updates (all gameplay via callables); OFC blocks economy fields on existing-player update path. Needs Firebase Console paste."
+    },
+    {
+      "version": "0.13.12",
+      "date": "2026-05-27",
+      "notes": "Audit fixes batch 2: dedup visibility-resync in 4 variant containers; dedup heartsBlankPlayer in lobby.js; OFC notification title now reflects Classic vs Pineapple; rematch nextGameId update retries once + surfaces error; FCM permission setTimeout cleans up on unmount"
+    },
+    {
+      "version": "0.13.11",
+      "date": "2026-05-27",
+      "notes": "Audit fixes batch 1: lobby.js getMessaging import (was crashing findOpenInviteForFriend re-push); HeartsGame+SolitaireGame .exists() method call (was crashing on doc delete); hearts.js isFirstTrick fix (was forcing 2C-must-lead on every trick of hand 0); rummy.js stock-empty non-destructive refill"
+    },
+    {
+      "version": "0.13.10",
+      "date": "2026-05-27",
+      "notes": "Invite reuse: pickAndInvite calls findOpenInviteForFriend FIRST — if an existing in-lobby invite from me to this friend exists for the variant, server re-emits push and client routes to that gameId instead of creating a new table doc. Repeat invites no longer orphan extra lobbies."
+    },
+    {
+      "version": "0.13.9",
+      "date": "2026-05-27",
+      "notes": "Invite double-tap protection: variant picker 5s tile lockout + spinner; lobby/friend INVITE pill 30s lockout w/ green INVITED check; big gold 'Invite sent' banner globally; threaded notifyInviteSent through all 6 variant containers + lobbies"
+    },
+    {
+      "version": "0.13.8",
+      "date": "2026-05-27",
+      "notes": "FriendsPage: Recently Played section with swipe-to-remove + Add-by-uid; LobbyFriendsPanel: filter bots and generic 'Friend' placeholder names out of invite list"
+    },
+    {
+      "version": "0.13.7",
+      "date": "2026-05-27",
+      "notes": "FriendsPage: only list explicit friend-coded users; recently-played opponents no longer pad the list (W/L records still overlay for actual friends). LobbyFriendsPanel already friend-coded-only."
+    },
+    {
+      "version": "0.13.6",
+      "date": "2026-05-27",
+      "notes": "Notifications: prompt banner on main menu when permission != granted (Turn on / How to fix / Ignore); Ignore persists until user re-enables in Settings; Settings toggle clears ignore + requests browser permission"
+    },
+    {
+      "version": "0.13.5",
+      "date": "2026-05-27",
+      "notes": "Palace lobby + invite delivery: lobby outer container scrolls during lobby/setup/finished (was overflow:hidden, friends list cut off); ActiveGamesEntryTile now surfaces pendingInvites so recipients see them even with no active games"
+    },
+    {
+      "version": "0.13.4",
+      "date": "2026-05-27",
+      "notes": "Palace hand: single horizontal-scrolling row (was wrapping to multiple rows + vertical scroll, covering the board on small phones)"
+    },
+    {
+      "version": "0.13.3",
+      "date": "2026-05-27",
+      "notes": "ThreadView: query newest-200 desc+reverse (was oldest-200 asc cap, same family as TableChat bug); allow pending ts=0 messages through deletedTs filter; iOS momentum + overscroll-behavior:contain on the list"
+    },
+    {
+      "version": "0.13.2",
+      "date": "2026-05-27",
+      "notes": "Hearts + Solitaire rules: drop nested .ofc-rules-box wrapper that created a double scroll container (fingers were trapped in the inner scroll). Now matches Rummy/Scala 40 — content sits directly inside the parent's single scroll."
+    },
+    {
+      "version": "0.13.1",
+      "date": "2026-05-27",
+      "notes": "Desktop clamp: drop menu-shell 760/1020 max-width overrides so every page stays at 520px (no sprawl); FIX inviteToVariantTable + inviteToTable internal error (DocumentSnapshot.exists is a property, was being called as a method)"
+    },
+    {
+      "version": "0.13.0",
+      "date": "2026-05-27",
+      "notes": "SwipeRow: defer setPointerCapture until horizontal drag exceeds 4px threshold (was capturing on every pointerdown, which swallowed click events on inner buttons like friend-row INVITE on desktop)"
+    },
+    {
+      "version": "0.12.69",
+      "date": "2026-05-26",
+      "notes": "Rematch fix: create new lobby with order=[host] (was failing create rule); auto-route opponent now calls joinGameById before switching their gameId pointer"
+    },
+    {
+      "version": "0.12.68",
+      "date": "2026-05-26",
+      "notes": "Update banner: show on every screen except active gameplay table (game.stage = playing/passing/setup). Banner now renders in both menu + gameview returns, gated by shared isAtTable check across all 6 variants + bot containers"
+    },
+    {
+      "version": "0.12.67",
+      "date": "2026-05-26",
+      "notes": "Palace freeze fix: clear selected on Play tap + auto-prune stale selected cards when source pile contents change (resolves two-2 extra-turn stuck state)"
+    },
+    {
+      "version": "0.12.66",
+      "date": "2026-05-26",
+      "notes": "Install-to-home-screen: render InstallPromptModal in the menu return block too (was only rendered inside OFC GameView, so Settings tap flipped state but modal never mounted)"
+    },
+    {
+      "version": "0.12.65",
+      "date": "2026-05-26",
+      "notes": "GamesHub variant cards: per-variant icon animation (cards wobble/heart beat/stack bob/grid spin/stairs slide/klondike float) — icon transform only"
+    },
+    {
+      "version": "0.12.64",
+      "date": "2026-05-26",
+      "notes": "Main menu: 24px gap between active-games entry tile and Main Menu label (matches MainMenu's internal section gap)"
+    },
+    {
+      "version": "0.12.63",
+      "date": "2026-05-26",
+      "notes": "Active games entry tile: RGB hue-cycle border at rest, OFC cream-yellow flash when any game is your turn"
+    },
+    {
+      "version": "0.12.62",
+      "date": "2026-05-26",
+      "notes": "Active games entry tile: icon pinned left, text centered in remaining space, chevron in-flow right"
+    },
+    {
+      "version": "0.12.61",
+      "date": "2026-05-26",
+      "notes": "Active games entry tile: drop count badge, full gold border + glow at rest, brighter flash pulse when any game is your turn"
+    },
+    {
+      "version": "0.12.60",
+      "date": "2026-05-26",
+      "notes": "Chat text: render natural case (text-transform:none on chat bubble body, empty placeholder, msg toast body)"
+    },
+    {
+      "version": "0.12.59",
+      "date": "2026-05-26",
+      "notes": "Invite fix: friends-list pickAndInvite now calls inviteToVariantTable for all non-OFC variants (was silently no-op); surface error code if invite fails"
+    },
+    {
+      "version": "0.12.58",
+      "date": "2026-05-26",
+      "notes": "Lobby: drop 'Join another table', surface Invite a Friend above bot CTA; In-app message toast (tap to open thread)"
+    },
+    {
+      "version": "0.12.57",
+      "date": "2026-05-26",
+      "notes": "Push: 'Your turn' FCM notifications for Hearts/Palace/Rummy/Scala 40 — onDocumentUpdated triggers detect game.turn change, 90s wait, re-check, push"
+    },
+    {
+      "version": "0.12.56",
+      "date": "2026-05-26",
+      "notes": "Active games: slim entry tile on menu (pulses when your turn) + new Active Games page with redesigned slim wide per-game tiles (variant logo, gradient, variant-colored pulse, no game ID, all uppercase)"
+    },
+    {
+      "version": "0.12.55",
+      "date": "2026-05-26",
+      "notes": "Active games tile compact + 'Waiting' copy; '(you)' -> 'you' across all variants; visibility-resync getDoc() for Hearts/Palace/Rummy/Scala40/Solitaire game listeners (iOS PWA freeze fix)"
+    },
+    {
+      "version": "0.12.54",
+      "date": "2026-05-26",
+      "notes": "TableChat: query newest 50 desc + reverse — fixes new sends invisible when thread has >50 messages (root cause regression)"
+    },
+    {
+      "version": "0.12.53",
+      "date": "2026-05-26",
+      "notes": "Update banner: gate to menu views only — hide during gameplay (OFC/Hearts/Palace/Rummy/Scala40/Solitaire, multiplayer + bot)"
+    },
+    {
+      "version": "0.12.52",
+      "date": "2026-05-26",
+      "notes": "TableChat: allow optimistic ts=0 messages + open-triggered resync + post-send resync (iOS PWA suspension defense)"
+    },
+    {
+      "version": "0.12.51",
+      "date": "2026-05-26",
+      "notes": "TableChat: filter by per-user deletedTs so deleted-from-view messages also hide in in-game bubble"
+    },
+    {
+      "version": "0.12.50",
+      "date": "2026-05-26",
+      "notes": "FL cinematic bulletproofing"
+    },
+    {
+      "version": "0.12.49",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.48",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.47",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.46",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.45",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.44",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.43",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.42",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.41",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.40",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.39",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.38",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.37",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.36",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.35",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.34",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.33",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.32",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.31",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.30",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.29",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.28",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.27",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.26",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.25",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.24",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.23",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.22",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.21",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.20",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.19",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.18",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.17",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.16",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.15",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.14",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.13",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.12",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.11",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.10",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.9",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.8",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.7",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.6",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.5",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.4",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.3",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.2",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.1",
+      "date": "2026-05-26",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.12.0",
+      "date": "2026-05-26",
+      "notes": "admin panel: Grant Dumplings + view user chats + toggle chat block (gated by ADMIN_UIDS allowlist on both client and Cloud Functions)"
+    },
+    {
+      "version": "0.11.61",
+      "date": "2026-05-25",
+      "notes": "fix: Scala 40 Play Random tile was hidden behind SHOW_COMPETITIVE — Stage 5 shipped casual matchmaking, the gate was obsolete"
+    },
+    {
+      "version": "0.11.60",
+      "date": "2026-05-25",
+      "notes": "fix: Palace + Scala40 local Tile components now honor the compact prop (Random/Bot pair was rendering at full size)"
+    },
+    {
+      "version": "0.11.59",
+      "date": "2026-05-25",
+      "notes": "lobby button reorder: Ready up above LobbyFriendsPanel; Leave Game styled red at bottom across all variants"
+    },
+    {
+      "version": "0.11.58",
+      "date": "2026-05-25",
+      "notes": "fix: visibility-resync hook in every variant container — Firestore listener was going stale when iOS PWA suspended the WebView, leaving games frozen on return"
+    },
+    {
+      "version": "0.11.57",
+      "date": "2026-05-25",
+      "notes": "Hearts step 3: desktop scores panel (≥1080px). Chat panel deferred — corner TableChat still works at every width"
+    },
+    {
+      "version": "0.11.56",
+      "date": "2026-05-25",
+      "notes": "Phase 2: Start with Bots button in every variant lobby + fillLobbyWithBots backend callable"
+    },
+    {
+      "version": "0.11.55",
+      "date": "2026-05-25",
+      "notes": "fix: OFC PlayModeMenu missed the compact tile layout in v0.11.53 — Random/Bot now side-by-side compact like the other variants"
+    },
+    {
+      "version": "0.11.54",
+      "date": "2026-05-25",
+      "notes": "player count picker — Friends/Random flows route through PlayerCountPicker (variants with fixed counts skip it); backend createX callables accept maxPlayers, store on game doc"
+    },
+    {
+      "version": "0.11.53",
+      "date": "2026-05-25",
+      "notes": "compact PlayModeMenu (Friends/Code big; Random/Bot small side-by-side) + Rummy 500 matchmaking (separate joinRummy500Matchmaking callable)"
+    },
+    {
+      "version": "0.11.52",
+      "date": "2026-05-25",
+      "notes": "fix: auto-retry + auto-reload on lazy chunk load failure (stale chunk filenames post-deploy were crashing Rummy/Hearts/etc on first open)"
+    },
+    {
+      "version": "0.11.51",
+      "date": "2026-05-25",
+      "notes": "polish: drop Landing join-code box; reorder all PlayModeMenu tiles (Friends/Join Code/Random/Bot); auto-delete duplicate empty tables per variant; drop borderBottom on last LobbyFriendsPanel row"
+    },
+    {
+      "version": "0.11.50",
+      "date": "2026-05-25",
+      "notes": "Stage 5: Rummy/Scala40 matchmaking callables + variant-agnostic inviteToVariantTable + client wire-up. Requires firebase deploy --only functions"
+    },
+    {
+      "version": "0.11.49",
+      "date": "2026-05-25",
+      "notes": "fix: filter null/non-string uids before doc(db, publicProfiles, ...) — malformed thread members were crashing app at boot with 'indexOf of null'"
+    },
+    {
+      "version": "0.11.48",
+      "date": "2026-05-25",
+      "notes": "diagnostic: top-level React error boundary that renders crash details on screen (iOS PWA has no console access)"
+    },
+    {
+      "version": "0.11.47",
+      "date": "2026-05-25",
+      "notes": "Stage 4 — shared LobbyFriendsPanel in every variant's multiplayer lobby (Family + Friends + INVITE pills + Enter Code row). OFC fires inviteToTable; other variants prompt to share the code"
+    },
+    {
+      "version": "0.11.46",
+      "date": "2026-05-25",
+      "notes": "Stage 3 — invite picker (variant grid) + Stage 1/2 polish: lag toasts on async Play-with-Friends tiles"
+    },
+    {
+      "version": "0.11.45",
+      "date": "2026-05-25",
+      "notes": "Stage 2 of matchmaking sweep: shared JoinByCodeView + Join Code tile on every variant's PlayModeMenu (OFC/Palace/Rummy/Scala40/Hearts); Solitaire gets the missing Play Random tile"
+    },
+    {
+      "version": "0.11.44",
+      "date": "2026-05-25",
+      "notes": "Stage 1 of matchmaking sweep: Classic OFC, Hearts, Solitaire — all three now wire to real joinXMatchmaking callables (backend already shipped)"
+    },
+    {
+      "version": "0.11.43",
+      "date": "2026-05-25",
+      "notes": "trip-2s cinema fires independently on any row (top/mid/bot); FL banner restored to original behavior; queued so t2 plays first when both trigger"
+    },
+    {
+      "version": "0.11.42",
+      "date": "2026-05-25",
+      "notes": "spinner .7s→.5s; new Trip-Deuces cinema (222 + three deuce cards) fires when board.top becomes trips of 2s — replaces FL banner for that unlock in both bot + multiplayer"
+    },
+    {
+      "version": "0.11.41",
+      "date": "2026-05-25",
+      "notes": "menu-shell: width:100% + box-sizing so flex parent + margin:0 auto stops shrink-wrapping to content on iOS — affects every menu screen, not just Messages"
+    },
+    {
+      "version": "0.11.40",
+      "date": "2026-05-25",
+      "notes": "swipe-to-delete: drop Delete? label, swap to 34x34 ti-check + ti-x icon buttons (no more stretched text)"
+    },
+    {
+      "version": "0.11.39",
+      "date": "2026-05-25",
+      "notes": "messages: width:100% on SwipeRow inner + ThreadRow root — iOS was shrinking these to content width even with outer at 100%"
+    },
+    {
+      "version": "0.11.38",
+      "date": "2026-05-25",
+      "notes": "messages: stretch list-cards + SwipeRow to full menu-shell width (width:100% + minWidth:240) so rows fill the screen instead of shrinking to content"
+    },
+    {
+      "version": "0.11.37",
+      "date": "2026-05-25",
+      "notes": "messages: drop contain:layout from SwipeRow — was shrinking cards below full width (preview-removal already keeps content bounded)"
+    },
+    {
+      "version": "0.11.36",
+      "date": "2026-05-25",
+      "notes": "messages: drop preview line from ThreadRow — just name + timestamp + unread badge in one row"
+    },
+    {
+      "version": "0.11.35",
+      "date": "2026-05-25",
+      "notes": "messages: SwipeRow gets contain:layout — full isolation from parent layout, prevents any iOS-specific growth past frame"
+    },
+    {
+      "version": "0.11.34",
+      "date": "2026-05-25",
+      "notes": "hearts: step 2 — single flex-wrap hand (no JS row split) + breakpoint felt padding / trick gap / hand gap"
+    },
+    {
+      "version": "0.11.33",
+      "date": "2026-05-25",
+      "notes": "menus: drop .gold modifier from Messages mini — matches Stats/Friends/Settings"
+    },
+    {
+      "version": "0.11.32",
+      "date": "2026-05-25",
+      "notes": "messages: SwipeRow only applies transform during active swipe — avoids iOS transform containing block at rest"
+    },
+    {
+      "version": "0.11.31",
+      "date": "2026-05-25",
+      "notes": "hearts: step 1 responsive card sizing — size=lg + .hearts-felt CSS var overrides (38x53 phone, 56x80 tablet 720+, 72x100 desktop 1080+)"
+    },
+    {
+      "version": "0.11.30",
+      "date": "2026-05-25",
+      "notes": "messages: drop width:100% on children — explicit width was bypassing .menu-shell padding on iOS, letting cards align flush left and overflow right"
+    },
+    {
+      "version": "0.11.29",
+      "date": "2026-05-25",
+      "notes": "messages: min-width:0 on flex children + width:100% box-sizing on list cards — iOS-safe frame containment for everything below the header"
+    },
+    {
+      "version": "0.11.28",
+      "date": "2026-05-25",
+      "notes": "rename: Pineapple OFC -> PPC Cards (PWA title/manifest, About card) + drop sub labels on Main Menu minis"
+    },
+    {
+      "version": "0.11.27",
+      "date": "2026-05-25",
+      "notes": "messages: SwipeRow outer+inner width:100% box-sizing:border-box — keeps content from escaping the frame on iOS"
+    },
+    {
+      "version": "0.11.26",
+      "date": "2026-05-25",
+      "notes": "RECOVERY: restore wrangler.jsonc + full release-notes.json + all 22 fix commits in one squashed payload"
+    },
+    {
+      "version": "0.11.25",
+      "date": "2026-05-25",
+      "notes": "config: add wrangler.jsonc — points wrangler deploy at ./build with SPA fallback so static-asset workers serve the React app correctly"
+    },
+    {
+      "version": "0.11.24",
+      "date": "2026-05-25",
+      "notes": "messages: swipe-to-delete on thread list (deletes from your view), removed from inside ThreadView, hint text hidden — trash icon shows on swipe"
+    },
+    {
+      "version": "0.11.23",
+      "date": "2026-05-25",
+      "notes": "menus: overflow-x:hidden on .menu-shell — backstop against any nested content forcing horizontal scroll"
+    },
+    {
+      "version": "0.11.22",
+      "date": "2026-05-25",
+      "notes": "score-pill: cream text on gold gradient (1v1 name labels + vs + 3-player avatar dots + ScoreModal grid header)"
+    },
+    {
+      "version": "0.11.21",
+      "date": "2026-05-25",
+      "notes": "theme: cream text on gold cards (B) + overflow-x:hidden app-wide + welcome pre-mount paint flipped from blue #1f242d to grey #303030"
+    },
+    {
+      "version": "0.11.20",
+      "date": "2026-05-25",
+      "notes": "cards: card back from green+gold to black+gold (Option A — dark medallion, gold PPC monogram + frame)"
+    },
+    {
+      "version": "0.11.19",
+      "date": "2026-05-25",
+      "notes": "hearts/palace: catch remaining inline forest/olive bg gradients on setup/playing/finished views — sweep to neutral grey"
+    },
+    {
+      "version": "0.11.18",
+      "date": "2026-05-25",
+      "notes": "theme: gold gradient swap to bright C (c9a447->3a2a08) app-wide + active-tile name/action white + drop Guts & Spades from Games Hub"
+    },
+    {
+      "version": "0.11.17",
+      "date": "2026-05-25",
+      "notes": "table-chat: pre-warm thread doc on mount (first send no longer pays ensureThreadDoc roundtrip) + panel centers on screen instead of pinning to bubble corner"
+    },
+    {
+      "version": "0.11.16",
+      "date": "2026-05-25",
+      "notes": "messages: no horizontal scroll (overflow-x:hidden + overflow-wrap:anywhere) + swipe-to-delete own messages + firestore rule allows author delete"
+    },
+    {
+      "version": "0.11.15",
+      "date": "2026-05-25",
+      "notes": "menus: stronger Games tile mint pulse — faster 1.8s, bigger glow blur+alpha, 1.08 icon scale, double-layer outer halo"
+    },
+    {
+      "version": "0.11.14",
+      "date": "2026-05-25",
+      "notes": "theme: sweep all old blue-tinted greys (3a4049/2c313a/2f343c/1f242d/2a2f38/1a1d24/363c46/444a54) to neutral grey equivalents app-wide"
+    },
+    {
+      "version": "0.11.13",
+      "date": "2026-05-25",
+      "notes": "menus: .ofc-mini-tile grey (#3a4049 -> #454545) — Stats/Friends/Messages/Settings minis now match dark grey theme"
+    },
+    {
+      "version": "0.11.12",
+      "date": "2026-05-25",
+      "notes": "theme: pivot to dark grey C (#404040->#303030) + welcome/loader/game tables all match + bright gold chrome"
+    },
+    {
+      "version": "0.11.11",
+      "date": "2026-05-25",
+      "notes": "auth: recover from credential-already-in-use — falls back to signInWithCredential so existing Google-linked account is restored after app reset"
+    },
+    {
+      "version": "0.11.10",
+      "date": "2026-05-25",
+      "notes": "theme: light grey app (b0b0b0 to 9a9a9a) + light variant cards/tints + true red Rummy"
+    },
+    {
+      "version": "0.11.9",
+      "date": "2026-05-25",
+      "notes": "menus: variant loader min display 3500ms -> 1000ms (snappier transitions)"
+    },
+    {
+      "version": "0.11.8",
+      "date": "2026-05-25",
+      "notes": "menus: brand-color tints app-wide + mint-glow Games tile pulse"
+    },
+    {
+      "version": "0.11.7",
+      "date": "2026-05-25",
+      "notes": "solitaire: live-tick timer — useEffect setInterval forces 1-sec re-renders so displayed timer advances in real time"
+    },
+    {
+      "version": "0.11.6",
+      "date": "2026-05-25",
+      "notes": "menus: .menu-tile-sub width:280 max-width:100% — sub box reserves 280pt on every tile (consistent visual width across all menus)"
+    },
+    {
+      "version": "0.11.5",
+      "date": "2026-05-25",
+      "notes": "menus: .menu-tile min-height:196 — every tile now reserves the same height as OFC Pineapple (2-line sub), short-sub tiles get whitespace instead of being shorter"
+    },
+    {
+      "version": "0.11.4",
+      "date": "2026-05-25",
+      "notes": "menus: redesign — icon-only chevron back, centered truncating title, brand-colored Games Hub cards, 64px tile icons, minimal spinner replaces variant-tinted loaders"
+    },
+    {
+      "version": "0.11.3",
+      "date": "2026-05-25",
+      "notes": "menus: back button pinned left + Random/Bot promoted to full-width big tiles (consistent on every inner page; Games Hub untouched)"
+    },
+    {
+      "version": "0.11.2",
+      "date": "2026-05-25",
+      "notes": "variants: nuke tile-stack class on variant pickers — use explicit inline maxWidth:520 matching Games Hub (rules out CSS specificity / chunk caching issues)"
+    },
+    {
+      "version": "0.11.1",
+      "date": "2026-05-25",
+      "notes": "solitaire: stats panel fills dead space below tableau (time/moves/recycles/complete % + race standings)"
+    },
+    {
+      "version": "0.11.0",
+      "date": "2026-05-25",
+      "notes": "menus: .tile-stack max-width 420 → 520 (matches Games Hub default)"
+    },
+    {
+      "version": "0.10.29",
+      "date": "2026-05-24",
+      "notes": "menus: widen menu-shell at 720+/980+ + no-wrap tile titles (every variant page now matches OFC variant picker area width)"
+    },
+    {
+      "version": "0.10.28",
+      "date": "2026-05-24",
+      "notes": "menus: PlayModeMenu tiles match variant picker width — remove 420px cap + Friends spans full row at 720+"
+    },
+    {
+      "version": "0.10.27",
+      "date": "2026-05-24",
+      "notes": "tablechat: revert bot filter — chat bubble now renders in bot-filled multiplayer games (Hearts/Solitaire forceBotFill)"
+    },
+    {
+      "version": "0.10.26",
+      "date": "2026-05-24",
+      "notes": "menus: vertical small tiles for Random/Bot across all variants (matches mockup)"
+    },
+    {
+      "version": "0.10.25",
+      "date": "2026-05-24",
+      "notes": "menus: grey tiles by default (gold = .selected), rummy playmode matches pattern"
+    },
+    {
+      "version": "0.10.24",
+      "date": "2026-05-24",
+      "notes": "messages: fix threads index + bot filter + name attribution + error visibility + thread upsert"
+    },
+    {
+      "version": "0.10.23",
+      "date": "2026-05-24",
+      "notes": "menus: restore Games Hub 2-col grid + strip subtitles + clean orphan CSS"
+    },
+    {
+      "version": "0.10.22",
+      "date": "2026-05-24",
+      "notes": "Fix Main Menu Games tile left-aligning at 720px+"
+    },
+    {
+      "version": "0.10.21",
+      "date": "2026-05-24",
+      "notes": "Tile sizes locked + unified back button via shared MenuHeaderBar"
+    },
+    {
+      "version": "0.10.20",
+      "date": "2026-05-24",
+      "notes": "Lock variant pickers to all-large + back button matches About pill"
+    },
+    {
+      "version": "0.10.19",
+      "date": "2026-05-24",
+      "notes": "Message friend from FriendsPage + Messages page + FriendPicker"
+    },
+    {
+      "version": "0.10.18",
+      "date": "2026-05-24",
+      "notes": "Menu layout fixes + full-bleed felts + bot-route double-header fix"
+    },
+    {
+      "version": "0.10.17",
+      "date": "2026-05-24",
+      "notes": "Full-bleed felt on Palace + Rummy + Scala 40 gameplay"
+    },
+    {
+      "version": "0.10.16",
+      "date": "2026-05-24",
+      "notes": "Menu polish: gold pill back, equal-large tiles, Palace MenuHeaderBar"
+    },
+    {
+      "version": "0.10.15",
+      "date": "2026-05-24",
+      "notes": "Persistent chat threads + Messages page"
+    },
+    {
+      "version": "0.10.14",
+      "date": "2026-05-24",
+      "notes": "Fix Family menu clipping (portal-render dropdown)"
+    },
+    {
+      "version": "0.10.13",
+      "date": "2026-05-24",
+      "notes": "family section, in-game chat, welcome flash fix"
+    },
+    {
+      "version": "0.10.12",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.11",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.10",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.9",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.8",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.7",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.6",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.5",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.4",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.3",
+      "date": "2026-05-24",
+      "notes": "FL cinematic: fire on any inFL false→true transition (no stage gate) + bot-mode parity"
+    },
+    {
+      "version": "0.10.2",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.10.1",
+      "date": "2026-05-24",
+      "notes": "Pineapple: remove undo after last placement of round (kills discard-undo race + premature advanceRound)"
+    },
+    {
+      "version": "0.10.0",
+      "date": "2026-05-24",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.42",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.41",
+      "date": "2026-05-23",
+      "notes": "Diagnostic: surface lockGrace + advanceRound errors as toasts (round-advance freeze)"
+    },
+    {
+      "version": "0.9.40",
+      "date": "2026-05-23",
+      "notes": "Diagnostic: surface lockGrace + advanceRound errors as toasts (round-advance freeze)"
+    },
+    {
+      "version": "0.9.39",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.38",
+      "date": "2026-05-23",
+      "notes": "Fix Solitaire build: restore truncated file and add eslint-disable for processMove"
+    },
+    {
+      "version": "0.9.37",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.36",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.35",
+      "date": "2026-05-23",
+      "notes": "Solitaire drag refactor: ref-based tracking, rAF coalescing, centered ghost card"
+    },
+    {
+      "version": "0.9.34",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.33",
+      "date": "2026-05-23",
+      "notes": "loader rebuild + OFC tile gold background"
+    },
+    {
+      "version": "0.9.32",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.31",
+      "date": "2026-05-23",
+      "notes": "solitaire: port drag to pure Pointer Events (fixes regression from react-dnd drop)"
+    },
+    {
+      "version": "0.9.30",
+      "date": "2026-05-23",
+      "notes": "polish: 3.5s loader + no white flash + Skip safe-area + centered loader"
+    },
+    {
+      "version": "0.9.29",
+      "date": "2026-05-23",
+      "notes": "polish: 3.5s loader + no white flash + Skip safe-area + centered loader"
+    },
+    {
+      "version": "0.9.28",
+      "date": "2026-05-23",
+      "notes": "fix: solid-gold OFC idle tile + variant loader replaces plain Loading text"
+    },
+    {
+      "version": "0.9.27",
+      "date": "2026-05-23",
+      "notes": "perf: per-variant code splitting (React.lazy + Suspense fallback)"
+    },
+    {
+      "version": "0.9.26",
+      "date": "2026-05-23",
+      "notes": "active games: gold OFC + sectioned list + bot persistence + correct pulse gating"
+    },
+    {
+      "version": "0.9.25",
+      "date": "2026-05-23",
+      "notes": "perf + snappy deal animation"
+    },
+    {
+      "version": "0.9.24",
+      "date": "2026-05-23",
+      "notes": "auto-bump on commit"
+    },
+    {
+      "version": "0.9.23",
+      "date": "2026-05-23",
+      "notes": "auto-bump on code change"
+    },
+    {
+      "version": "0.9.22",
+      "date": "2026-05-23",
+      "notes": "auto-bump on code change"
+    },
+    {
+      "version": "0.9.21",
+      "date": "2026-05-23",
+      "notes": "auto-bump on code change"
+    },
+    {
+      "version": "0.9.20",
+      "date": "2026-05-23",
+      "notes": "Active games: deleteGame routes to correct collection by gameType (fixes Could not end game for Palace/Rummy/Scala40/Hearts/Solitaire)"
+    },
+    {
+      "version": "0.9.19",
+      "date": "2026-05-23",
+      "notes": "SW update detection: visibilitychange + focus triggers + 30s polling (fixes rare update banner on iOS PWA)"
+    },
+    {
+      "version": "0.9.18",
+      "date": "2026-05-23",
+      "notes": "Active games list: all 7 variants (+ Palace/Rummy/Scala 40/Hearts/Solitaire), per-variant felt-color tiles, game type in status line"
+    },
+    {
+      "version": "0.9.17",
+      "date": "2026-05-23",
+      "notes": "Update banner: centered grey+gold modal with backdrop (fixes iPhone notch overlap)"
+    },
+    {
+      "version": "0.9.16",
+      "date": "2026-05-23",
+      "notes": "All variants: drop gameId chrome pill, flex-center 4 pills, prominent Rules circle; Rummy + Scala 40 migrate to shared GameplayChrome"
+    },
+    {
+      "version": "0.9.15",
+      "date": "2026-05-23",
+      "notes": "Fix: drag-and-drop works anywhere on felt, pills centered, matchmaking complete"
+    },
+    {
+      "version": "0.9.14",
+      "date": "2026-05-23",
+      "notes": "rummy: invite a friend → create-or-join screen with JOIN CODE input"
+    },
+    {
+      "version": "0.9.13",
+      "date": "2026-05-23",
+      "notes": "art: huge-rank + 4-corner-suits card set at ALL sizes (xs gate removed)"
+    },
+    {
+      "version": "0.9.12",
+      "date": "2026-05-23",
+      "notes": "art: switch to outlined-suit card set at sm/md/lg/hero (xs stays inline)"
+    },
+    {
+      "version": "0.9.11",
+      "date": "2026-05-23",
+      "notes": "GameplayChrome: Rummy-style Lobby/End pills + small circular Rules button with notepad icon"
+    },
+    {
+      "version": "0.9.10",
+      "date": "2026-05-23",
+      "notes": "art: new card designs at sm/md/lg/hero (xs keeps inline draw)"
+    },
+    {
+      "version": "0.9.9",
+      "date": "2026-05-23",
+      "notes": "Hearts: GameplayChrome circles + Rules pill, opponent table layout, score pill detail modal"
+    },
+    {
+      "version": "0.9.8",
+      "date": "2026-05-23",
+      "notes": "Rummy + Hearts two-row hand; URGENT App.js recovery from Solitaire truncation; Solitaire lint fixes; rule #14 favors two-row over fan-overlap"
+    },
+    {
+      "version": "0.9.7",
+      "date": "2026-05-23",
+      "notes": "solitaire: v1 - Klondike race + solo + friend invites"
+    },
+    {
+      "version": "0.9.6",
+      "date": "2026-05-23",
+      "notes": "Hearts: no-scroll gameplay (fan-overlap hand, 100dvh wrappers), centered passing phase + chrome+no-scroll codified as mandatory rules"
+    },
+    {
+      "version": "0.9.5",
+      "date": "2026-05-23",
+      "notes": "Hearts: pid prop fix (MP Loading), bot ready-up lobby, stage-driven chrome swap (no-scroll in bot gameplay)"
+    },
+    {
+      "version": "0.9.4",
+      "date": "2026-05-23",
+      "notes": "hearts: ship menuContent for heartsPlayMode + Header in bot game (App.js)"
+    },
+    {
+      "version": "0.9.3",
+      "date": "2026-05-23",
+      "notes": "rummy 500: table melds wrap to 3 rows, no off-screen overflow"
+    },
+    {
+      "version": "0.9.2",
+      "date": "2026-05-23",
+      "notes": "hearts: lobby canonical pattern + felt-fills-screen gameplay (trick zone, names, gold ring)"
+    },
+    {
+      "version": "0.9.1",
+      "date": "2026-05-23",
+      "notes": "hearts: fix menu chrome + move in-game chrome to App.js view router (safe-area-inset fix)"
+    },
+    {
+      "version": "0.9.0",
+      "date": "2026-05-23",
+      "notes": "hearts: PlayingView rebuild — compose from canonical chrome (frame-invariant)"
+    },
+    {
+      "version": "0.8.13",
+      "date": "2026-05-22",
+      "notes": "framework: export shared chrome (GameplayChrome, ScorePillV2, Header, MenuHeaderBar, Tile) + fix hearts container wiring"
+    },
+    {
+      "version": "0.8.12",
+      "date": "2026-05-22",
+      "notes": "hearts: activate game tile in GamesHub"
+    },
+    {
+      "version": "0.8.11",
+      "date": "2026-05-22",
+      "notes": "framework: hearts drag-reorder hoist fix — move reorderPlaying below hand definition"
+    },
+    {
+      "version": "0.8.10",
+      "date": "2026-05-22",
+      "notes": "framework: drag-reorder fix + sweep — hook moved out of useMemo callback (lint error fix), Palace + Rummy + Scala 40 + Hearts all wired"
+    },
+    {
+      "version": "0.8.9",
+      "date": "2026-05-22",
+      "notes": "framework: hand drag-to-reorder v1 (Pineapple canonical) + useReorderableHand hook + rule 11"
+    },
+    {
+      "version": "0.8.8",
+      "date": "2026-05-22",
+      "notes": "rummy 500: deep discard pickup + must-meld + table melds + compact opp strips"
+    },
+    {
+      "version": "0.8.7",
+      "date": "2026-05-22",
+      "notes": "framework: android system-back integration — back arrow walks view stack, game views pinned, root menu exit confirm"
+    },
+    {
+      "version": "0.8.6",
+      "date": "2026-05-22",
+      "notes": "rummy: hand recap modal + remove jokers (52-card standard deck)"
+    },
+    {
+      "version": "0.8.5",
+      "date": "2026-05-22",
+      "notes": "palace: matchmaking client wire-up (Play Random calls joinPalaceMatchmaking)"
+    },
+    {
+      "version": "0.8.4",
+      "date": "2026-05-22",
+      "notes": "lobby: handoff + context updates post-MM-batch (rules live; null-byte gotcha noted)"
+    },
+    {
+      "version": "0.8.3",
+      "date": "2026-05-22",
+      "notes": "framework: drop unused heartsStage var + strip null-byte tail in App.js"
+    },
+    {
+      "version": "0.8.2",
+      "date": "2026-05-22",
+      "notes": "hearts: fix CI lint errors blocking frontend deploy"
+    },
+    {
+      "version": "0.8.1",
+      "date": "2026-05-22",
+      "notes": "framework: firestore.rules — re-sync with deployed (add /palaceGames, /rummyMatchmaking, /scala40Matchmaking)"
+    },
+    {
+      "version": "0.8.0",
+      "date": "2026-05-22",
+      "notes": "hearts: v1 - bots + matchmaking + friend invites"
+    },
+    {
+      "version": "0.7.5",
+      "date": "2026-05-21",
+      "notes": "hearts: v1 - bots + matchmaking + friend invites"
+    },
+    {
+      "version": "0.7.4",
+      "date": "2026-05-22",
+      "notes": "lobby: matchmaking batch - palace + classic gameType + spades + hearts + solitaire race"
+    },
+    {
+      "version": "0.7.3",
+      "date": "2026-05-22",
+      "notes": "framework: Issue 1 - OFC clamp() scaling ladder (375 SE -> 460 Pro Max smooth) + landscape vh override"
+    },
+    {
+      "version": "0.7.2",
+      "date": "2026-05-22",
+      "notes": "framework: PlayModeMenu - Play with Friends + crossplay subtext"
+    },
+    {
+      "version": "0.7.1",
+      "date": "2026-05-22",
+      "notes": "framework: welcome animation crossplay subtext - iOS · Android · PC / Crossplay Available"
+    },
+    {
+      "version": "0.7.0",
+      "date": "2026-05-22",
+      "notes": "scala40: drag/scores/recap/-10/steal-joker/cinema bundle"
+    },
+    {
+      "version": "0.6.3",
+      "date": "2026-05-21",
+      "notes": "framework: bump.js post-write parse validation + sw.js null-byte cleanup"
+    },
+    {
+      "version": "0.6.2",
+      "date": "2026-05-21",
+      "notes": "scala40: joker-held 25->15 + allMelds useMemo lint fix"
+    },
+    {
+      "version": "0.6.1",
+      "date": "2026-05-21",
+      "notes": "FL cinematic: refactor trigger to single ref, also catch matchOver transition"
+    },
+    {
+      "version": "0.6.0",
+      "date": "2026-05-21",
+      "notes": "scala40: v1 - casual bot + invite-a-friend"
+    },
+    {
+      "version": "0.5.22",
+      "date": "2026-05-20",
+      "notes": "menus: hide Header during gameplay for Pineapple+Classic"
+    },
+    {
+      "version": "0.5.21",
+      "date": "2026-05-20",
+      "notes": "rummy: drop fan, restore tap + drag-and-drop"
+    },
+    {
+      "version": "0.5.20",
+      "date": "2026-05-20",
+      "notes": "framework: SW versioning fix - bump rewrites public/sw.js cache name each deploy so updatefound finally fires (unblocks Phase 4 design + future updates)"
+    },
+    {
+      "version": "0.5.19",
+      "date": "2026-05-20",
+      "notes": "framework: lint - drop unused getDocs import (unblocks 0.5.18 deploy with PPC CARDS wordmark)"
+    },
+    {
+      "version": "0.5.18",
+      "date": "2026-05-20",
+      "notes": "framework: welcome animation wordmark - PPC CARDS single line"
+    },
+    {
+      "version": "0.5.17",
+      "date": "2026-05-20",
+      "notes": "framework: users-online pill realtime + tighter timings"
+    },
+    {
+      "version": "0.5.16",
+      "date": "2026-05-20",
+      "notes": "palace: gameplay-view baseline (GameplayChrome, setup retrofit, sort pills, portrait activity strip)"
+    },
+    {
+      "version": "0.5.15",
+      "date": "2026-05-20",
+      "notes": "rummy gameplay-view baseline: top strip, fan hand, big stock/discard, gated sort, late-game progress"
+    },
+    {
+      "version": "0.5.14",
+      "date": "2026-05-20",
+      "notes": "rummy v1: gin rummy + rummy 500 (casual)"
+    },
+    {
+      "version": "0.5.13",
+      "date": "2026-05-20",
+      "notes": "Users-online pill on Main Menu (presence/{uid} heartbeat)"
+    },
+    {
+      "version": "0.5.12",
+      "date": "2026-05-20",
+      "notes": "MatchOverScreen: Show final hand button + modal"
+    },
+    {
+      "version": "0.5.11",
+      "date": "2026-05-20",
+      "notes": "Users online pill - Main Menu shows live active-player count"
+    },
+    {
+      "version": "0.5.10",
+      "date": "2026-05-20",
+      "notes": "Users online pill - Main Menu shows live active-player count"
+    },
+    {
+      "version": "0.5.9",
+      "date": "2026-05-20",
+      "notes": "Card placement: replace slam with quiet gold border pulse"
+    },
+    {
+      "version": "0.5.8",
+      "date": "2026-05-20",
+      "notes": "palace: 2-reset truly wild, 7 not free-escape, clearer BEAT label"
+    },
+    {
+      "version": "0.5.7",
+      "date": "2026-05-20",
+      "notes": "Card animations: helicopter deal + slam place with flash, shake, haptic"
+    },
+    {
+      "version": "0.5.6",
+      "date": "2026-05-20",
+      "notes": "Card v5 design + hide Competitive Pineapple tile (temporary)"
+    },
+    {
+      "version": "0.5.5",
+      "date": "2026-05-20",
+      "notes": "Card design v5 - big centered rank + single suit pip, simpler and more legible"
+    },
+    {
+      "version": "0.5.4",
+      "date": "2026-05-20",
+      "notes": "Pineapple no-scroll: responsive card + row sizing on phones"
+    },
+    {
+      "version": "0.5.3",
+      "date": "2026-05-20",
+      "notes": "palace: landscape polish, place cinematics, activity feed"
+    },
+    {
+      "version": "0.5.2",
+      "date": "2026-05-20",
+      "notes": "Activate Classic OFC tile in OFCMenu"
+    },
+    {
+      "version": "0.5.1",
+      "date": "2026-05-20",
+      "notes": "Activate Classic OFC tile in OFCMenu"
+    },
+    {
+      "version": "0.5.0",
+      "date": "2026-05-20",
+      "notes": "Unified Card component - fresh deck design across every game"
+    },
+    {
+      "version": "0.4.10",
+      "date": "2026-05-19",
+      "notes": "Classic OFC variant + hide bot tile in competitive PlayModeMenu"
+    },
+    {
+      "version": "0.4.9",
+      "date": "2026-05-19",
+      "notes": "prince rules: 2 grants extra turn, lowest hand acts first, enforce 7-rule"
+    },
+    {
+      "version": "0.4.8",
+      "date": "2026-05-19",
+      "notes": "Unified Rules page (pill-driven, smart-entry, scoring matrix)"
+    },
+    {
+      "version": "0.4.7",
+      "date": "2026-05-19",
+      "notes": "Games hub redesign: 8-tile grid + OFCMenu sub-screen"
+    },
+    {
+      "version": "0.4.6",
+      "date": "2026-05-19",
+      "notes": "Logo refresh + tighter header centering"
+    },
+    {
+      "version": "0.4.5",
+      "date": "2026-05-19",
+      "notes": "add prince rules variant and fix bot palace freeze"
+    },
+    {
+      "version": "0.4.4",
+      "date": "2026-05-19",
+      "notes": "Header settings gear + Stats shortcut + About pill + Palace + lobby logo center"
+    },
+    {
+      "version": "0.4.3",
+      "date": "2026-05-19",
+      "notes": "Other Games menu + drag-to-swap undo"
+    },
+    {
+      "version": "0.4.2",
+      "date": "2026-05-19",
+      "notes": "Fix Join button + Stats empty-state shows zero tiles"
+    },
+    {
+      "version": "0.4.1",
+      "date": "2026-05-19",
+      "notes": "Competitive forfeit at any time; copy tweaks; app-wide uppercase"
+    },
+    {
+      "version": "0.4.0",
+      "date": "2026-05-19",
+      "notes": "Competitive matchmaking wager + rematch wager + force-quit win claim"
+    },
+    {
+      "version": "0.3.40",
+      "date": "2026-05-18",
+      "notes": "Game ID + Hand flank logo in header; score row simplified"
+    },
+    {
+      "version": "0.3.39",
+      "date": "2026-05-18",
+      "notes": "Suppress exhaustive-deps for FCM setup effect"
+    },
+    {
+      "version": "0.3.38",
+      "date": "2026-05-18",
+      "notes": "Matchmaking with 30s bot fallback"
+    },
+    {
+      "version": "0.3.37",
+      "date": "2026-05-18",
+      "notes": "Back to Lobby button + relocate variant/table/hand pills to score row"
+    },
+    {
+      "version": "0.3.36",
+      "date": "2026-05-18",
+      "notes": "Decline/quit toasts + Google sign-in nudge + auth persistence"
+    },
+    {
+      "version": "0.3.35",
+      "date": "2026-05-18",
+      "notes": "Auto-screenname + defensive merge on user-doc init"
+    },
+    {
+      "version": "0.3.34",
+      "date": "2026-05-18",
+      "notes": "ADD button debounce + name sync"
+    },
+    {
+      "version": "0.3.33",
+      "date": "2026-05-18",
+      "notes": "Gold shimmer on invite tiles"
+    },
+    {
+      "version": "0.3.32",
+      "date": "2026-05-18",
+      "notes": "Drop unused PendingInvitesBanner component"
+    },
+    {
+      "version": "0.3.31",
+      "date": "2026-05-18",
+      "notes": "Pending invites integrated into Active Games list"
+    },
+    {
+      "version": "0.3.30",
+      "date": "2026-05-18",
+      "notes": "Debounce INVITE button to stop duplicate invites"
+    },
+    {
+      "version": "0.3.29",
+      "date": "2026-05-18",
+      "notes": "Server-authoritative joinGameById callable"
+    },
+    {
+      "version": "0.3.28",
+      "date": "2026-05-18",
+      "notes": "Suppress exhaustive-deps for one-time user-doc init"
+    },
+    {
+      "version": "0.3.27",
+      "date": "2026-05-18",
+      "notes": "publicProfiles + friend system + new notifications"
+    },
+    {
+      "version": "0.3.26",
+      "date": "2026-05-18",
+      "notes": "Path A+B: 2min push, lobby join push, daily reminder, friend code add, table invites"
+    },
+    {
+      "version": "0.3.25",
+      "date": "2026-05-18",
+      "notes": "Return to Lobby + Leave Game buttons, autostart any-client"
+    },
+    {
+      "version": "0.3.24",
+      "date": "2026-05-18",
+      "notes": "Lobby autostart fires from any client, not just host"
+    },
+    {
+      "version": "0.3.23",
+      "date": "2026-05-18",
+      "notes": "Color-match bounce background"
+    },
+    {
+      "version": "0.3.22",
+      "date": "2026-05-18",
+      "notes": "overscroll-behavior none"
+    },
+    {
+      "version": "0.3.21",
+      "date": "2026-05-18",
+      "notes": "Revert overscroll fix"
+    },
+    {
+      "version": "0.3.20",
+      "date": "2026-05-18",
+      "notes": "Revert overscroll fix - internal scroll worse than the bounce"
+    },
+    {
+      "version": "0.3.19",
+      "date": "2026-05-18",
+      "notes": "Body background dark to stop white bleed at bottom"
+    },
+    {
+      "version": "0.3.18",
+      "date": "2026-05-18",
+      "notes": "Roll back layout changes - back to post-overscroll state"
+    },
+    {
+      "version": "0.3.17",
+      "date": "2026-05-18",
+      "notes": "Pin gameplay hand+discard to viewport bottom - no more dead space, discard always reachable"
+    },
+    {
+      "version": "0.3.16",
+      "date": "2026-05-18",
+      "notes": "Remove unused increment import (broke CI)"
+    },
+    {
+      "version": "0.3.15",
+      "date": "2026-05-18",
+      "notes": "Fix white dead-space at bottom + bring discard zone in-fold on iPhone"
+    },
+    {
+      "version": "0.3.14",
+      "date": "2026-05-18",
+      "notes": "Kill rubber-band/bounce scroll - body no longer pannable"
+    },
+    {
+      "version": "0.3.13",
+      "date": "2026-05-18",
+      "notes": "Bot mode parity with multiplayer + Phase 1 server-side placeCard"
+    },
+    {
+      "version": "0.3.12",
+      "date": "2026-05-18",
+      "notes": "Google sign-in: NameModal + Settings"
+    },
+    {
+      "version": "0.3.11",
+      "date": "2026-05-18",
+      "notes": "Auto-route on game deletion; back-to-menu escape on Loading table"
+    },
+    {
+      "version": "0.3.10",
+      "date": "2026-05-18",
+      "notes": "Rename 'Leave Table' to 'Back to Lobby'"
+    },
+    {
+      "version": "0.3.9",
+      "date": "2026-05-18",
+      "notes": "Render welcome screen first to eliminate boot flash"
+    },
+    {
+      "version": "0.3.8",
+      "date": "2026-05-18",
+      "notes": "Remove card-divider lines; restyle MiniCard to match new card design"
+    },
+    {
+      "version": "0.3.7",
+      "date": "2026-05-18",
+      "notes": "New card design (divided) + gold-glow logo card back"
+    },
+    {
+      "version": "0.3.6",
+      "date": "2026-05-18",
+      "notes": "Pull-to-peek opponent board from the score pill"
+    },
+    {
+      "version": "0.3.5",
+      "date": "2026-05-18",
+      "notes": "Spell out Top/Middle/Bottom row labels in breakdown and recap"
+    },
+    {
+      "version": "0.3.4",
+      "date": "2026-05-18",
+      "notes": "Tap-to-view hints under all score and matrix pills"
+    },
+    {
+      "version": "0.3.3",
+      "date": "2026-05-18",
+      "notes": "Center modal titles; fix undo-after-discard round corruption"
+    },
+    {
+      "version": "0.3.2",
+      "date": "2026-05-18",
+      "notes": "Score breakdown pill on each seat in the post-hand recap"
+    },
+    {
+      "version": "0.3.1",
+      "date": "2026-05-18",
+      "notes": "5-min push notifications with per-game lastViewedAt heartbeat"
+    },
+    {
+      "version": "0.3.0",
+      "date": "2026-05-18",
+      "notes": "Stats aggregates archived matches; fix Invite layout overflow"
+    },
+    {
+      "version": "0.2.3",
+      "date": "2026-05-17",
+      "notes": "Gameplay no-scroll layout: score pill + tap-modal for opponent and history"
+    },
+    {
+      "version": "0.2.2",
+      "date": "2026-05-17",
+      "notes": "Fix off-center menu header layout; deduplicate push notifications when app is backgrounded"
+    },
+    {
+      "version": "0.2.1",
+      "date": "2026-05-17",
+      "notes": "Release notes view added. Bump-script wired. Fixed React hook violation in match-over routing."
+    },
+    {
+      "version": "0.2.0",
+      "date": "2026-05-17",
+      "notes": "Match limit at 10 hands or first to 50. New match-over screen with rematch. End-match X in game header. Email row hidden until custom address is live."
+    }
+  ]
+}

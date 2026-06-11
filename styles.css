@@ -224,7 +224,7 @@ a { color:inherit; text-decoration:none; }
 .plogo .pc {
   position:absolute; width:17.8px; height:24.5px; border-radius:3.3px;
   background:linear-gradient(160deg,#f4dc9c,#e8c46b); border:1px solid #c9a447;
-  opacity:0; animation: pfly .55s cubic-bezier(.2,.8,.25,1) forwards;
+  opacity:0; animation: pfly-loop 10s cubic-bezier(.2,.8,.25,1) infinite;
 }
 @keyframes pfly {
   0% { opacity:0; transform:translate(var(--fx),var(--fy)) rotate(var(--fr)) scale(.55); }
@@ -240,7 +240,7 @@ a { color:inherit; text-decoration:none; }
   50% { box-shadow:0 0 34px rgba(232,196,107,.18); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .plogo .pc { animation-duration:.01s; animation-delay:0s !important; }
+  .plogo .pc { animation:none; opacity:1; transform:none; }
   .plogo::after { animation:none; }
 }
 

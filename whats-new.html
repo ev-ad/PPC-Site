@@ -17,7 +17,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-<link rel="stylesheet" href="/styles.css?v=2" />
+<link rel="stylesheet" href="/styles.css?v=3" />
 </head>
 <body>
 <header class="nav">
@@ -31,52 +31,39 @@
 </header>
 <section class="hero" style="padding:46px 24px 10px;">
   <h1 class="hero-mark" style="font-size:clamp(22px,5vw,30px);">WHAT'S NEW</h1>
-  <div class="hero-blurb">The game improves nearly every day</div>
+  <div class="hero-blurb">The latest 20 releases &mdash; tap a version for details</div>
 </section>
 <div class="wn-wrap">
   <div id="wn-list"></div>
-  <button class="wn-more hidden" id="wn-more">Show full history</button>
-</div>
+  </div>
 <script>
 (function () {
-  var SHOW = 30;
   fetch("/release-notes.json").then(function (r) { return r.json(); }).then(function (d) {
     var list = document.getElementById("wn-list");
-    var more = document.getElementById("wn-more");
-    var versions = (d && d.versions) || [];
-    function fmtDate(s) {
+    var versions = ((d && d.versions) || []).slice(0, 20);
+    function fmtDate(str) {
       try {
-        var p = s.split("-");
+        var p = str.split("-");
         return new Date(p[0], p[1] - 1, p[2]).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-      } catch (e) { return s; }
+      } catch (e) { return str; }
     }
-    function render(n) {
-      list.innerHTML = "";
-      versions.slice(0, n).forEach(function (v) {
-        var row = document.createElement("div");
-        row.className = "wn-row";
-        var pill = document.createElement("span");
-        pill.className = "wn-pill";
-        pill.textContent = "v" + v.version;
-        var right = document.createElement("span");
-        right.style.flex = "1";
-        var note = document.createElement("span");
-        note.className = "wn-note";
-        note.textContent = v.notes || "";
-        var date = document.createElement("span");
-        date.className = "wn-date";
-        date.textContent = fmtDate(v.date || "");
-        right.appendChild(note); right.appendChild(date);
-        row.appendChild(pill); row.appendChild(right);
-        list.appendChild(row);
-      });
-    }
-    render(SHOW);
-    if (versions.length > SHOW) {
-      more.classList.remove("hidden");
-      more.textContent = "Show full history (" + versions.length + " releases)";
-      more.addEventListener("click", function () { render(versions.length); more.classList.add("hidden"); });
-    }
+    versions.forEach(function (v) {
+      var acc = document.createElement("div");
+      acc.className = "wn-acc";
+      var head = document.createElement("button");
+      head.className = "wn-head";
+      head.innerHTML = '<span class="wn-pill">v' + v.version + '</span><span class="wn-date"></span><i class="ti ti-chevron-right wn-chev" aria-hidden="true"></i>';
+      head.querySelector(".wn-date").textContent = fmtDate(v.date || "");
+      var body = document.createElement("div");
+      body.className = "wn-body";
+      var note = document.createElement("span");
+      note.className = "wn-note";
+      note.textContent = v.notes || "";
+      body.appendChild(note);
+      head.addEventListener("click", function () { acc.classList.toggle("open"); });
+      acc.appendChild(head); acc.appendChild(body);
+      list.appendChild(acc);
+    });
   }).catch(function () {
     document.getElementById("wn-list").innerHTML = '<div class="wn-note" style="text-align:center;">Release notes are taking a break - try a refresh.</div>';
   });

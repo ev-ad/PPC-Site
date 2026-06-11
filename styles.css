@@ -266,3 +266,51 @@ a { color:inherit; text-decoration:none; }
 .wn-more { display:block; margin:18px auto 0; background:none; border:1px solid var(--gold-line); color:var(--gold);
   border-radius:999px; padding:9px 22px; font-size:9px; letter-spacing:.14em; cursor:pointer; text-transform:uppercase; }
 .wn-more:hover { background:rgba(244,220,156,.08); }
+
+/* winner cinematics — ported from in-game CSS, contained + looping (5s cycle) */
+.cin-stage { position:relative; border-radius:14px; overflow:hidden; background:#0c0b09; min-height:240px; }
+.cin-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none; animation: cinw-fade 5s ease-out infinite; }
+@keyframes cinw-fade { 0%{opacity:0;} 9%{opacity:1;} 51%{opacity:1;} 60%{opacity:0;} 100%{opacity:0;} }
+.cinbg-ofc     { background:radial-gradient(ellipse at center, rgba(232,196,107,.35), rgba(0,0,0,.85) 70%); }
+.cinbg-rummy   { background:radial-gradient(ellipse at center, rgba(232,196,107,.55), rgba(98,210,125,.22) 42%, rgba(40,15,18,.97) 78%); }
+.cinbg-scala40 { background:radial-gradient(ellipse at center, rgba(26,39,66,.6), rgba(0,0,0,.85)); }
+.cinbg-palace  { background:radial-gradient(ellipse at center, rgba(232,196,107,.45), rgba(98,210,125,.2) 42%, rgba(15,30,18,.96) 78%); }
+.cin-title { font-family:Georgia,'Times New Roman',serif; font-weight:900; color:#fff; text-align:center; line-height:1; animation: cinw-zoom 5s ease-out infinite; }
+@keyframes cinw-zoom {
+  0% { transform:scale(.5) rotate(-4deg); opacity:0; }
+  12% { transform:scale(1.15) rotate(2deg); opacity:1; }
+  48% { transform:scale(1) rotate(0); opacity:1; }
+  60% { transform:scale(1.4) rotate(-1deg); opacity:0; }
+  100% { transform:scale(1.4) rotate(-1deg); opacity:0; }
+}
+.cin-title.t-ofc     { letter-spacing:.2em;  font-size:42px; text-shadow:0 0 40px rgba(232,196,107,.9),0 0 80px rgba(232,196,107,.6),0 4px 12px rgba(0,0,0,.7); }
+.cin-title.t-rummy   { letter-spacing:.18em; font-size:40px; animation-name: cinw-zoom-pop; text-shadow:0 0 36px rgba(232,196,107,.95),0 0 72px rgba(98,210,125,.55),0 4px 12px rgba(0,0,0,.7); }
+.cin-title.t-scala40 { letter-spacing:.16em; font-size:42px; color:#f4dc9c; text-shadow:0 0 30px rgba(232,196,107,.9); }
+.cin-title.t-palace  { letter-spacing:.2em;  font-size:42px; text-shadow:0 0 40px rgba(232,196,107,.95),0 0 80px rgba(98,210,125,.55),0 4px 12px rgba(0,0,0,.7); }
+@keyframes cinw-zoom-pop {
+  0% { transform:scale(.4); opacity:0; }
+  14% { transform:scale(1.06); opacity:1; }
+  28% { transform:scale(1); }
+  51% { transform:scale(1); opacity:1; }
+  60% { opacity:0; }
+  100% { opacity:0; }
+}
+.cin-sub { display:block; font-size:13px; letter-spacing:.4em; margin-top:12px; text-shadow:0 2px 6px rgba(0,0,0,.6); text-transform:uppercase; }
+.cin-sub.s-gold  { color:#f4dc9c; }
+.cin-sub.s-good  { color:#62d27d; font-family:-apple-system,'Segoe UI',sans-serif; font-weight:600; letter-spacing:.36em; font-size:12px; }
+.cin-spark { position:absolute; width:7px; height:7px; border-radius:50%; animation: cin-tw 2.4s ease-in-out infinite; }
+.cin-spark.g  { background:radial-gradient(circle, #e8c46b 0%, rgba(232,196,107,0) 70%); }
+.cin-spark.gn { background:radial-gradient(circle, #62d27d 0%, rgba(98,210,125,0) 70%); }
+@keyframes cin-tw { 0%,100%{opacity:0; transform:scale(.6);} 30%{opacity:1; transform:scale(1.3);} 60%{opacity:.8; transform:scale(1);} }
+.cin-caption { text-align:center; font-size:9px; letter-spacing:.12em; color:var(--muted); margin:14px auto 0; line-height:1.9; max-width:440px; }
+@media (prefers-reduced-motion: reduce) { .cin-overlay, .cin-title { animation:none; opacity:1; } .cin-spark { animation:none; opacity:.7; } }
+
+/* what's new v2 — compact accordion */
+.wn-acc { border-bottom:1px solid rgba(201,164,71,.18); }
+.wn-head { display:flex; align-items:center; gap:12px; padding:13px 4px; cursor:pointer; background:none; border:none; width:100%; text-align:left; font-family:inherit; text-transform:uppercase; }
+.wn-head:hover .wn-pill { background:rgba(244,220,156,.22); }
+.wn-head .wn-date { margin:0; flex:1; }
+.wn-chev { color:#5a626d; font-size:12px; transition:transform .18s ease; }
+.wn-acc.open .wn-chev { transform:rotate(90deg); color:var(--gold); }
+.wn-body { display:none; padding:0 4px 14px 4px; }
+.wn-acc.open .wn-body { display:block; }

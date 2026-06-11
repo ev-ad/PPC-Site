@@ -218,3 +218,28 @@ a { color:inherit; text-decoration:none; }
 .takeover-desc { margin-left:auto; margin-right:auto; max-width:400px; }
 .chips { justify-content:center; }
 .takeover .big-ico-left { position:absolute; left:-30px; bottom:-34px; font-size:140px; opacity:.14; transform:rotate(-12deg); line-height:1; }
+
+/* animated hero logo — 13 cards fly into the 3-5-5 grid (mirrors app welcome) */
+.plogo { position:relative; width:116px; height:105px; margin:0 auto; }
+.plogo .pc {
+  position:absolute; width:17.8px; height:24.5px; border-radius:3.3px;
+  background:linear-gradient(160deg,#f4dc9c,#e8c46b); border:1px solid #c9a447;
+  opacity:0; animation: pfly .55s cubic-bezier(.2,.8,.25,1) forwards;
+}
+@keyframes pfly {
+  0% { opacity:0; transform:translate(var(--fx),var(--fy)) rotate(var(--fr)) scale(.55); }
+  60% { opacity:1; }
+  100% { opacity:1; transform:translate(0,0) rotate(0deg) scale(1); }
+}
+.plogo::after {
+  content:""; position:absolute; inset:-12px; border-radius:16px; pointer-events:none;
+  animation: pglow 4.5s ease-in-out 2.2s infinite;
+}
+@keyframes pglow {
+  0%,100% { box-shadow:0 0 0 rgba(232,196,107,0); }
+  50% { box-shadow:0 0 34px rgba(232,196,107,.18); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plogo .pc { animation-duration:.01s; animation-delay:0s !important; }
+  .plogo::after { animation:none; }
+}

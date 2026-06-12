@@ -236,8 +236,8 @@ a { color:inherit; text-decoration:none; }
   animation: pglow 4.5s ease-in-out 2.2s infinite;
 }
 @keyframes pglow {
-  0%,100% { box-shadow:0 0 0 rgba(232,196,107,0); }
-  50% { box-shadow:0 0 34px rgba(232,196,107,.18); }
+  0%,100% { box-shadow:0 0 14px rgba(232,196,107,.12), 0 0 40px rgba(232,196,107,.06); }
+  50% { box-shadow:0 0 44px rgba(232,196,107,.45), 0 0 90px rgba(232,196,107,.22); }
 }
 @media (prefers-reduced-motion: reduce) {
   .plogo .pc { animation:none; opacity:1; transform:none; }

@@ -188,8 +188,13 @@ table.rank td.money{color:var(--green);font-weight:700;text-align:right;font-var
 .fmtnote code{color:var(--gold);font-family:ui-monospace,Consolas,monospace}
 
 /* ---------- FEATURED PROFILE ---------- */
-.featpro{background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#b07f22);border:1px solid #b07f22;border-radius:var(--radius);padding:30px;display:flex;align-items:center;gap:28px;cursor:pointer;transition:.2s;text-align:left;animation:featpulse 2.6s ease-in-out infinite}
-@keyframes featpulse{0%,100%{box-shadow:0 0 0 0 rgba(230,179,77,.4)}50%{box-shadow:0 0 0 16px rgba(230,179,77,0)}}
+.featpro{overflow:hidden;position:relative;background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#b07f22);border:1px solid #b07f22;border-radius:var(--radius);padding:30px;display:flex;align-items:center;gap:28px;cursor:pointer;transition:.2s;text-align:left;animation:featpulse 2.6s ease-in-out infinite}
+@keyframes featpulse{0%,100%{box-shadow:0 0 0 0 rgba(230,179,77,.55),0 8px 30px rgba(230,179,77,.15);transform:scale(1)}50%{box-shadow:0 0 0 14px rgba(230,179,77,0),0 12px 44px rgba(230,179,77,.4);transform:scale(1.012)}}
+.featpro::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 48%,rgba(255,255,255,.12) 52%,transparent 65%);background-size:250% 100%;animation:featshine 3.4s ease-in-out infinite}
+@keyframes featshine{0%{background-position:120% 0}45%,100%{background-position:-130% 0}}
+.featpro .favatar{animation:featring 2.6s ease-in-out infinite}
+@keyframes featring{0%,100%{box-shadow:0 0 0 0 rgba(20,16,10,.5)}50%{box-shadow:0 0 0 6px rgba(20,16,10,.18)}}
+@media(prefers-reduced-motion:reduce){.featpro,.featpro::before,.featpro .favatar{animation:none}}
 .featpro h3{color:#14100a}
 .featpro .fpinfo p{color:#4a3410}
 .featpro .fpstats span{color:#5a4212}
@@ -333,7 +338,7 @@ img, svg, video { max-width:100%; }
 </head>
 <body>
 
-<div class="demobar">⚠️ <b>DEMO</b> — this is a design mockup, not a real service. Ads are fictional, subscriptions &amp; account claims are simulated, and no data is collected.</div>
+<div class="demobar">⚠️ <b>DEMO</b> — this is a design mockup, not a real service. Ads are fictional, subscriptions &amp; account claims are simulated, and no data is collected. Concept based on The Hendon Mob poker database.</div>
 
 <header>
   <div class="nav">
@@ -450,7 +455,7 @@ img, svg, video { max-width:100%; }
 
     <section>
       <div class="sechead">
-        <div><h2 class="sec">Upcoming Festivals</h2><p class="sub" style="margin:0">Live and scheduled around the world</p></div>
+        <div><h2 class="sec">Upcoming Tournament Series</h2><p class="sub" style="margin:0">Live and scheduled around the world</p></div>
         <span class="more" onclick="go('events')">Full calendar →</span>
       </div>
       <div class="evgrid" id="homeEvents"></div>
@@ -546,7 +551,7 @@ img, svg, video { max-width:100%; }
   <div class="wrap">
     <section>
       <h2 class="sec" style="font-size:28px">Calendar &amp; Events</h2>
-      <p class="sub">Festivals live now and coming up worldwide</p>
+      <p class="sub">Tournament series live now and coming up worldwide</p>
       <div class="filters" id="evFilters">
         <button class="pill on" data-r="all">All regions</button>
         <button class="pill" data-r="Americas">Americas</button>
@@ -558,7 +563,7 @@ img, svg, video { max-width:100%; }
         <div class="art">🃏</div>
         <div>
           <div class="brand">GrindHub Poker</div>
-          <h4>Qualify online for every festival on this page</h4>
+          <h4>Qualify online for every tournament series on this page</h4>
           <p>Daily satellites to WSOP, APT and PPC Championship stops from $2.20.</p>
           <small>Demo sponsor unit · 18+ · Play responsibly</small>
         </div>
@@ -1135,7 +1140,7 @@ function evCard(e){
     </div></div>`;
 }
 function renderEvents(r){
-  $("#evgrid").innerHTML=EVENTS.filter(e=>r==="all"||e.region===r).map(evCard).join("")||'<p class="sub">No festivals in this region right now.</p>';
+  $("#evgrid").innerHTML=EVENTS.filter(e=>r==="all"||e.region===r).map(evCard).join("")||'<p class="sub">No tournament series in this region right now.</p>';
 }
 renderEvents("all");
 $("#evFilters").addEventListener("click",e=>{

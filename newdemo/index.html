@@ -57,7 +57,7 @@ p.sub{color:var(--muted);font-size:14px;margin-bottom:20px;text-align:center}
 .sechead .more:hover{color:var(--gold2)}
 
 /* ---------- HERO ---------- */
-.hero{padding:72px 0 56px;text-align:center;background:
+.hero{padding:28px 0 56px;text-align:center;background:
   radial-gradient(ellipse 60% 50% at 50% -10%,rgba(230,179,77,.13),transparent),
   radial-gradient(ellipse 40% 40% at 85% 10%,rgba(62,207,142,.06),transparent)}
 .hero h1{font-size:clamp(32px,5vw,52px);font-weight:900;letter-spacing:-1.5px;line-height:1.1}
@@ -395,7 +395,7 @@ img, svg, video { max-width:100%; }
 .tw-stage{height:260px}
 @media(max-width:640px){.tw-stage{height:236px}}
 
-.hero-bk{margin-bottom:18px}
+.hero-bk{margin-bottom:28px}
 </style>
 </head>
 <body>
@@ -801,7 +801,8 @@ const PHOTOS={
  "Phil Hellmuth Jr":["Phil Hellmuth 2021.jpg","World Poker Tour · CC BY 3.0"],
  "Erik Seidel":["Erik Seidel 2018.jpg","World Poker Tour · CC BY 3.0"],
  "Fedor Holz":["Fedor Holz 2018.jpg","888poker Spain · CC BY 3.0"],
- "Robbi Jade Lew":["https://live.staticflickr.com/65535/52440430381_74ba025a8b_b.jpg","World Poker Tour (Flickr) · CC BY-ND 2.0"]
+ "Robbi Jade Lew":["https://live.staticflickr.com/65535/52440430381_74ba025a8b_b.jpg","World Poker Tour (Flickr) · CC BY-ND 2.0"],
+ "Esther Taylor":["https://live.staticflickr.com/65535/53391914781_f4497c459a_b.jpg","World Poker Tour (Flickr) · CC BY-ND 2.0"]
 };
 const photoImg=n=>{const p=PHOTOS[n];if(!p)return"";const src=p[0].startsWith("http")?p[0]:`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(p[0])}?width=240`;return `<img class="avimg" loading="lazy" alt="${n}" title="Photo: ${p[1]}" src="${src}" onerror="this.remove()">`;};
 const ATML=[
@@ -1363,7 +1364,7 @@ document.querySelectorAll("[data-count]").forEach(el=>{
 
 /* ---------- TRENDING WHEEL ---------- */
 (function(){
-  const TRENDING=[["Daniel Negreanu",214],["Phil Ivey",167],["Kristen Foxen",142],["Shiina Okamoto",128],["Fedor Holz",97],["Adrian Mateos",85],["Masato Yokosawa",76],["Bryn Kenney",-12]];
+  const TRENDING=[["Daniel Negreanu",214],["Phil Ivey",167],["Kristen Foxen",142],["Esther Taylor",128],["Fedor Holz",97],["Adrian Mateos",85],["Robbi Jade Lew",76],["Bryn Kenney",-12]];
   const ring=document.getElementById("twRing"),stage=document.getElementById("twStage");
   if(!ring||!stage)return;
   const step=360/TRENDING.length;

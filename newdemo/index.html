@@ -347,6 +347,27 @@ img, svg, video { max-width:100%; }
 .tw-card .tr{font-size:10px;font-weight:700;color:var(--green)}
 .tw-card .tr.dn{color:var(--red)}
 @media(max-width:640px){.tw-stage{--twr:160px;height:260px}.tw-ring{width:128px;height:188px}}
+
+/* ---------- PROFILE CHARTS + TRACKER LINK ---------- */
+.pfcharts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.chartcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px}
+.chartcard.wide{grid-column:1/-1}
+.ctitle{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.chartcard svg{width:100%;height:90px;display:block}
+.cax{display:flex;justify-content:space-between;font-size:9px;color:var(--dim);margin-top:4px}
+.ywrap{display:flex;align-items:flex-end;gap:26px;height:106px;padding:0 12px}
+.ybar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;text-align:center}
+.yfill{background:linear-gradient(180deg,var(--gold2),#b07f22);border-radius:4px 4px 0 0}
+.ylab{font-size:10px;color:var(--muted);margin-top:5px}
+.ylab b{color:var(--text)}
+.crow{display:flex;align-items:center;gap:10px;font-size:11px;margin-top:7px}
+.crow span{width:56px;color:var(--muted)}
+.crow b{width:18px;text-align:right}
+.ctrack{flex:1;background:var(--bg2);border-radius:4px;height:12px;overflow:hidden}
+.ctrack div{height:100%;border-radius:4px}
+.trackerlink{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-weight:700;font-size:13.5px;cursor:pointer;margin:4px 0 30px}
+.trackerlink:hover{color:var(--gold2)}
+@media(max-width:640px){.pfcharts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -537,10 +558,19 @@ img, svg, video { max-width:100%; }
     <div class="statcards" id="pfStats"></div>
     <div id="pfResults"></div>
 
+    <div id="pfCharts"></div>
+    <div id="claimArea"></div>
+    <a class="trackerlink" onclick="go('tracker')">📊 Buy-in Tracker &mdash; track your true net profit &rarr;</a>
+  </div>
+</div>
+
+<!-- ============ BUY-IN TRACKER ============ -->
+<div class="view" id="v-tracker">
+  <div class="wrap">
+    <button class="back" onclick="go('profile')">← Back to profile</button>
     <div class="tracker">
       <h2 class="sec">Buy-in Tracker</h2>
-      <p class="sub">See your <b style="color:var(--gold)">true net profit</b> — not just gross cashes</p>
-      <div id="claimArea"></div>
+      <p class="sub">See your <b style="color:var(--gold)">true net profit</b> &mdash; not just gross cashes</p>
       <div class="biform" id="biForm">
         <input id="biEvent" placeholder="Event name" style="min-width:220px">
         <input id="biDate" type="date">
@@ -550,7 +580,7 @@ img, svg, video { max-width:100%; }
       </div>
       <div class="statcards" id="biSummary"></div>
       <div id="biTableWrap"></div>
-      <p class="note">Self-reported entries, stored privately in your browser. Net profit = total cashed − total buy-ins.</p>
+      <p class="note">Self-reported entries, stored privately in your browser. Net profit = total cashed &minus; total buy-ins.</p>
     </div>
   </div>
 </div>
@@ -886,6 +916,7 @@ function openProfile(name){
     ${resultsTable(rows,false)}`;
   $("#pfResults").innerHTML=resHtml;
   renderBuyins();
+  renderProfileCharts(name);
   go("profile");
 }
 
@@ -1319,6 +1350,45 @@ document.querySelectorAll("[data-count]").forEach(el=>{
   });
   requestAnimationFrame(tick);
 })();
+
+/* ---------- PROFILE CHARTS (from player results) ---------- */
+function renderProfileCharts(name){
+  const box=document.getElementById("pfCharts");
+  if(!box)return;
+  const f=FEATURED[name];
+  if(!f||!f.results||!f.results.length){box.innerHTML="";return;}
+  const rs=f.results.slice().reverse();
+  const money=x=>parseInt(String(x).replace(/[^0-9]/g,""),10)||0;
+  const prizes=rs.map(r=>money(r[3]));
+  const max=Math.max.apply(null,prizes.concat([1]));
+  const n=prizes.length,slot=232/n,bw=Math.max(5,Math.min(14,slot-4));
+  let bars="";
+  prizes.forEach(function(p,i){
+    const h=Math.max(3,Math.round(p/max*72));
+    const x=(4+i*slot).toFixed(1);
+    bars+='<rect x="'+x+'" y="'+(80-h)+'" width="'+bw.toFixed(1)+'" height="'+h+'" rx="1" fill="'+(p===max?"#f5cd75":"#e6b34d")+'"><title>'+rs[i][1].replace(/"/g,"&quot;")+" — "+rs[i][3]+'</title></rect>';
+  });
+  const yearMap={};
+  rs.forEach(function(r){const y=r[0].split(" ").pop();yearMap[y]=(yearMap[y]||0)+money(r[3]);});
+  const years=Object.keys(yearMap).sort();
+  const ymax=Math.max.apply(null,Object.keys(yearMap).map(function(y){return yearMap[y];}).concat([1]));
+  const fmtK=function(v){return v>=1000?"$"+(v/1000).toFixed(1).replace(/\.0$/,"")+"K":"$"+v;};
+  const yearsHtml=years.map(function(y){
+    return '<div class="ybar"><div class="yfill" style="height:'+Math.max(8,Math.round(yearMap[y]/ymax*62))+'px"></div><div class="ylab">'+y+'<br><b>'+fmtK(yearMap[y])+'</b></div></div>';
+  }).join("");
+  const pos=rs.map(function(r){return parseInt(String(r[2]).replace(/[^0-9]/g,""),10)||9999;});
+  const B=[["Top 10",function(p){return p<=10;},"#3ecf8e"],["11–50",function(p){return p>10&&p<=50;},"#f5cd75"],["51–100",function(p){return p>50&&p<=100;},"#e6b34d"],["100+",function(p){return p>100;},"#8b95a8"]];
+  const counts=B.map(function(b){return pos.filter(b[1]).length;});
+  const cmax=Math.max.apply(null,counts.concat([1]));
+  const rows=B.map(function(b,i){
+    return '<div class="crow"><span>'+b[0]+'</span><div class="ctrack"><div style="width:'+Math.round(counts[i]/cmax*100)+'%;background:'+b[2]+'"></div></div><b>'+counts[i]+'</b></div>';
+  }).join("");
+  box.innerHTML='<div class="pfcharts">'
+    +'<div class="chartcard"><div class="ctitle">Cash Timeline</div><svg viewBox="0 0 240 90" preserveAspectRatio="none"><line x1="0" y1="80" x2="240" y2="80" stroke="#252d3d"/>'+bars+'</svg><div class="cax"><span>'+rs[0][0]+'</span><span>'+rs[rs.length-1][0]+'</span></div></div>'
+    +'<div class="chartcard"><div class="ctitle">Earnings by Year</div><div class="ywrap">'+yearsHtml+'</div></div>'
+    +'<div class="chartcard wide"><div class="ctitle">Finish Positions</div>'+rows+'</div>'
+    +'</div>';
+}
 </script>
 </body>
 </html>

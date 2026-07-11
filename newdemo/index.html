@@ -395,14 +395,10 @@ img, svg, video { max-width:100%; }
         <div class="stat"><b data-count="737970">0</b><span>Events</span></div>
         <div class="stat"><b data-count="6527277">0</b><span>Results</span></div>
       </div>
-      <div class="trend">
-        <div class="lbl">🔥 Trending this week</div>
-        <button class="pill" onclick="openProfile('Daniel Negreanu')"><span class="flag">🇨🇦</span>Daniel Negreanu</button>
-        <button class="pill" onclick="openProfile('Martin Kabrhel')"><span class="flag">🇨🇿</span>Martin Kabrhel</button>
-        <button class="pill" onclick="openProfile('Masato Yokosawa')"><span class="flag">🇯🇵</span>Masato Yokosawa</button>
-        <button class="pill" onclick="openProfile('Adrian Mateos')"><span class="flag">🇪🇸</span>Adrian Mateos</button>
-        <button class="pill" onclick="openProfile('Bryn Kenney')"><span class="flag">🇺🇸</span>Bryn Kenney</button>
+      <div class="trend" style="justify-content:center">
+        <div class="lbl">🔥 Trending this week &middot; drag to spin</div>
       </div>
+      <div class="tw-stage" id="twStage"><div class="tw-ring" id="twRing"></div></div>
     </div>
   </div>
 
@@ -445,13 +441,6 @@ img, svg, video { max-width:100%; }
       <div class="podium" id="podium"></div>
       <div class="tblscroll"><table class="rank"><thead><tr><th>#</th><th></th><th>Player</th><th style="text-align:right">Earnings</th></tr></thead>
       <tbody id="homeRank"></tbody></table></div>
-    </section>
-
-    <section>
-      <div class="sechead">
-        <div><h2 class="sec">🔥 Trending This Week</h2><p class="sub" style="margin:0">Most-viewed players · drag to spin</p></div>
-      </div>
-      <div class="tw-stage" id="twStage"><div class="tw-ring" id="twRing"></div></div>
     </section>
 
     <section>

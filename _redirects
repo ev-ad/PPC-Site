@@ -1,0 +1,3 @@
+# Invite links: /i/<friendCode> all serve the smart landing page,
+# which reads the code from the URL and routes by device.
+/i/*  /i/index.html  200

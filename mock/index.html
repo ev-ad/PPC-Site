@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPC — Live Poker Database | ppc.casino</title>
+<style>
+:root{
+  --bg:#0b0e13; --bg2:#11151d; --card:#161b26; --card2:#1c2230;
+  --border:#252d3d; --text:#e8ecf3; --muted:#8b95a8; --dim:#5c6577;
+  --gold:#e6b34d; --gold2:#f5cd75; --green:#3ecf8e; --red:#f06a6a;
+  --radius:14px; --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- DEMO BANNER ---------- */
+.demobar{background:linear-gradient(90deg,#4a3410,#6b4c16,#4a3410);color:#f5e3bb;text-align:center;font-size:12.5px;padding:8px 16px;letter-spacing:.2px;border-bottom:1px solid rgba(230,179,77,.35)}
+.demobar b{color:var(--gold2);letter-spacing:1.5px}
+
+/* ---------- NAV ---------- */
+header{position:sticky;top:0;z-index:100;background:rgba(11,14,19,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:14px 24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.3px;cursor:pointer;white-space:nowrap}
+.logo .chip{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold),#b07f22);display:grid;place-items:center;color:#14100a;font-size:15px;font-weight:900}
+.logo small{color:var(--gold);font-weight:600;font-size:10px;letter-spacing:2px;display:block;text-transform:uppercase}
+nav.links{display:flex;gap:4px;flex:1}
+nav.links button{background:none;border:none;color:var(--muted);font-size:14px;font-weight:600;padding:8px 14px;border-radius:8px;transition:.15s}
+nav.links button:hover{color:var(--text);background:var(--card)}
+nav.links button.active{color:var(--gold);background:rgba(230,179,77,.1)}
+.navsearch{position:relative}
+.navsearch input{background:var(--card);border:1px solid var(--border);border-radius:99px;color:var(--text);padding:9px 16px 9px 38px;font-size:13.5px;width:230px;outline:none;transition:.2s}
+.navsearch input:focus{border-color:var(--gold);width:280px}
+.navsearch svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.5}
+.navsearch .results{position:absolute;top:110%;right:0;width:300px;background:var(--card2);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.5);display:none}
+.navsearch .results.open{display:block}
+.navsearch .results a{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:13.5px;border-bottom:1px solid var(--border);cursor:pointer}
+.navsearch .results a:last-child{border-bottom:none}
+.navsearch .results a:hover{background:var(--card)}
+.navsearch .results .flag{margin-right:8px}
+.navsearch .results .money{color:var(--green);font-size:12px;font-weight:600}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.view{display:none;animation:fade .25s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+section{margin:44px 0}
+h2.sec{font-size:22px;font-weight:800;letter-spacing:-.4px;margin-bottom:4px;text-align:center}
+p.sub{color:var(--muted);font-size:14px;margin-bottom:20px;text-align:center}
+.sechead{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;margin-bottom:20px}
+.sechead .more{color:var(--gold);font-size:13.5px;font-weight:600;cursor:pointer}
+.sechead .more:hover{color:var(--gold2)}
+
+/* ---------- HERO ---------- */
+.hero{padding:72px 0 56px;text-align:center;background:
+  radial-gradient(ellipse 60% 50% at 50% -10%,rgba(230,179,77,.13),transparent),
+  radial-gradient(ellipse 40% 40% at 85% 10%,rgba(62,207,142,.06),transparent)}
+.hero h1{font-size:clamp(32px,5vw,52px);font-weight:900;letter-spacing:-1.5px;line-height:1.1}
+.hero h1 span{background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:17px;margin:14px auto 30px;max-width:560px}
+.herosearch{max-width:600px;margin:0 auto;position:relative}
+.herosearch input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:99px;padding:17px 26px 17px 54px;color:var(--text);font-size:16px;outline:none;box-shadow:0 10px 40px rgba(0,0,0,.35);transition:.2s}
+.herosearch input:focus{border-color:var(--gold)}
+.herosearch svg{position:absolute;left:22px;top:50%;transform:translateY(-50%);opacity:.5}
+.stats{display:flex;justify-content:center;gap:56px;margin-top:44px;flex-wrap:wrap}
+.stat b{display:block;font-size:30px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:12.5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+.trend{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.trend .lbl{color:var(--dim);font-size:12.5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;width:100%;margin-bottom:2px}
+.pill{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:7px 16px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.15s}
+.pill:hover{border-color:var(--gold);color:var(--text)}
+
+/* ---------- PODIUM / RANK TABLES ---------- */
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.pod{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden;cursor:pointer;transition:.2s;text-align:center}
+.pod:hover{transform:translateY(-3px);border-color:rgba(230,179,77,.5)}
+.pod .medal{position:absolute;top:-14px;right:-6px;font-size:64px;opacity:.14}
+.pod .pav{width:60px;height:60px;border-radius:18px;margin:0 auto 12px;overflow:hidden;border:1px solid var(--border);background:var(--card2)}
+.avimg{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+.pod .rank{font-size:12px;font-weight:800;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}
+.pod h3{font-size:19px;font-weight:800;margin:6px 0 2px;letter-spacing:-.3px}
+.pod .country{color:var(--muted);font-size:13px}
+.pod .money{font-size:22px;font-weight:800;color:var(--green);margin-top:12px;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+table.rank{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:14.5px}
+table.rank th{text-align:left;padding:12px 18px;color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:1.2px;background:var(--bg2);border-bottom:1px solid var(--border)}
+table.rank td{padding:13px 18px;border-bottom:1px solid var(--border);text-align:left}
+table.rank tr:last-child td{border-bottom:none}
+table.rank tbody tr{cursor:pointer;transition:.12s}
+table.rank tbody tr:hover{background:var(--card2)}
+td.pos{color:var(--dim);font-weight:700;width:52px;font-variant-numeric:tabular-nums}
+table.rank td.money{color:var(--green);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.mv{font-size:12px;font-weight:800;margin-left:8px}
+.mv.up{color:var(--green)} .mv.dn{color:var(--red)} .mv.eq{color:var(--dim)}
+.playerName{font-weight:700}
+.flag{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--muted);vertical-align:1.5px;margin-right:9px}
+.delta{color:var(--dim);font-size:12.5px;text-align:right}
+
+/* ---------- CARDS GRID ---------- */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+
+/* ---------- EVENTS ---------- */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;justify-content:center}
+.filters .pill.on{background:rgba(230,179,77,.12);border-color:var(--gold);color:var(--gold)}
+.evgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.ev{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;transition:.2s;cursor:pointer}
+.ev:hover{border-color:rgba(230,179,77,.5);transform:translateY(-2px)}
+.ev .date{min-width:64px;text-align:center;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;height:fit-content}
+.ev .date b{display:block;font-size:17px;color:var(--gold);letter-spacing:-.5px}
+.ev .date span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.ev h4{font-size:15.5px;font-weight:700;letter-spacing:-.2px;line-height:1.35}
+.ev .meta{color:var(--muted);font-size:13px;margin-top:6px}
+.ev .tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(230,179,77,.1);border-radius:6px;padding:3px 9px}
+.ev.live .tag{color:var(--green);background:rgba(62,207,142,.1)}
+.livedot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ---------- FEATURED RESULT ---------- */
+.featured{background:linear-gradient(135deg,rgba(230,179,77,.09),transparent 55%),var(--card);border:1px solid rgba(230,179,77,.35);border-radius:var(--radius);padding:28px;text-align:center}
+.featured .kicker{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.featured h3{font-size:22px;font-weight:800;letter-spacing:-.4px;margin:8px 0 4px}
+.featured .meta{color:var(--muted);font-size:14px;margin-bottom:18px}
+
+/* ---------- NEWS ---------- */
+.newsgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.news{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:.2s;cursor:pointer;display:flex;flex-direction:column;gap:10px;text-align:center;align-items:center}
+.news:hover{border-color:rgba(230,179,77,.45);transform:translateY(-2px)}
+.news .cat{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+.news h4{font-size:15.5px;font-weight:700;line-height:1.4;letter-spacing:-.2px;flex:1}
+.news .date{color:var(--dim);font-size:12.5px}
+
+/* ---------- PLAYERS ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;cursor:pointer;transition:.2s;text-align:center}
+.pcard .avatar{margin-left:auto;margin-right:auto}
+.pcard:hover{border-color:rgba(230,179,77,.5);transform:translateY(-3px)}
+.pcard .avatar{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--card2),var(--bg2));border:1px solid var(--border);display:grid;place-items:center;font-size:19px;font-weight:800;color:var(--gold);margin-bottom:14px}
+.pcard h4{font-size:16.5px;font-weight:800;letter-spacing:-.3px}
+.pcard .country{color:var(--muted);font-size:13px;margin:2px 0 12px}
+.pcard .row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-top:1px solid var(--border)}
+.pcard .row span{color:var(--dim)} .pcard .row b{font-variant-numeric:tabular-nums}
+.pcard .row b.g{color:var(--green)}
+.searchbar{position:relative;max-width:420px;margin:0 auto 22px}
+.searchbar input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px 12px 42px;color:var(--text);font-size:14.5px;outline:none}
+.searchbar input:focus{border-color:var(--gold)}
+.searchbar svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.5}
+
+/* ---------- PROFILE ---------- */
+.profhero{display:flex;flex-direction:column;gap:18px;align-items:center;text-align:center;padding:36px 0 28px;border-bottom:1px solid var(--border);margin-bottom:28px}
+.profhero .avatar{width:96px;height:96px;border-radius:24px;background:linear-gradient(135deg,var(--gold),#b07f22);display:grid;place-items:center;font-size:34px;font-weight:900;color:#14100a}
+.profhero h1{font-size:34px;font-weight:900;letter-spacing:-1px}
+.profhero .meta{color:var(--muted);font-size:15px;margin-top:4px}
+.back{background:none;border:none;color:var(--gold);font-size:13.5px;font-weight:700;padding:20px 0 0;display:flex;align-items:center;gap:6px}
+.statcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:32px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.scard span{color:var(--dim);font-size:11.5px;text-transform:uppercase;letter-spacing:1.3px;font-weight:700}
+.scard b{display:block;font-size:24px;font-weight:800;margin-top:6px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.scard b.g{color:var(--green)} .scard b.gold{color:var(--gold)}
+.note{color:var(--dim);font-size:12.5px;margin-top:24px;text-align:center}
+
+/* ---------- BUY-IN TRACKER ---------- */
+.tracker{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-top:36px}
+.biform{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+.biform input{background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:11px 14px;font-size:14px;outline:none}
+.biform input:focus{border-color:var(--gold)}
+.biform input[type=number]{width:130px}
+.biform input[type=date]{color-scheme:dark}
+.btn{background:linear-gradient(135deg,var(--gold),#c8963a);border:none;border-radius:10px;color:#14100a;font-weight:800;font-size:14px;padding:11px 22px;transition:.15s}
+.btn:hover{filter:brightness(1.1)}
+.profit-pos{color:var(--green)!important} .profit-neg{color:var(--red)!important}
+.bidel{background:none;border:none;color:var(--dim);font-size:15px;padding:4px 8px;border-radius:6px}
+.bidel:hover{color:var(--red);background:rgba(240,106,106,.1)}
+.empty{color:var(--dim);font-size:13.5px;text-align:center;padding:18px 0}
+.csvbox{width:100%;min-height:170px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:14px;font-family:ui-monospace,Consolas,monospace;font-size:13px;outline:none;resize:vertical}
+.csvbox:focus{border-color:var(--gold)}
+.btn.ghost{background:var(--card2);color:var(--text);border:1px solid var(--border)}
+.btn.danger{background:rgba(240,106,106,.12);color:var(--red);border:1px solid rgba(240,106,106,.35)}
+.status{text-align:center;font-size:13.5px;font-weight:600;margin:14px 0;color:var(--green)}
+.status.err{color:var(--red)}
+.fmtnote{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px}
+.fmtnote code{color:var(--gold);font-family:ui-monospace,Consolas,monospace}
+
+/* ---------- FEATURED PROFILE ---------- */
+.featpro{background:linear-gradient(135deg,rgba(230,179,77,.08),transparent 50%),var(--card);border:1px solid rgba(230,179,77,.5);border-radius:var(--radius);padding:30px;display:flex;align-items:center;gap:28px;cursor:pointer;transition:.2s;text-align:left;animation:featpulse 2.6s ease-in-out infinite}
+@keyframes featpulse{0%,100%{box-shadow:0 0 0 0 rgba(230,179,77,.4)}50%{box-shadow:0 0 0 16px rgba(230,179,77,0)}}
+.featpro:hover{transform:translateY(-3px);box-shadow:0 16px 46px rgba(0,0,0,.35);border-color:var(--gold)}
+.favatar{width:88px;height:88px;min-width:88px;border-radius:24px;background:linear-gradient(135deg,var(--gold),#b07f22);display:grid;place-items:center;font-size:26px;font-weight:900;color:#14100a}
+.fpinfo{flex:1}
+.fpinfo h3{font-size:22px;font-weight:900;letter-spacing:-.4px}
+.fpinfo>p{color:var(--muted);font-size:13.5px;margin:4px 0 14px}
+.fpstats{display:flex;gap:34px;flex-wrap:wrap}
+.fpstats span{display:block;color:var(--dim);font-size:10.5px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700}
+.fpstats b{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.fpstats b.g{color:var(--green)}
+@media(max-width:900px){.featpro{flex-direction:column;text-align:center}.fpstats{justify-content:center}}
+
+/* ---------- SPONSOR AD UNITS (demo) ---------- */
+.ad{position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin:26px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 28px;text-align:left;transition:.2s}
+.ad:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.35)}
+.ad .adlabel{position:absolute;top:10px;right:14px;font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:800;background:rgba(0,0,0,.25);padding:3px 8px;border-radius:5px}
+.ad .brand{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;opacity:.85}
+.ad h4{font-size:20px;font-weight:900;letter-spacing:-.4px;margin-top:4px}
+.ad p{font-size:13.5px;opacity:.85;margin-top:4px}
+.ad small{display:block;font-size:10.5px;opacity:.6;margin-top:8px}
+.ad .cta{background:#fff;color:#151515;font-weight:800;border:none;border-radius:99px;padding:12px 24px;font-size:13.5px;white-space:nowrap;cursor:pointer;transition:.15s}
+.ad .cta:hover{transform:scale(1.04)}
+.ad .art{font-size:44px;line-height:1;filter:drop-shadow(0 6px 14px rgba(0,0,0,.4))}
+.ad.gold{background:linear-gradient(120deg,#38290d,#96731f 55%,#38290d)}
+.ad.purple{background:linear-gradient(120deg,#221238,#5c2d96 55%,#221238)}
+.ad.teal{background:linear-gradient(120deg,#0b2b28,#177066 55%,#0b2b28)}
+.ad.crimson{background:linear-gradient(120deg,#33101a,#93304a 55%,#33101a)}
+body.adfree .ad{display:none}
+
+/* ---------- PRICING ---------- */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:26px}
+.plan{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:34px 28px;display:flex;flex-direction:column;position:relative;transition:.2s}
+.plan:hover{transform:translateY(-4px)}
+.plan.hot{border-color:var(--gold);box-shadow:0 0 50px rgba(230,179,77,.14);background:linear-gradient(180deg,rgba(230,179,77,.06),transparent 40%),var(--card)}
+.plan .tag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--gold),#c8963a);color:#14100a;font-size:11px;font-weight:800;padding:5px 16px;border-radius:99px;letter-spacing:1px;white-space:nowrap}
+.plan h3{font-size:19px;font-weight:800}
+.plan .price{font-size:40px;font-weight:900;letter-spacing:-1.5px;margin:12px 0 0}
+.plan .price span{font-size:14px;color:var(--muted);font-weight:600;letter-spacing:0}
+.plan ul{list-style:none;margin:20px 0 24px;text-align:left;flex:1}
+.plan li{padding:8px 0;font-size:14px;color:var(--muted);border-bottom:1px solid var(--border)}
+.plan li:last-child{border-bottom:none}
+.plan li b{color:var(--text)}
+.plan li::before{content:"✓";color:var(--green);font-weight:800;margin-right:10px}
+.plan .btn.cur{background:var(--card2);color:var(--muted);border:1px solid var(--border);cursor:default}
+
+/* ---------- ACCOUNT CLAIM ---------- */
+.claimbox{display:flex;justify-content:space-between;align-items:center;gap:18px;background:var(--bg2);border:1px dashed var(--border);border-radius:12px;padding:16px 22px;margin-bottom:22px;text-align:left}
+.claimbox.owned{border:1px solid rgba(62,207,142,.45);background:linear-gradient(135deg,rgba(62,207,142,.06),transparent 60%),var(--bg2)}
+.claimbox b{font-size:14.5px}
+.claimbox .ok{color:var(--green)}
+.claimbox p{color:var(--muted);font-size:12.5px;margin-top:3px}
+.claimbox .btn{white-space:nowrap}
+.claimbox .btn:disabled{opacity:.55;cursor:default}
+.minput{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:13px 14px;font-size:14.5px;outline:none;margin-bottom:8px;text-align:center}
+.minput:focus{border-color:var(--gold)}
+
+/* ---------- PAYWALL MODAL ---------- */
+.overlay{position:fixed;inset:0;background:rgba(5,7,10,.75);backdrop-filter:blur(7px);display:none;place-items:center;z-index:300}
+.overlay.open{display:grid}
+.modal{background:var(--card2);border:1px solid var(--border);border-radius:22px;max-width:440px;width:92%;padding:38px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.65)}
+.modal .lock{font-size:42px}
+.modal h3{font-size:23px;font-weight:900;margin:14px 0 8px;letter-spacing:-.4px}
+.modal p{color:var(--muted);font-size:14.5px;margin-bottom:8px}
+.modal .btn{width:100%;margin-top:12px}
+
+/* ---------- PLAN BADGE ---------- */
+.planchip{background:var(--card);border:1px solid var(--border);border-radius:99px;padding:8px 15px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:.15s}
+.planchip b{color:var(--gold)}
+.planchip:hover{border-color:var(--gold)}
+
+/* ---------- MODERN POLISH ---------- */
+::selection{background:rgba(230,179,77,.35)}
+body::-webkit-scrollbar{width:11px}
+body::-webkit-scrollbar-track{background:var(--bg)}
+body::-webkit-scrollbar-thumb{background:var(--card2);border-radius:99px;border:2px solid var(--bg)}
+.hero{position:relative;overflow:hidden}
+.hero .orb{position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(100px);opacity:.16;pointer-events:none;animation:float 16s ease-in-out infinite}
+.orb.a{background:var(--gold);top:-280px;left:6%}
+.orb.b{background:#7b4dff;top:-220px;right:4%;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(70px) scale(1.08)}}
+
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;background:var(--bg2)}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.fgrid{text-align:center}
+.fgrid .logo{justify-content:center}
+.fgrid p{margin-left:auto;margin-right:auto}
+.fgrid h5{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-bottom:14px}
+.fgrid a{display:block;color:var(--muted);font-size:13.5px;padding:4px 0}
+.fgrid a:hover{color:var(--text)}
+.fgrid p{color:var(--muted);font-size:13.5px;max-width:300px;margin-top:12px}
+.fbottom{max-width:1240px;margin:30px auto 0;padding:24px 24px 0;border-top:1px solid var(--border);color:var(--dim);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:900px){
+  .grid2,.podium,.fgrid{grid-template-columns:1fr}
+  nav.links{display:none}
+  .navsearch input{width:150px}
+  .profhero{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="demobar">⚠️ <b>DEMO</b> — this is a design mockup, not a real service. Ads are fictional, subscriptions &amp; account claims are simulated, and no data is collected.</div>
+
+<header>
+  <div class="nav">
+    <div class="logo" onclick="go('home')">
+      <div class="chip">♠</div>
+      <div>PPC<small>Live Poker Database</small></div>
+    </div>
+    <nav class="links">
+      <button data-v="home" class="active" onclick="go('home')">Home</button>
+      <button data-v="rankings" onclick="go('rankings')">Rankings</button>
+      <button data-v="players" onclick="go('players')">Players</button>
+      <button data-v="events" onclick="go('events')">Events</button>
+      <button data-v="news" onclick="go('news')">News</button>
+      <button data-v="pricing" onclick="go('pricing')">Pricing</button>
+      <button data-v="admin" onclick="go('admin')">⚙ Admin</button>
+    </nav>
+    <button class="planchip" id="planBadge" onclick="go('pricing')"></button>
+    <div class="navsearch">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="navq" placeholder="Search players…" autocomplete="off">
+      <div class="results" id="navres"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HOME ============ -->
+<div class="view active" id="v-home">
+  <div class="hero">
+    <div class="orb a"></div><div class="orb b"></div>
+    <div class="wrap">
+      <h1>The world's largest<br><span>live poker database</span></h1>
+      <p>Every result. Every event. Every player. Tracking live tournament poker since 2004.</p>
+      <div class="herosearch">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="heroq" placeholder="Search 972,000+ players, events and venues…" autocomplete="off">
+      </div>
+      <div class="stats">
+        <div class="stat"><b data-count="972910">0</b><span>Players</span></div>
+        <div class="stat"><b data-count="737970">0</b><span>Events</span></div>
+        <div class="stat"><b data-count="6527277">0</b><span>Results</span></div>
+      </div>
+      <div class="trend">
+        <div class="lbl">🔥 Trending this week</div>
+        <button class="pill" onclick="openProfile('Daniel Negreanu')"><span class="flag">CAN</span>Daniel Negreanu</button>
+        <button class="pill" onclick="openProfile('Martin Kabrhel')"><span class="flag">CZE</span>Martin Kabrhel</button>
+        <button class="pill" onclick="openProfile('Masato Yokosawa')"><span class="flag">JPN</span>Masato Yokosawa</button>
+        <button class="pill" onclick="openProfile('Adrian Mateos')"><span class="flag">ESP</span>Adrian Mateos</button>
+        <button class="pill" onclick="openProfile('Bryn Kenney')"><span class="flag">USA</span>Bryn Kenney</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="ad purple">
+      <div>
+        <div class="brand">♠ SpadeRoom Poker</div>
+        <h4>2026 Online Summer Series — $5,000,000 GTD</h4>
+        <p>140 events. Satellites from $1. Main Event seat giveaways all July.</p>
+        <small>Demo sponsor unit · 18+ · Play responsibly · T&amp;Cs apply</small>
+      </div>
+      <button class="cta">Join Free</button>
+      <span class="adlabel">Sponsored</span>
+    </div>
+
+    <section>
+      <div class="sechead">
+        <div><h2 class="sec">Featured Profile</h2><p class="sub" style="margin:0">Spotlight from the PPC database</p></div>
+      </div>
+      <div class="featpro" onclick="openProfile('Robbi Jade Lew')">
+        <div class="favatar"><img class="avimg" alt="Robbi Jade Lew" title="Photo: World Poker Tour (Flickr) · CC BY-ND 2.0" src="https://live.staticflickr.com/65535/52440430381_74ba025a8b_b.jpg" onerror="this.remove();this.parentElement&&(this.parentElement.textContent='RJL')"></div>
+        <div class="fpinfo">
+          <h3>Robbi Jade Lew <span class="flag">USA</span></h3>
+          <p>United States · Tournament &amp; high-stakes cash game player</p>
+          <div class="fpstats">
+            <div><span>Total Live Earnings</span><b class="g">$245,706</b></div>
+            <div><span>Best Live Cash</span><b>$22,400</b></div>
+            <div><span>Latest Cash</span><b>WSOP 2026 · 3 Jul</b></div>
+          </div>
+        </div>
+        <button class="btn">View Profile →</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <div><h2 class="sec">All Time Money List</h2><p class="sub" style="margin:0">Career live tournament earnings, worldwide</p></div>
+        <span class="more" onclick="go('rankings')">Full ranking →</span>
+      </div>
+      <div class="podium" id="podium"></div>
+      <table class="rank"><thead><tr><th>#</th><th>Player</th><th style="text-align:right">Earnings</th></tr></thead>
+      <tbody id="homeRank"></tbody></table>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <div><h2 class="sec">Featured Result</h2><p class="sub" style="margin:0">From the poker database</p></div>
+      </div>
+      <div class="featured">
+        <div class="kicker">WSOP 2026 · Bracelet Event #60</div>
+        <h3>$50,000 Poker Players Championship (7-Handed)</h3>
+        <div class="meta">Horseshoe Las Vegas · Sunday 21 June 2026</div>
+        <table class="rank"><thead><tr><th>#</th><th>Player</th><th style="text-align:right">Prize</th></tr></thead>
+        <tbody>
+          <tr onclick="openProfile('Benny Glaser')"><td class="pos">1</td><td class="playerName"><span class="flag">ENG</span>Benny Glaser</td><td class="money">$1,343,764</td></tr>
+          <tr onclick="openProfile('Josh Arieh')"><td class="pos">2</td><td class="playerName"><span class="flag">USA</span>Josh Arieh</td><td class="money">$895,837</td></tr>
+          <tr onclick="openProfile('Phil Ivey')"><td class="pos">3</td><td class="playerName"><span class="flag">USA</span>Phil Ivey</td><td class="money">$600,698</td></tr>
+          <tr onclick="openProfile('Maxx Coleman')"><td class="pos">4</td><td class="playerName"><span class="flag">USA</span>Maxx Coleman</td><td class="money">$417,607</td></tr>
+          <tr onclick="openProfile('Paul Volpe')"><td class="pos">5</td><td class="playerName"><span class="flag">USA</span>Paul Volpe</td><td class="money">$301,405</td></tr>
+        </tbody></table>
+      </div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <div><h2 class="sec">Upcoming Festivals</h2><p class="sub" style="margin:0">Live and scheduled around the world</p></div>
+        <span class="more" onclick="go('events')">Full calendar →</span>
+      </div>
+      <div class="evgrid" id="homeEvents"></div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <div><h2 class="sec">Latest News</h2></div>
+        <span class="more" onclick="go('news')">All news →</span>
+      </div>
+      <div class="newsgrid" id="homeNews"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ RANKINGS ============ -->
+<div class="view" id="v-rankings">
+  <div class="wrap">
+    <section>
+      <h2 class="sec" style="font-size:28px">Rankings &amp; Leaderboards</h2>
+      <p class="sub">Updated daily from the live poker database</p>
+      <div class="filters" id="rankTabs">
+        <button class="pill on" data-t="atml">All Time Money List · Top 100</button>
+        <button class="pill" data-t="y26">2026 Money List · Top 100</button>
+        <button class="pill" data-t="usa">USA All Time Money</button>
+        <button class="pill" data-t="pop">Most Popular (7 days) · Top 50</button>
+      </div>
+      <div class="ad gold">
+        <div class="art">🎰</div>
+        <div>
+          <div class="brand">RoyalAce Casino</div>
+          <h4>200% Welcome Bonus up to $1,000 + 100 Free Spins</h4>
+          <small>Demo sponsor unit · 18+ · Play responsibly · New players only · T&amp;Cs apply</small>
+        </div>
+        <button class="cta">Claim Bonus</button>
+        <span class="adlabel">Sponsored</span>
+      </div>
+      <table class="rank"><thead id="rankHead"></thead><tbody id="rankBody"></tbody></table>
+      <p class="note">Live rankings data, updated 8 July 2026.</p>
+    </section>
+  </div>
+</div>
+
+<!-- ============ PLAYERS ============ -->
+<div class="view" id="v-players">
+  <div class="wrap">
+    <section>
+      <h2 class="sec" style="font-size:28px">Poker Players</h2>
+      <p class="sub">Browse profiles from the database</p>
+      <div class="searchbar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="pq" placeholder="Filter by name or country…">
+      </div>
+      <div class="pgrid" id="pgrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ PROFILE ============ -->
+<div class="view" id="v-profile">
+  <div class="wrap">
+    <button class="back" onclick="go(lastView)">← Back</button>
+    <div class="profhero">
+      <div class="avatar" id="pfAvatar"></div>
+      <div>
+        <h1 id="pfName"></h1>
+        <div class="meta" id="pfMeta"></div>
+      </div>
+    </div>
+    <div class="statcards" id="pfStats"></div>
+    <div id="pfResults"></div>
+
+    <div class="tracker">
+      <h2 class="sec">Buy-in Tracker</h2>
+      <p class="sub">See your <b style="color:var(--gold)">true net profit</b> — not just gross cashes</p>
+      <div id="claimArea"></div>
+      <div class="biform" id="biForm">
+        <input id="biEvent" placeholder="Event name" style="min-width:220px">
+        <input id="biDate" type="date">
+        <input id="biBuyin" type="number" min="0" step="1" placeholder="Buy-in $ (incl. re-entries)">
+        <input id="biCash" type="number" min="0" step="1" placeholder="Cashed $ (0 if none)">
+        <button class="btn" onclick="addBuyin()">+ Add entry</button>
+      </div>
+      <div class="statcards" id="biSummary"></div>
+      <div id="biTableWrap"></div>
+      <p class="note">Self-reported entries, stored privately in your browser. Net profit = total cashed − total buy-ins.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EVENTS ============ -->
+<div class="view" id="v-events">
+  <div class="wrap">
+    <section>
+      <h2 class="sec" style="font-size:28px">Calendar &amp; Events</h2>
+      <p class="sub">Festivals live now and coming up worldwide</p>
+      <div class="filters" id="evFilters">
+        <button class="pill on" data-r="all">All regions</button>
+        <button class="pill" data-r="Americas">Americas</button>
+        <button class="pill" data-r="Europe">Europe</button>
+        <button class="pill" data-r="Asia-Pacific">Asia-Pacific</button>
+        <button class="pill" data-r="Africa">Africa</button>
+      </div>
+      <div class="ad teal">
+        <div class="art">🃏</div>
+        <div>
+          <div class="brand">GrindHub Poker</div>
+          <h4>Qualify online for every festival on this page</h4>
+          <p>Daily satellites to WSOP, APT and PPC Championship stops from $2.20.</p>
+          <small>Demo sponsor unit · 18+ · Play responsibly</small>
+        </div>
+        <button class="cta">See Satellites</button>
+        <span class="adlabel">Sponsored</span>
+      </div>
+      <div class="evgrid" id="evgrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ PRICING ============ -->
+<div class="view" id="v-pricing">
+  <div class="wrap">
+    <section>
+      <h2 class="sec" style="font-size:28px">Pricing</h2>
+      <p class="sub">Search smarter. Upgrade any time — cancel any time.</p>
+      <div class="plans">
+        <div class="plan">
+          <h3>Free</h3>
+          <div class="price">$0<span> /forever</span></div>
+          <ul>
+            <li><b>5 searches</b> per week</li>
+            <li>Full rankings &amp; leaderboards</li>
+            <li>Player profiles &amp; results</li>
+            <li>Buy-in tracker</li>
+            <li>Sponsored placements shown</li>
+          </ul>
+          <button class="btn" id="btn-free" onclick="choosePlan('free')">Switch to Free</button>
+        </div>
+        <div class="plan">
+          <h3>Pro</h3>
+          <div class="price">$4.99<span> /month</span></div>
+          <ul>
+            <li><b>Up to 10 searches</b> per day</li>
+            <li>Everything in Free</li>
+            <li>Access to detailed tournament info</li>
+            <li>Priority data updates</li>
+          </ul>
+          <button class="btn" id="btn-pro" onclick="choosePlan('pro')">Go Pro</button>
+        </div>
+        <div class="plan hot">
+          <div class="tag">Most Popular</div>
+          <h3>PPC +</h3>
+          <div class="price">$9.99<span> /month</span></div>
+          <ul>
+            <li><b>Unlimited</b> searches</li>
+            <li><b>100% ad-free</b> experience</li>
+            <li>Everything in Pro</li>
+            <li>Early access to new features</li>
+            <li>Access to monthly sponsor freeroll</li>
+            <li>Chance to win a stake in a sponsored pro</li>
+          </ul>
+          <button class="btn" id="btn-plus" onclick="choosePlan('plus')">Get PPC +</button>
+        </div>
+      </div>
+      <p class="note" id="planNote">Demo only — no payment is taken. Your plan is stored in this browser.</p>
+    </section>
+  </div>
+</div>
+
+<!-- ============ ADMIN ============ -->
+<div class="view" id="v-admin">
+  <div class="wrap">
+    <section>
+      <h2 class="sec" style="font-size:28px">⚙ Admin — Bulk Upload</h2>
+      <p class="sub">Import buy-ins &amp; results in bulk. Player profiles will show true net profit (winnings − buy-ins × entries).</p>
+      <div class="tracker">
+        <div class="fmtnote">
+          CSV columns (header optional): <code>Event, Date, Player, Position, Buy-in, Entries, Prize</code><br>
+          One row per player result — same structure as the results tables. <b>Entries</b> = number of bullets fired (buy-in + re-entries).
+        </div>
+        <textarea class="csvbox" id="csvIn" placeholder="$50,000 Poker Players Championship — WSOP 2026, 2026-06-21, Benny Glaser, 1, 50000, 1, 1343764
+$50,000 Poker Players Championship — WSOP 2026, 2026-06-21, Josh Arieh, 2, 50000, 2, 895837"></textarea>
+        <div class="biform" style="margin:18px 0 0">
+          <label class="btn ghost" style="cursor:pointer">📄 Upload CSV file<input type="file" id="csvFile" accept=".csv,.txt" style="display:none"></label>
+          <button class="btn ghost" onclick="loadSample()">Load sample</button>
+          <button class="btn" onclick="adminPreview()">Preview</button>
+          <button class="btn" onclick="adminImport()">Import</button>
+          <button class="btn danger" onclick="adminClear()">Clear imported data</button>
+        </div>
+        <div class="status" id="adminStatus"></div>
+        <div id="adminPreview"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ NEWS ============ -->
+<div class="view" id="v-news">
+  <div class="wrap">
+    <section>
+      <h2 class="sec" style="font-size:28px">Poker News</h2>
+      <p class="sub">Latest from the live tournament circuit</p>
+      <div class="ad crimson">
+        <div class="art">💎</div>
+        <div>
+          <div class="brand">LuckyPixel Casino</div>
+          <h4>50 Free Spins — No Deposit Needed</h4>
+          <small>Demo sponsor unit · 18+ · Play responsibly · Wagering requirements apply</small>
+        </div>
+        <button class="cta">Spin Now</button>
+        <span class="adlabel">Sponsored</span>
+      </div>
+      <div class="newsgrid" id="newsgrid"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ CLAIM ACCOUNT ============ -->
+<div class="overlay" id="claimModal">
+  <div class="modal" id="claimBody"></div>
+</div>
+
+<!-- ============ PAYWALL ============ -->
+<div class="overlay" id="paywall">
+  <div class="modal">
+    <div class="lock">🔒</div>
+    <h3>Search limit reached</h3>
+    <p id="paywallMsg"></p>
+    <button class="btn" onclick="closePaywall();go('pricing')">See plans</button>
+    <button class="btn ghost" onclick="closePaywall()">Maybe later</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap fgrid">
+    <div>
+      <div class="logo"><div class="chip">♠</div><div>PPC<small>Live Poker Database</small></div></div>
+      <p>PPC tracks live tournament poker worldwide — every player, event, result and ranking.</p>
+    </div>
+    <div><h5>Database</h5><a href="#" onclick="go('players');return false">Players</a><a href="#" onclick="go('events');return false">Calendar &amp; Events</a><a href="#" onclick="go('rankings');return false">Rankings</a><a href="#">Venues</a></div>
+    <div><h5>Rankings</h5><a href="#" onclick="go('rankings');return false">All Time Money List</a><a href="#">GPI Ranking</a><a href="#">FlagHunter</a><a href="#">2026 Money List</a></div>
+    <div><h5>More</h5><a href="#" onclick="go('news');return false">News</a><a href="#">Podcast</a><a href="#">Beginners Guide</a><a href="#">Contact</a></div>
+  </div>
+  <div class="fbottom"><span>PPC — demo concept. Sponsored placements shown are fictional demo brands.<br>Player photos via Wikimedia Commons &amp; Flickr — © World Poker Tour, flipchip / lasvegasvegas.com, 888poker Spain, Alex Hernando · CC BY 3.0 / CC BY-SA 3.0 / CC BY-ND 2.0.</span><span>18+ · Play responsibly</span></div>
+</footer>
+
+<script>
+/* ---------- DATA (pulled live from thehendonmob.com pokerdb, 8 July 2026) ---------- */
+const CC={"United States":"USA","England":"ENG","Belarus":"BLR","Spain":"ESP","Canada":"CAN","Germany":"GER","Hong Kong":"HKG","Latvia":"LAT","Malaysia":"MAS","Thailand":"THA","Russia":"RUS","Finland":"FIN","Austria":"AUT","China":"CHN","France":"FRA","Argentina":"ARG","Indonesia":"INA","Turkey":"TUR","Australia":"AUS","India":"IND","Norway":"NOR","Bulgaria":"BUL","Portugal":"POR","Czech Republic":"CZE","Bosnia & Herzegovina":"BIH","Italy":"ITA","Sweden":"SWE","Belgium":"BEL","Japan":"JPN","Israel":"ISR","South Korea":"KOR","Poland":"POL","Hungary":"HUN","Vietnam":"VIE","Wales":"WAL","Scotland":"SCO","Netherlands":"NED","Serbia":"SRB","Morocco":"MAR","Tunisia":"TUN","Estonia":"EST","Lebanon":"LIB","Armenia":"ARM","Montenegro":"MNE","Greece":"GRE","Georgia":"GEO","Denmark":"DEN","Brazil":"BRA","Switzerland":"SUI","Cyprus":"CYP","Slovakia":"SVK","Liechtenstein":"LIE","Taiwan":"TPE","Malta":"MLT","South Africa":"RSA"};
+const flagOf=c=>`<span class="flag">${CC[c]||(c||"—").slice(0,3).toUpperCase()}</span>`;
+/* Openly licensed player photos from Wikimedia Commons (credit in footer + img title) */
+const PHOTOS={
+ "Bryn Kenney":["Bryn Kenney 2015.jpg","World Poker Tour · CC BY 3.0"],
+ "Stephen Chidwick":["Stephen Chidwick 2018.jpg","World Poker Tour · CC BY 3.0"],
+ "Jason Koon":["Jason Koon partypoker Millions 2018.jpg","World Poker Tour · CC BY 3.0"],
+ "Adrian Mateos":["Adrián Mateos 2019.jpg","Alex Hernando · CC BY 3.0"],
+ "Justin Bonomo":["Justin Bonomo 2018.jpg","World Poker Tour · CC BY 3.0"],
+ "Isaac Haxton":["Isaac Haxton 2018.jpg","888poker Spain · CC BY 3.0"],
+ "Dan Smith":["Dan Smith 2019.jpg","World Poker Tour · CC BY 3.0"],
+ "Daniel Negreanu":["Daniel Negreanu 2007.jpg","flipchip / lasvegasvegas.com · CC BY-SA 3.0"],
+ "Phil Ivey":["Phil Ivey2.JPG","flipchip / lasvegasvegas.com · CC BY-SA 3.0"],
+ "Phil Hellmuth Jr":["Phil Hellmuth 2021.jpg","World Poker Tour · CC BY 3.0"],
+ "Erik Seidel":["Erik Seidel 2018.jpg","World Poker Tour · CC BY 3.0"],
+ "Fedor Holz":["Fedor Holz 2018.jpg","888poker Spain · CC BY 3.0"],
+ "Robbi Jade Lew":["https://live.staticflickr.com/65535/52440430381_74ba025a8b_b.jpg","World Poker Tour (Flickr) · CC BY-ND 2.0"]
+};
+const photoImg=n=>{const p=PHOTOS[n];if(!p)return"";const src=p[0].startsWith("http")?p[0]:`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(p[0])}?width=240`;return `<img class="avimg" loading="lazy" alt="${n}" title="Photo: ${p[1]}" src="${src}" onerror="this.remove()">`;};
+const ATML=[
+["Bryn Kenney","United States",88052302],["Stephen Chidwick","England",78888555],["Jason Koon","United States",77032156],["Mikita Bodyakovsky","Belarus",68780521],["Adrian Mateos","Spain",67813883],["Justin Bonomo","United States",65611097],["Isaac Haxton","United States",65340452],["Dan Smith","United States",61252629],["Daniel Negreanu","Canada",60437156],["William Alex Foxen","United States",58808594],
+["Phil Ivey","United States",55697663],["Daniel Dvoress","Canada",54038385],["Fedor Holz","Germany",50681510],["David Peters","United States",49703444],["Erik Seidel","United States",48836154],["Steve O'Dwyer","United States",47031130],["Christoph Vogelsang","Germany",47025847],["Seth Davies","United States",45691093],["Daniel Chi Tang","Hong Kong",43974658],["Cary Katz","United States",43151354],
+["Aleksejs Ponakovs","Latvia",42632107],["Nick Petrangelo","United States",41940922],["Sean Winter","United States",41349129],["Sam Greenwood","Canada",39409853],["Ben Heath","England",38932318],["Paul Phua","Malaysia",38879290],["Michael Watson","Canada",38562706],["Benjamin Tollerene","United States",37521118],["Punnat Punsri","Thailand",37299073],["Jake Schindler","United States",36817582],
+["Artur Martirosyan","Russia",35130849],["Patrik Antonius","Finland",34675696],["Matthias Eibinger","Austria",33001693],["Sam Soverel","United States",32820025],["Phil Hellmuth Jr","United States",31175578],["Jesse Lonis","United States",30820390],["Michael Mizrachi","United States",30633562],["Elton Tsang","Hong Kong",30599299],["Jose Ignacio Barbero","Argentina",30261749],["Jean-Noel Thorel","France",30140049],
+["Christopher Brewer","United States",29823010],["Brian Rast","United States",29794607],["Jeremy Ausmus","United States",29537538],["Daniel Colman","United States",28925059],["Antonio Esfandiari","United States",27810801],["Scott Seiver","United States",27529291],["Nick Schulman","United States",26807397],["John Juanda","Indonesia",26732486],["Wai Kiat Lee","Malaysia",26642457],["Sergio Aido","Spain",26463547],
+["Andrew Lichtenberger","United States",24863993],["Orpen Kisacikoglu","Turkey",24553609],["Michael Addamo","Australia",24480458],["Santhosh Suvarna","India",23635232],["Rainer Kempe","Germany",23534768],["Koray Aldemir","Germany",23271015],["Kayhan Mokri Roshanfekr","Norway",23145111],["Biao Ding","China",22983908],["Jonathan Jaffe","United States",22948385],["Alex Kulev","Bulgaria",22928441],
+["Byron Kaverman","United States",22341881],["Ole Schemion","Germany",22250266],["Jason Mercier","United States",22111835],["Aaron Shu Nu Zang","China",21920818],["Joao Vieira","Portugal",21825334],["Sam Trickett","England",21808340],["Joseph McKeehen","United States",21712414],["Dominik Nitsche","Germany",21680167],["Eelis Pärssinen","Finland",21378496],["Joseph Cheong","United States",21285309],
+["Chance Kornuth","United States",21257766],["Christopher Michael Soyza","Malaysia",20886294],["Ben Lamb","United States",20555915],["Talal Shakerchi","England",20218636],["David Rheem","United States",20096747],["Espen Uhlen Jørstad","Norway",19795361],["Tony Lin","China",19734769],["Martin Kabrhel","Czech Republic",19374597],["Thomas Marchese","United States",19153188],["Igor Kurganov","Russia",19145011],
+["Kristen Foxen","Canada",19041170],["Chris Hunichen","United States",18978174],["Daniel Cates","United States",18940243],["Almedin Imsirovic","Bosnia & Herzegovina",18777962],["Richard Yong","Malaysia",18691842],["Mustapha Kanit","Italy",18637653],["Martin Jacobson","Sweden",18482547],["Shaun Deeb","United States",18209435],["Jonathan Duhamel","Canada",18009548],["David Coleman","United States",17903001],
+["Quan Zhou","China",17639961],["Wai Leong Chan","Malaysia",17572442],["Chin Wei Lim","Malaysia",17442493],["Shannon Shorr","United States",17335467],["Juan Pardo Domínguez","Spain",17273181],["Thomas Boivin","Belgium",17240730],["Dario Sammartino","Italy",17164898],["Ryan Riess","United States",17056817],["Brandon Wilson","United States",16537781],["Daniel Weinman","United States",16253100]
+];
+const USA=ATML.filter(p=>p[1]==="United States");
+const Y26=[
+["Adrian Mateos","Spain",13045503],["Aleksejs Ponakovs","Latvia",8148083],["Bryn Kenney","United States",8016807],["Daniel Chi Tang","Hong Kong",7836367],["Eelis Pärssinen","Finland",7773828],["Daniel Dvoress","Canada",7280678],["Brandon Wilson","United States",6859773],["Alex Kulev","Bulgaria",6796316],["Jason Koon","United States",6789500],["Matthias Eibinger","Austria",6134958],
+["Christopher Nam Nguyen","Germany",6087505],["Wai Kiat Lee","Malaysia",6010961],["Kristen Foxen","Canada",5779858],["Artur Martirosyan","Russia",5634258],["Punnat Punsri","Thailand",5505304],["Paul Phua","Malaysia",5217200],["Yuri Martins Dzivielevski","Brazil",5179633],["Benjamin Tollerene","United States",5104016],["Klemens Roiter","Austria",5084129],["William Alex Foxen","United States",4741471],
+["Sean Winter","United States",4645412],["Anatoliy Zlotnikov","Russia",4410122],["Alexey Lozuyk","Belarus",4316000],["Daniel Rezaei","Austria",4236391],["Philip Sternheimer","England",4166737],["Isaac Haxton","United States",3775354],["Johannes Straver","Netherlands",3654320],["Jesse Lonis","United States",3504049],["Elton Tsang","Hong Kong",3457000],["Bernhard Binder","Austria",3452112],
+["Biao Ding","China",3305111],["Michael Watson","Canada",3288929],["Patrik Antonius","Finland",3288500],["Quan Zhou","China",3198591],["Teun Mulder","Netherlands",3173876],["Ben Heath","England",3104246],["Richard Gryko","England",3058095],["Santhosh Suvarna","India",3029247],["Tony Lin","China",2907972],["Stephen Chidwick","England",2887296],
+["Danilo Velasevic","Serbia",2876709],["Jon Vallinas","Spain",2875155],["Daniel Negreanu","Canada",2828459],["Mehdi Chaoui","Morocco",2790738],["Ye Wang","China",2753517],["Leon Sturm","Germany",2681653],["Orpen Kisacikoglu","Turkey",2491974],["Cesar Garcia","Spain",2472536],["Maher Nouira","Tunisia",2440000],["Ottomar Ladva","Estonia",2431886],
+["Albert Daher","Lebanon",2409709],["Andre Bye Berg","Norway",2392403],["Chang Hwan Lee","South Korea",2386287],["Mikita Bodyakovsky","Belarus",2375327],["Jean-Noel Thorel","France",2348278],["Benny Glaser","England",2333051],["Kelvin Andre Brunetto Kerber","Brazil",2316030],["Jonathan Jaffe","United States",2186500],["Aren Bezhanyan","Armenia",2015792],["Thomas Mühlöcker","Austria",2010172],
+["Kayhan Mokri Roshanfekr","Norway",1976477],["Sean Rafael","United States",1943606],["Jean-Robert Bellande","United States",1870911],["Aliaksei Boika","Belarus",1867789],["David Einhorn","United States",1862941],["Robert Cowen","Wales",1843897],["Alisson Miguel Piekazewicz","Brazil",1815270],["Chad Eveslage","United States",1774790],["Nick Schulman","United States",1758983],["Mikalai Vaskaboinikau","Belarus",1749137],
+["Yosuke Miki","Japan",1734369],["Sergio Martinez Gonzales","Spain",1708907],["Dejan Kaladjurdjevic","Montenegro",1706839],["Sebastian Peter Gaehl","Germany",1677700],["Alexandros Theologis","Greece",1670047],["Juan Pardo Domínguez","Spain",1661198],["Josh Arieh","United States",1655242],["Chris Hunichen","United States",1633883],["Michael Mizrachi","United States",1559854],["Laszlo Bujtas","Hungary",1522350],
+["Manuel Stojanovic","Austria",1518542],["Akihiro Konishi","Japan",1503238],["Levon Khachatryan","United States",1440680],["Jeremy Ausmus","United States",1419289],["Alex Anton","United States",1414213],["Youness Barakat","Italy",1406769],["Giorgiy Skhulukhiya","Georgia",1396939],["Huu Dung Nguyen","Vietnam",1395176],["Tom Fuchs","Germany",1383850],["Galen Hall","United States",1375319],
+["Yang Wang","China",1369615],["Jorge Abreu","Portugal",1361943],["Richard Alsup","United States",1355862],["Ming Cong Chen","China",1346312],["Gruffudd Pugh-Jones","Wales",1344385],["Martin Dam","Denmark",1344000],["Joey Weissman","United States",1338414],["Khoa Anh Ngo","Vietnam",1337111],["Naseem Salem","United States",1316314],["Christopher Brewer","United States",1313011]
+];
+const POP=[
+["Daniel Negreanu","Canada"],["Martin Kabrhel","Czech Republic"],["Masato Yokosawa","Japan"],["Adrian Mateos","Spain"],["Bryn Kenney","United States"],["Ethan Yau","United States"],["William Alex Foxen","United States"],["Michael Mizrachi","United States"],["Sarah Jackman","United States"],["Phil Ivey","United States"],
+["Phil Hellmuth Jr","United States"],["Stephen Chidwick","England"],["Julien Dupre","France"],["Jason Koon","United States"],["Shaun Deeb","United States"],["Kristen Foxen","Canada"],["Artur Martirosyan","Russia"],["Xiaoyao Ma","United States"],["Mikita Bodyakovsky","Belarus"],["Aubrey Williams","United States"],
+["Daisuke Ogita","Japan"],["Shiina Okamoto","Japan"],["Jun Obara","Japan"],["Mike Matusow","United States"],["Asi Moshe","Israel"],["Eelis Pärssinen","Finland"],["Naoya Kihara","Japan"],["Justin Bonomo","United States"],["Michael Moncek","United States"],["Nicholas Palma","United States"],
+["Christopher Robin Frank","Germany"],["Masashi Oya","Japan"],["Fedor Holz","Germany"],["Davidi Kitai","Belgium"],["Isaac Haxton","United States"],["Dan Smith","United States"],["Josh Arieh","United States"],["Allen Kessler","United States"],["Myles Mullaly","United States"],["Jesse Lonis","United States"],
+["Benny Glaser","England"],["Antonio Esfandiari","United States"],["Markus Gonsalves","United States"],["William Kassouf","England"],["Santhosh Suvarna","India"],["Jamie Gold","United States"],["Jinho Hong","South Korea"],["Leo Margets","Spain"],["Jeremy Becker","United States"],["Dzmitry Urbanovich","Poland"]
+];
+const EVENTS=[
+ {d:"26 May – 15 Jul",m:"MAY",day:"26",name:"57th World Series of Poker — WSOP 2026",city:"Las Vegas",country:"United States",flag:"🇺🇸",region:"Americas",tour:"WSOP",live:true},
+ {d:"11 Jun – 8 Jul",m:"JUN",day:"11",name:"PokerGO Tour — 2026 PGT Summer Series",city:"Las Vegas",country:"United States",flag:"🇺🇸",region:"Americas",tour:"PGT",live:true},
+ {d:"4 – 12 Jul",m:"JUL",day:"4",name:"The PartyPoker Tour — London",city:"London",country:"England",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",region:"Europe",tour:"PPT",live:true},
+ {d:"7 – 12 Jul",m:"JUL",day:"7",name:"PPC Championship — Nottingham",city:"Nottingham",country:"England",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",region:"Europe",tour:"PPC",live:true},
+ {d:"8 – 19 Jul",m:"JUL",day:"8",name:"Red Dragon Poker Tour — RDPT Plus Jeju Summer",city:"Jeju",country:"South Korea",flag:"🇰🇷",region:"Asia-Pacific",tour:"RDPT"},
+ {d:"13 Jul – 3 Aug",m:"JUL",day:"13",name:"RunGood Poker Series — RGPS Passport Season Finale",city:"Lincoln",country:"United States",flag:"🇺🇸",region:"Americas",tour:"RGPS"},
+ {d:"22 Jul – 2 Aug",m:"JUL",day:"22",name:"Play TSOGO Poker Series by Shuffle Up Poker",city:"Johannesburg",country:"South Africa",flag:"🇿🇦",region:"Africa",tour:"SUP"},
+ {d:"23 Jul – 2 Aug",m:"JUL",day:"23",name:"GUKPT Goliath by Grosvenor Poker",city:"Coventry",country:"England",flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",region:"Europe",tour:"GUKPT"},
+ {d:"24 Jul – 4 Aug",m:"JUL",day:"24",name:"WSOP International Circuit — WSOPC Estonia",city:"Tallinn",country:"Estonia",flag:"🇪🇪",region:"Europe",tour:"WSOPC"},
+ {d:"31 Jul – 10 Aug",m:"JUL",day:"31",name:"WSOP International Circuit — WSOPC Samorin",city:"Šamorín",country:"Slovakia",flag:"🇸🇰",region:"Europe",tour:"WSOPC"},
+ {d:"3 – 9 Aug",m:"AUG",day:"3",name:"The PartyPoker Tour — Glasgow",city:"Glasgow",country:"Scotland",flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",region:"Europe",tour:"PPT"},
+ {d:"7 – 16 Aug",m:"AUG",day:"7",name:"Onyx HRS",city:"Kyrenia",country:"Cyprus",flag:"🇨🇾",region:"Europe",tour:"ONYX"},
+ {d:"7 – 16 Aug",m:"AUG",day:"7",name:"Asian Poker Tour — APT Incheon 2026",city:"Incheon",country:"South Korea",flag:"🇰🇷",region:"Asia-Pacific",tour:"APT"},
+ {d:"18 – 23 Aug",m:"AUG",day:"18",name:"PPC Championship — Liechtenstein",city:"Gamprin-Bendern",country:"Liechtenstein",flag:"🇱🇮",region:"Europe",tour:"PPC"},
+ {d:"19 – 31 Aug",m:"AUG",day:"19",name:"2026 Players Series Championship IV Taipei",city:"Taipei City",country:"Taiwan",flag:"🇹🇼",region:"Asia-Pacific",tour:"PS"},
+ {d:"31 Aug – 14 Sep",m:"AUG",day:"31",name:"Irish Open International — Sydney",city:"Sydney",country:"Australia",flag:"🇦🇺",region:"Asia-Pacific",tour:"IOS"},
+ {d:"14 – 20 Sep",m:"SEP",day:"14",name:"The Festival in Malta",city:"St. Julian's",country:"Malta",flag:"🇲🇹",region:"Europe",tour:"TF"},
+ {d:"25 Sep – 7 Oct",m:"SEP",day:"25",name:"Asian Poker Tour — APT Jeju 2026",city:"Jeju",country:"South Korea",flag:"🇰🇷",region:"Asia-Pacific",tour:"APT"}
+];
+const NEWS=[
+ {cat:"The Festival",t:"The Festival Series to Debut Wild Seven-Deuce Tournament Format This Summer",d:"June 26, 2026"},
+ {cat:"PPC Champ.",t:"PPC Championship Returns to Nottingham with Over £300,000 Guaranteed",d:"June 22, 2026"},
+ {cat:"PS Championship",t:"PS Championship IV Taipei Unveils High Roller Early Bird Package Ahead of 13-Day Festival",d:"June 19, 2026"},
+ {cat:"Irish Open",t:"The Irish Open and PPC Championship Set Sights on Sydney in 2026",d:"June 18, 2026"},
+ {cat:"PPC Champ.",t:"Dmitri Dudakov Wins PPC Championship as The Festival Rozvadov Wraps Up",d:"June 15, 2026"},
+ {cat:"SiGMA",t:"Anthony Castro Wins Historic First PPC Asian Championship at SiGMA Poker Tour Manila",d:"June 8, 2026"},
+ {cat:"The Festival",t:"The Festival Returns to Rozvadov as PPC Championship Kicks Off",d:"June 5, 2026"},
+ {cat:"Industry",t:"How Do Casinos Make Money on Poker? Rake, House Edge and RTP Explained",d:"June 3, 2026"}
+];
+/* Player directory built from the three live rankings */
+const PLAYERS={};
+ATML.forEach((p,i)=>PLAYERS[p[0]]={country:p[1],money:p[2],atml:i+1});
+USA.forEach((p,i)=>{PLAYERS[p[0]].usa=i+1;});
+Y26.forEach((p,i)=>{const q=PLAYERS[p[0]]||(PLAYERS[p[0]]={country:p[1]});q.y26=i+1;q.won26=p[2];});
+POP.forEach((p,i)=>{const q=PLAYERS[p[0]]||(PLAYERS[p[0]]={country:p[1]});q.pop=i+1;});
+[["Paulina Loeliger","Switzerland"],["Julien Sitbon","France"],["Maxx Coleman","United States"],["Paul Volpe","United States"]].forEach(([n,c])=>{if(!PLAYERS[n])PLAYERS[n]={country:c};});
+
+/* Featured profile — full data pulled from the live database */
+PLAYERS["Robbi Jade Lew"]={country:"United States",money:245706};
+const FEATURED={
+ "Robbi Jade Lew":{
+  bestCash:22400,atmlPos:"15,754th",gpi:"4,583rd",popRank:"632nd",
+  results:[
+   ["3 Jul 2026","$3,500+1,500 NLH Super Turbo Bounty (Event #84) · WSOP 2026, Las Vegas","44th","$13,976"],
+   ["29 Jun 2026","$1,100 NLH BetMGM Mystery Bounty · ARIA Poker Classic 2026, Las Vegas","81st","$1,535"],
+   ["23 Jun 2026","$1,500 NLH Freezeout (Event #65) · WSOP 2026, Las Vegas","115th","$4,191"],
+   ["22 Jun 2026","$2,500 NLH (Event #62) · WSOP 2026, Las Vegas","72nd","$7,890"],
+   ["16 Jun 2026","$2,500 NLH Freezeout (Event #49) · WSOP 2026, Las Vegas","224th","$5,000"],
+   ["14 Jun 2026","$7,000+3,000 NLH Super Turbo Bounty (Event #44) · WSOP 2026, Las Vegas","50th","$13,695"],
+   ["19 Feb 2026","$5,000 NLH WPT Championship (Event #21) · WPT Venetian, Las Vegas","41st","$11,000"],
+   ["1 Feb 2026","$300 NLH Monster Stack (Event #6) · MSPT The Tour","5th","$6,900"],
+   ["29 Jan 2026","$1,100 NLH MSPT Diamond Championship (Event #4) · MSPT The Tour","278th","$2,300"],
+   ["16 Dec 2025","$1,100 NLH · WPT World Championship at Wynn, Las Vegas","384th","$2,326"],
+   ["26 Jun 2025","$1,000 NLH Ladies Championship (Event #70) · WSOP 2025, Las Vegas","30th","$5,356"],
+   ["24 Jun 2025","$400 NLH Accelerated · WSOP PokerNews Daily Deepstacks 2025, Las Vegas","56th","$802"]
+  ]
+ }
+};
+
+/* ---------- HELPERS ---------- */
+const $=s=>document.querySelector(s);
+const fmt=n=>"$"+n.toLocaleString("en-US");
+const mv=t=>t==="up"?'<span class="mv up">▲</span>':t==="dn"?'<span class="mv dn">▼</span>':'<span class="mv eq">—</span>';
+const initials=n=>n.split(" ").map(w=>w[0]).slice(0,2).join("");
+let lastView="home";
+
+function go(v){
+  lastView=document.querySelector(".view.active").id.slice(2);
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  $("#v-"+v).classList.add("active");
+  document.querySelectorAll("nav.links button").forEach(b=>b.classList.toggle("active",b.dataset.v===v));
+  window.scrollTo({top:0});
+}
+
+let currentPlayer=null;
+function openProfile(name){
+  currentPlayer=name;
+  const p=PLAYERS[name]||{country:"—"};
+  const ph=photoImg(name);
+  if(ph){$("#pfAvatar").innerHTML=ph;}else{$("#pfAvatar").textContent=initials(name);}
+  $("#pfName").textContent=name;
+  $("#pfMeta").innerHTML=`${flagOf(p.country)}${p.country}`;
+  let cards="";
+  if(p.money)cards+=`<div class="scard"><span>Total Live Earnings</span><b class="g">${fmt(p.money)}</b></div>`;
+  if(p.atml)cards+=`<div class="scard"><span>All Time Money List</span><b class="gold">#${p.atml}</b></div>`;
+  if(p.won26)cards+=`<div class="scard"><span>2026 Winnings</span><b class="g">${fmt(p.won26)}</b></div>`;
+  if(p.y26)cards+=`<div class="scard"><span>2026 Money List</span><b class="gold">#${p.y26}</b></div>`;
+  if(p.usa)cards+=`<div class="scard"><span>USA Money List</span><b class="gold">#${p.usa}</b></div>`;
+  if(p.pop)cards+=`<div class="scard"><span>Popularity (7 days)</span><b>#${p.pop}</b></div>`;
+  const ft=FEATURED[name];
+  if(ft){
+    cards+=`<div class="scard"><span>Best Live Cash</span><b class="g">${fmt(ft.bestCash)}</b></div>
+      <div class="scard"><span>All Time Money List</span><b>${ft.atmlPos}</b></div>
+      <div class="scard"><span>GPI Ranking</span><b>${ft.gpi}</b></div>
+      <div class="scard"><span>Popularity Rank</span><b>${ft.popRank}</b></div>`;
+  }
+  if(!cards)cards=`<div class="scard"><span>Status</span><b>Trending player</b></div>`;
+  /* True net profit: uploaded results + self-reported buy-ins */
+  const rows=(typeof getResults==="function"?getResults():[]).filter(r=>r.player===name);
+  let tr=[];try{tr=JSON.parse(localStorage.getItem("thm-buyins-"+name))||[]}catch(e){}
+  const cost=rows.reduce((s,r)=>s+r.cost,0)+tr.reduce((s,x)=>s+x.buyin,0);
+  const won=rows.reduce((s,r)=>s+r.prize,0)+tr.reduce((s,x)=>s+x.cash,0);
+  if(cost>0||won>0){
+    const net=won-cost;
+    cards+=`<div class="scard"><span>Buy-ins (recorded)</span><b>${fmt(cost)}</b></div>
+      <div class="scard"><span>Winnings (recorded)</span><b class="g">${fmt(won)}</b></div>
+      <div class="scard"><span>True Net Profit</span><b class="${net>=0?'profit-pos':'profit-neg'}">${net>=0?"+":"−"}${fmt(Math.abs(net))}</b></div>`;
+  }
+  $("#pfStats").innerHTML=cards;
+  let resHtml="";
+  if(ft)resHtml+=`
+    <div class="sechead" style="margin-top:8px"><div><h2 class="sec">Recent Results</h2><p class="sub" style="margin:0">Latest recorded live cashes</p></div></div>
+    <table class="rank"><thead><tr><th>Date</th><th>Event</th><th>Place</th><th style="text-align:right">Prize</th></tr></thead><tbody>${
+      ft.results.map(r=>`<tr style="cursor:default"><td style="color:var(--muted);white-space:nowrap">${r[0]}</td><td class="playerName">${r[1]}</td><td class="pos">${r[2]}</td><td class="money">${r[3]}</td></tr>`).join("")
+    }</tbody></table>`;
+  if(rows.length)resHtml+=`
+    <div class="sechead" style="margin-top:32px"><div><h2 class="sec">Results</h2><p class="sub" style="margin:0">Uploaded results with buy-ins &amp; entries</p></div></div>
+    ${resultsTable(rows,false)}`;
+  $("#pfResults").innerHTML=resHtml;
+  renderBuyins();
+  go("profile");
+}
+
+/* ---------- BUY-IN TRACKER ---------- */
+const biKey=()=>"thm-buyins-"+currentPlayer;
+function getBuyins(){try{return JSON.parse(localStorage.getItem(biKey()))||[]}catch(e){return[]}}
+function saveBuyins(a){localStorage.setItem(biKey(),JSON.stringify(a))}
+function addBuyin(){
+  const ev=$("#biEvent").value.trim(),date=$("#biDate").value,
+        buyin=parseFloat($("#biBuyin").value)||0,cash=parseFloat($("#biCash").value)||0;
+  if(!ev||buyin<=0){alert("Please enter an event name and a buy-in amount.");return;}
+  const a=getBuyins();a.unshift({ev,date,buyin,cash});saveBuyins(a);
+  $("#biEvent").value=$("#biDate").value=$("#biBuyin").value=$("#biCash").value="";
+  renderBuyins();
+}
+function delBuyin(i){const a=getBuyins();a.splice(i,1);saveBuyins(a);renderBuyins();}
+function renderBuyins(){
+  renderClaimUI();
+  const a=getBuyins();
+  const tb=a.reduce((s,x)=>s+x.buyin,0),tc=a.reduce((s,x)=>s+x.cash,0),net=tc-tb;
+  const roi=tb>0?((net/tb)*100).toFixed(1)+"%":"—";
+  const cls=net>=0?"profit-pos":"profit-neg",sign=net>=0?"+":"−";
+  $("#biSummary").innerHTML=`
+    <div class="scard"><span>Total Buy-ins</span><b>${fmt(tb)}</b></div>
+    <div class="scard"><span>Total Cashed</span><b class="g">${fmt(tc)}</b></div>
+    <div class="scard"><span>True Net Profit</span><b class="${cls}">${sign}${fmt(Math.abs(net))}</b></div>
+    <div class="scard"><span>ROI</span><b class="${tb>0?cls:''}">${roi}</b></div>`;
+  $("#biTableWrap").innerHTML=a.length?`
+    <table class="rank"><thead><tr><th>Event</th><th>Date</th><th style="text-align:right">Buy-in</th><th style="text-align:right">Cashed</th><th style="text-align:right">Net</th><th></th></tr></thead>
+    <tbody>${a.map((x,i)=>{const n=x.cash-x.buyin;return `<tr style="cursor:default">
+      <td class="playerName">${x.ev}</td><td style="color:var(--muted)">${x.date||"—"}</td>
+      <td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(x.buyin)}</td>
+      <td class="money">${fmt(x.cash)}</td>
+      <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums" class="${n>=0?'profit-pos':'profit-neg'}">${n>=0?"+":"−"}${fmt(Math.abs(n))}</td>
+      <td style="text-align:right"><button class="bidel" onclick="delBuyin(${i})" title="Delete">✕</button></td></tr>`}).join("")}
+    </tbody></table>`:'<div class="empty">No buy-ins logged yet.</div>';
+}
+
+/* ---------- ACCOUNT CLAIM & CASINO RECORDS ---------- */
+const CLAIMKEY="clashier-claims";
+function getClaims(){try{return JSON.parse(localStorage.getItem(CLAIMKEY))||{}}catch(e){return{}}}
+function saveClaims(c){localStorage.setItem(CLAIMKEY,JSON.stringify(c))}
+function claimState(){return getClaims()[currentPlayer]||{}}
+function setClaim(patch){const c=getClaims();c[currentPlayer]=Object.assign(claimState(),patch);saveClaims(c);}
+function renderClaimUI(){
+  const area=$("#claimArea"),form=$("#biForm"),st=claimState();
+  if(st.consent){
+    form.style.display="none";
+    area.innerHTML=`<div class="claimbox owned">
+      <div><b class="ok">✓ Account claimed — you own this profile</b>
+      <p>Buy-in records are requested directly from partner casinos &amp; tours. Manual upload is disabled.</p></div>
+      <button class="btn" ${st.submitted?"disabled":""} onclick="submitBuyinRecords()">${st.submitted?"Records submitted ✓":"Submit buy-in records"}</button>
+    </div>`;
+  }else{
+    form.style.display="flex";
+    area.innerHTML=`<div class="claimbox">
+      <div><b>Is this your profile?</b>
+      <p>Claim this account to have buy-in records pulled automatically from partner casinos — no manual entry needed.</p></div>
+      <button class="btn" onclick="startClaim()">Claim this account</button>
+    </div>`;
+  }
+}
+function openClaim(html){$("#claimBody").innerHTML=html;$("#claimModal").classList.add("open");}
+function closeClaim(){$("#claimModal").classList.remove("open");}
+$("#claimModal").addEventListener("click",e=>{if(e.target.id==="claimModal")closeClaim();});
+function startClaim(){
+  openClaim(`<div class="lock">🛡️</div><h3>Claim ${currentPlayer}</h3>
+    <p>Enter the email linked to your casino loyalty accounts and we'll send a verification code.</p>
+    <input class="minput" id="claimEmail" placeholder="you@email.com">
+    <button class="btn" onclick="claimSend()">Send code</button>
+    <button class="btn ghost" onclick="closeClaim()">Cancel</button>`);
+}
+function claimSend(){
+  const em=$("#claimEmail").value.trim();
+  if(!em.includes("@")){$("#claimEmail").style.borderColor="var(--red)";return;}
+  openClaim(`<div class="lock">📧</div><h3>Check your inbox</h3>
+    <p>We sent a 6-digit code to <b>${em}</b>. <br>(Demo — any code works.)</p>
+    <input class="minput" id="claimCode" placeholder="••••••" maxlength="6">
+    <button class="btn" onclick="claimValidate()">Verify</button>
+    <button class="btn ghost" onclick="closeClaim()">Cancel</button>`);
+}
+function claimValidate(){
+  if(!$("#claimCode").value.trim()){$("#claimCode").style.borderColor="var(--red)";return;}
+  openClaim(`<div class="lock">⏳</div><h3>Validating…</h3><p>Checking your identity with our verification partner.</p>`);
+  setTimeout(()=>{
+    openClaim(`<div class="lock">🤝</div><h3>You're verified!</h3>
+      <p>One last step: to replace manual uploads, PPC can request your tournament <b>buy-in and entry records directly from partner casinos and tours</b> on your behalf. You can revoke this consent at any time in settings.</p>
+      <button class="btn" onclick="claimConsent()">I consent — request my records</button>
+      <button class="btn ghost" onclick="closeClaim()">Not now</button>`);
+  },1100);
+}
+function claimConsent(){
+  setClaim({validated:true,consent:true});
+  /* Simulate records arriving from casino APIs */
+  if(!getBuyins().length){
+    const ft=FEATURED[currentPlayer];
+    const seed=ft?ft.results.slice(0,4).map(r=>{
+      const m=r[1].match(/\$([\d,]+)(?:\+([\d,]+))?/);
+      const buyin=(m?parseInt(m[1].replace(/,/g,"")):1000)+(m&&m[2]?parseInt(m[2].replace(/,/g,"")):0);
+      return{ev:r[1].split(" · ")[1]||r[1],date:r[0],buyin,cash:parseInt(r[3].replace(/[$,]/g,""))||0};
+    }):[
+      {ev:"WSOP 2026 — Event #62, Las Vegas",date:"22 Jun 2026",buyin:2500,cash:0},
+      {ev:"ARIA Poker Classic 2026, Las Vegas",date:"29 Jun 2026",buyin:1100,cash:1535},
+      {ev:"Wynn Summer Classic 2026, Las Vegas",date:"12 Jun 2026",buyin:1600,cash:0}
+    ];
+    saveBuyins(seed);
+  }
+  closeClaim();renderBuyins();
+}
+function submitBuyinRecords(){
+  const a=getBuyins();
+  if(a.length){
+    const all=getResults().concat(a.map(x=>({ev:x.ev,date:x.date,player:currentPlayer,pos:"—",buyin:x.buyin,entries:1,prize:x.cash,cost:x.buyin,net:x.cash-x.buyin})));
+    saveResults(all);
+  }
+  setClaim({submitted:true});
+  renderClaimUI();
+}
+
+/* ---------- ADMIN: BULK RESULTS ---------- */
+const RKEY="thm-results";
+function getResults(){try{return JSON.parse(localStorage.getItem(RKEY))||[]}catch(e){return[]}}
+function saveResults(a){localStorage.setItem(RKEY,JSON.stringify(a))}
+const num=s=>parseFloat(String(s).replace(/[$,\s]/g,""))||0;
+function parseCSV(t){
+  const rows=[],errs=[];
+  t.split(/\r?\n/).forEach((line,i)=>{
+    line=line.trim();if(!line)return;
+    const c=line.split(",").map(x=>x.trim());
+    if(i===0&&/event/i.test(c[0])&&/player/i.test(line))return; // header row
+    if(c.length<7){errs.push(`Line ${i+1}: expected 7 columns, got ${c.length}`);return;}
+    const r={ev:c[0],date:c[1],player:c[2],pos:c[3],buyin:num(c[4]),entries:Math.max(1,Math.round(num(c[5]))||1),prize:num(c[6])};
+    if(!r.ev||!r.player){errs.push(`Line ${i+1}: missing event or player name`);return;}
+    r.cost=r.buyin*r.entries;r.net=r.prize-r.cost;
+    rows.push(r);
+  });
+  return{rows,errs};
+}
+function resultsTable(rows,withDel){
+  return `<table class="rank"><thead><tr><th>Event</th><th>Date</th><th>Player</th><th>#</th><th style="text-align:right">Buy-in</th><th style="text-align:right">Entries</th><th style="text-align:right">Total Cost</th><th style="text-align:right">Prize</th><th style="text-align:right">Net</th>${withDel?"<th></th>":""}</tr></thead><tbody>${
+    rows.map((r,i)=>`<tr style="cursor:default"><td class="playerName">${r.ev}</td><td style="color:var(--muted)">${r.date||"—"}</td><td>${r.player}</td><td class="pos">${r.pos||"—"}</td>
+      <td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(r.buyin)}</td>
+      <td style="text-align:right;font-variant-numeric:tabular-nums">${r.entries}</td>
+      <td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(r.cost)}</td>
+      <td class="money">${fmt(r.prize)}</td>
+      <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums" class="${r.net>=0?'profit-pos':'profit-neg'}">${r.net>=0?"+":"−"}${fmt(Math.abs(r.net))}</td>
+      ${withDel?`<td style="text-align:right"><button class="bidel" onclick="delResult(${i})" title="Delete">✕</button></td>`:""}</tr>`).join("")
+  }</tbody></table>`;
+}
+let pendingRows=null;
+function setStatus(msg,err){const s=$("#adminStatus");s.textContent=msg;s.className="status"+(err?" err":"");}
+function adminPreview(){
+  const{rows,errs}=parseCSV($("#csvIn").value);
+  pendingRows=rows;
+  $("#adminPreview").innerHTML=rows.length?resultsTable(rows,false):"";
+  setStatus(rows.length?`${rows.length} row(s) parsed${errs.length?` · ${errs.length} skipped: ${errs[0]}`:""} — review below, then hit Import.`:(errs[0]||"Nothing to parse. Paste CSV data above."),!rows.length);
+}
+function adminImport(){
+  if(!pendingRows){adminPreview();if(!pendingRows||!pendingRows.length)return;}
+  if(!pendingRows.length){setStatus("Nothing to import — preview came back empty.",true);return;}
+  const all=getResults().concat(pendingRows);
+  saveResults(all);
+  pendingRows.forEach(r=>{if(!PLAYERS[r.player])PLAYERS[r.player]={country:"—"};});
+  $("#pgrid").innerHTML=playerCards($("#pq").value||"");
+  setStatus(`Imported ${pendingRows.length} result(s). Database now holds ${all.length} uploaded rows.`);
+  $("#adminPreview").innerHTML="";$("#csvIn").value="";pendingRows=null;
+}
+function delResult(i){const a=getResults();a.splice(i,1);saveResults(a);setStatus("Row deleted.");renderAdminData();}
+function adminClear(){
+  if(!confirm("Delete ALL imported results?"))return;
+  localStorage.removeItem(RKEY);setStatus("All imported data cleared.");$("#adminPreview").innerHTML="";
+}
+function renderAdminData(){const a=getResults();$("#adminPreview").innerHTML=a.length?resultsTable(a,true):"";}
+function loadSample(){
+  $("#csvIn").value=[
+   "Event, Date, Player, Position, Buy-in, Entries, Prize",
+   "$50000 Poker Players Championship — WSOP 2026, 2026-06-21, Benny Glaser, 1, 50000, 1, 1343764",
+   "$50000 Poker Players Championship — WSOP 2026, 2026-06-21, Josh Arieh, 2, 50000, 2, 895837",
+   "$50000 Poker Players Championship — WSOP 2026, 2026-06-21, Phil Ivey, 3, 50000, 1, 600698",
+   "$50000 Poker Players Championship — WSOP 2026, 2026-06-21, Maxx Coleman, 4, 50000, 3, 417607",
+   "$50000 Poker Players Championship — WSOP 2026, 2026-06-21, Paul Volpe, 5, 50000, 2, 301405"].join("\n");
+  setStatus("Sample loaded — hit Preview.");
+}
+$("#csvFile").addEventListener("change",e=>{
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{$("#csvIn").value=rd.result;setStatus(`Loaded ${f.name} — hit Preview.`);};
+  rd.readAsText(f);
+});
+
+/* ---------- RENDER: HOME ---------- */
+$("#podium").innerHTML=ATML.slice(0,3).map((p,i)=>`
+  <div class="pod" onclick="openProfile('${p[0].replace("'","\\'")}')">
+    <div class="medal">${["🥇","🥈","🥉"][i]}</div>
+    ${photoImg(p[0])?`<div class="pav">${photoImg(p[0])}</div>`:""}
+    <div class="rank">${["1st","2nd","3rd"][i]} · All Time</div>
+    <h3>${p[0]}</h3><div class="country">${flagOf(p[1])}${p[1]}</div>
+    <div class="money">${fmt(p[2])}</div>
+  </div>`).join("");
+$("#homeRank").innerHTML=ATML.slice(3,15).map((p,i)=>`
+  <tr onclick="openProfile('${p[0].replace("'","\\'")}')">
+    <td class="pos">${i+4}</td>
+    <td class="playerName">${flagOf(p[1])}${p[0]}</td>
+    <td class="money">${fmt(p[2])}</td>
+  </tr>`).join("");
+$("#homeEvents").innerHTML=EVENTS.slice(0,6).map(evCard).join("");
+$("#homeNews").innerHTML=NEWS.slice(0,4).map(newsCard).join("");
+
+/* ---------- RENDER: RANKINGS ---------- */
+function renderRank(t){
+  const H=$("#rankHead"),B=$("#rankBody");
+  const row=(p,i,money)=>`<tr onclick="openProfile('${p[0].replace("'","\\'")}')"><td class="pos">${i+1}</td><td class="playerName">${flagOf(p[1])}${p[0]}</td><td style="color:var(--muted)">${p[1]}</td>${money?`<td class="money">${fmt(p[2])}</td>`:""}</tr>`;
+  if(t==="atml"){
+    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
+    B.innerHTML=ATML.map((p,i)=>row(p,i,true)).join("");
+  }else if(t==="y26"){
+    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
+    B.innerHTML=Y26.map((p,i)=>row(p,i,true)).join("");
+  }else if(t==="usa"){
+    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
+    B.innerHTML=USA.map((p,i)=>row(p,i,true)).join("");
+  }else{
+    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th></tr>";
+    B.innerHTML=POP.map((p,i)=>row(p,i,false)).join("");
+  }
+}
+renderRank("atml");
+$("#rankTabs").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  $("#rankTabs").querySelectorAll(".pill").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");renderRank(b.dataset.t);
+});
+
+/* ---------- RENDER: PLAYERS ---------- */
+function playerCards(q=""){
+  q=q.toLowerCase();
+  return Object.entries(PLAYERS)
+    .filter(([n,p])=>n.toLowerCase().includes(q)||p.country.toLowerCase().includes(q))
+    .sort((a,b)=>(b[1].money||0)-(a[1].money||0))
+    .map(([n,p])=>`
+      <div class="pcard" onclick="openProfile('${n.replace("'","\\'")}')">
+        <div class="avatar">${photoImg(n)||initials(n)}</div>
+        <h4>${n}</h4><div class="country">${flagOf(p.country)}${p.country}</div>
+        ${p.money?`<div class="row"><span>Live earnings</span><b class="g">${fmt(p.money)}</b></div>`:""}
+        ${p.atml?`<div class="row"><span>All time rank</span><b>#${p.atml}</b></div>`:""}
+        ${p.won26?`<div class="row"><span>2026 winnings</span><b class="g">${fmt(p.won26)}</b></div>`:""}
+        ${p.pop?`<div class="row"><span>Popularity</span><b>#${p.pop} this week</b></div>`:""}
+      </div>`).join("")||'<p class="sub">No players match your search.</p>';
+}
+$("#pgrid").innerHTML=playerCards();
+$("#pq").addEventListener("input",e=>$("#pgrid").innerHTML=playerCards(e.target.value));
+
+/* ---------- RENDER: EVENTS ---------- */
+function evCard(e){
+  return `<div class="ev${e.live?" live":""}">
+    <div class="date"><b>${e.day}</b><span>${e.m}</span></div>
+    <div><h4>${e.name}</h4>
+      <div class="meta">${flagOf(e.country)}${e.city}, ${e.country} · ${e.d} 2026</div>
+      <span class="tag">${e.live?'<span class="livedot"></span>Live now':e.tour}</span>
+    </div></div>`;
+}
+function renderEvents(r){
+  $("#evgrid").innerHTML=EVENTS.filter(e=>r==="all"||e.region===r).map(evCard).join("")||'<p class="sub">No festivals in this region right now.</p>';
+}
+renderEvents("all");
+$("#evFilters").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  $("#evFilters").querySelectorAll(".pill").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");renderEvents(b.dataset.r);
+});
+
+/* ---------- RENDER: NEWS ---------- */
+function newsCard(n){return `<div class="news"><div class="cat">${n.cat}</div><h4>${n.t}</h4><div class="date">${n.d}</div></div>`;}
+$("#newsgrid").innerHTML=NEWS.map(newsCard).join("");
+
+/* ---------- SEARCH ---------- */
+function searchResults(q){
+  q=q.trim().toLowerCase();if(!q)return[];
+  return Object.entries(PLAYERS).filter(([n])=>n.toLowerCase().includes(q)).slice(0,6);
+}
+$("#navq").addEventListener("input",e=>{
+  const r=searchResults(e.target.value),box=$("#navres");
+  box.innerHTML=r.map(([n,p])=>`<a onclick="searchOpen('${n.replace("'","\\'")}')"><span>${flagOf(p.country)}${n}</span>${p.money?`<span class="money">${fmt(p.money)}</span>`:""}</a>`).join("");
+  box.classList.toggle("open",r.length>0);
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".navsearch"))$("#navres").classList.remove("open");});
+$("#heroq").addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+    if(!useSearch())return;
+    go("players");$("#pq").value=e.target.value;$("#pgrid").innerHTML=playerCards(e.target.value);
+  }
+});
+function searchOpen(n){
+  $("#navres").classList.remove("open");
+  if(!useSearch())return;
+  openProfile(n);
+}
+
+/* ---------- SUBSCRIPTION & SEARCH METERING ---------- */
+const PKEY="clashier-plan",UKEY="clashier-usage";
+const PLANINFO={free:{label:"Free",quota:5,per:"week"},pro:{label:"Pro",quota:10,per:"day"},plus:{label:"PPC +",quota:Infinity,per:""}};
+function getPlan(){const p=localStorage.getItem(PKEY);return PLANINFO[p]?p:"free";}
+function weekKey(){const d=new Date(),j=new Date(d.getFullYear(),0,1);return d.getFullYear()+"-W"+Math.ceil(((d-j)/864e5+j.getDay()+1)/7);}
+function dayKey(){return new Date().toISOString().slice(0,10);}
+function usage(){
+  let u;try{u=JSON.parse(localStorage.getItem(UKEY))||{}}catch(e){u={}}
+  if(u.week!==weekKey()){u.week=weekKey();u.w=0;}
+  if(u.day!==dayKey()){u.day=dayKey();u.d=0;}
+  return u;
+}
+function saveUsage(u){localStorage.setItem(UKEY,JSON.stringify(u));}
+function searchesLeft(){
+  const p=getPlan(),u=usage();
+  if(p==="plus")return Infinity;
+  return p==="pro"?Math.max(0,10-(u.d||0)):Math.max(0,5-(u.w||0));
+}
+function useSearch(){
+  const p=getPlan();
+  if(p==="plus")return true;
+  const u=usage();
+  if(p==="pro"){
+    if((u.d||0)<10){u.d=(u.d||0)+1;saveUsage(u);refreshPlanUI();return true;}
+  }else{
+    if((u.w||0)<5){u.w=(u.w||0)+1;saveUsage(u);refreshPlanUI();return true;}
+  }
+  showPaywall();return false;
+}
+function refreshPlanUI(){
+  const p=getPlan(),left=searchesLeft();
+  $("#planBadge").innerHTML=p==="plus"?`<b>PPC +</b> · Unlimited searches`
+    :p==="pro"?`<b>Pro</b> · ${left}/10 searches left today`
+    :`<b>Free</b> · ${left}/5 searches left this week`;
+  document.body.classList.toggle("adfree",p==="plus");
+  const map={free:"btn-free",pro:"btn-pro",plus:"btn-plus"};
+  Object.entries(map).forEach(([plan,id])=>{
+    const b=document.getElementById(id);if(!b)return;
+    if(plan===p){b.textContent="Current plan";b.classList.add("cur");}
+    else{b.textContent=plan==="free"?"Switch to Free":plan==="pro"?"Go Pro":"Get PPC +";b.classList.remove("cur");}
+  });
+}
+function choosePlan(p){
+  localStorage.setItem(PKEY,p);
+  refreshPlanUI();
+  $("#planNote").textContent=p==="free"?"You're on the Free plan. Demo only — plan stored in this browser."
+    :`You're now on ${PLANINFO[p].label} — demo only, no payment taken.`;
+}
+function showPaywall(){
+  const p=getPlan();
+  $("#paywallMsg").textContent=p==="pro"
+    ?"You've used all 10 of today's Pro searches. Upgrade to PPC + for unlimited searching — and an ad-free experience."
+    :"You've used all 5 of this week's free searches. Go Pro for 10 a day, or get PPC + for unlimited searching.";
+  $("#paywall").classList.add("open");
+}
+function closePaywall(){$("#paywall").classList.remove("open");}
+$("#paywall").addEventListener("click",e=>{if(e.target.id==="paywall")closePaywall();});
+refreshPlanUI();
+
+/* ---------- COUNT-UP ---------- */
+document.querySelectorAll("[data-count]").forEach(el=>{
+  const target=+el.dataset.count,dur=1400,t0=performance.now();
+  function tick(t){
+    const k=Math.min((t-t0)/dur,1),ease=1-Math.pow(1-k,3);
+    el.textContent=Math.round(target*ease).toLocaleString("en-US");
+    if(k<1)requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+});
+</script>
+</body>
+</html>

@@ -97,7 +97,8 @@ table.rank td.money{color:var(--green);font-weight:700;text-align:right;font-var
 .mv{font-size:12px;font-weight:800;margin-left:8px}
 .mv.up{color:var(--green)} .mv.dn{color:var(--red)} .mv.eq{color:var(--dim)}
 .playerName{font-weight:700}
-.flag{display:inline-block;font-size:15px;line-height:1;margin-right:8px;vertical-align:-1px}
+.flag{display:inline-block;line-height:1;margin-right:8px;vertical-align:-1px}
+.flag img,img.flag{width:20px;height:15px;border-radius:2px;vertical-align:-2px;display:inline-block}
 .flagcell{width:34px;text-align:center;padding-right:0!important}
 .flagcell .flag{margin:0;font-size:16px}
 .delta{color:var(--dim);font-size:12.5px;text-align:right}
@@ -475,7 +476,7 @@ img, svg, video { max-width:100%; }
       <div class="featpro" onclick="openProfile('Robbi Jade Lew')">
         <div class="favatar"><img class="avimg" alt="Robbi Jade Lew" title="Photo: World Poker Tour (Flickr) · CC BY-ND 2.0" src="https://live.staticflickr.com/65535/52440430381_74ba025a8b_b.jpg" onerror="this.remove();this.parentElement&&(this.parentElement.textContent='RJL')"></div>
         <div class="fpinfo">
-          <h3>Robbi Jade Lew <span class="flag">🇺🇸</span></h3>
+          <h3>Robbi Jade Lew <span class="flag"><img src="https://flagcdn.com/24x18/us.png" srcset="https://flagcdn.com/48x36/us.png 2x" width="20" height="15" alt="" loading="lazy"></span></h3>
           <p>United States · Tournament &amp; high-stakes cash game player</p>
           <div class="fpstats">
             <div><span>Total Live Earnings</span><b class="g">$245,706</b></div>
@@ -507,11 +508,11 @@ img, svg, video { max-width:100%; }
         <div class="meta">Horseshoe Las Vegas · Sunday 21 June 2026</div>
         <div class="tblscroll"><table class="rank"><thead><tr><th>#</th><th></th><th>Player</th><th style="text-align:right">Prize</th></tr></thead>
         <tbody>
-          <tr onclick="openProfile('Benny Glaser')"><td class="pos">1</td><td class="flagcell"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span></td><td class="playerName">Benny Glaser</td><td class="money">$1,343,764</td></tr>
-          <tr onclick="openProfile('Josh Arieh')"><td class="pos">2</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Josh Arieh</td><td class="money">$895,837</td></tr>
-          <tr onclick="openProfile('Phil Ivey')"><td class="pos">3</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Phil Ivey</td><td class="money">$600,698</td></tr>
-          <tr onclick="openProfile('Maxx Coleman')"><td class="pos">4</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Maxx Coleman</td><td class="money">$417,607</td></tr>
-          <tr onclick="openProfile('Paul Volpe')"><td class="pos">5</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Paul Volpe</td><td class="money">$301,405</td></tr>
+          <tr onclick="openProfile('Benny Glaser')"><td class="pos">1</td><td class="flagcell"><span class="flag"><img src="https://flagcdn.com/24x18/gb-eng.png" srcset="https://flagcdn.com/48x36/gb-eng.png 2x" width="20" height="15" alt="" loading="lazy"></span></td><td class="playerName">Benny Glaser</td><td class="money">$1,343,764</td></tr>
+          <tr onclick="openProfile('Josh Arieh')"><td class="pos">2</td><td class="flagcell"><span class="flag"><img src="https://flagcdn.com/24x18/us.png" srcset="https://flagcdn.com/48x36/us.png 2x" width="20" height="15" alt="" loading="lazy"></span></td><td class="playerName">Josh Arieh</td><td class="money">$895,837</td></tr>
+          <tr onclick="openProfile('Phil Ivey')"><td class="pos">3</td><td class="flagcell"><span class="flag"><img src="https://flagcdn.com/24x18/us.png" srcset="https://flagcdn.com/48x36/us.png 2x" width="20" height="15" alt="" loading="lazy"></span></td><td class="playerName">Phil Ivey</td><td class="money">$600,698</td></tr>
+          <tr onclick="openProfile('Maxx Coleman')"><td class="pos">4</td><td class="flagcell"><span class="flag"><img src="https://flagcdn.com/24x18/us.png" srcset="https://flagcdn.com/48x36/us.png 2x" width="20" height="15" alt="" loading="lazy"></span></td><td class="playerName">Maxx Coleman</td><td class="money">$417,607</td></tr>
+          <tr onclick="openProfile('Paul Volpe')"><td class="pos">5</td><td class="flagcell"><span class="flag"><img src="https://flagcdn.com/24x18/us.png" srcset="https://flagcdn.com/48x36/us.png 2x" width="20" height="15" alt="" loading="lazy"></span></td><td class="playerName">Paul Volpe</td><td class="money">$301,405</td></tr>
         </tbody></table></div>
       </div>
     </section>
@@ -788,8 +789,8 @@ $50,000 Poker Players Championship — WSOP 2026, 2026-06-21, Josh Arieh, 2, 500
 <script>
 /* ---------- DATA (pulled live from thehendonmob.com pokerdb, 8 July 2026) ---------- */
 const CC={"United States":"USA","England":"ENG","Belarus":"BLR","Spain":"ESP","Canada":"CAN","Germany":"GER","Hong Kong":"HKG","Latvia":"LAT","Malaysia":"MAS","Thailand":"THA","Russia":"RUS","Finland":"FIN","Austria":"AUT","China":"CHN","France":"FRA","Argentina":"ARG","Indonesia":"INA","Turkey":"TUR","Australia":"AUS","India":"IND","Norway":"NOR","Bulgaria":"BUL","Portugal":"POR","Czech Republic":"CZE","Bosnia & Herzegovina":"BIH","Italy":"ITA","Sweden":"SWE","Belgium":"BEL","Japan":"JPN","Israel":"ISR","South Korea":"KOR","Poland":"POL","Hungary":"HUN","Vietnam":"VIE","Wales":"WAL","Scotland":"SCO","Netherlands":"NED","Serbia":"SRB","Morocco":"MAR","Tunisia":"TUN","Estonia":"EST","Lebanon":"LIB","Armenia":"ARM","Montenegro":"MNE","Greece":"GRE","Georgia":"GEO","Denmark":"DEN","Brazil":"BRA","Switzerland":"SUI","Cyprus":"CYP","Slovakia":"SVK","Liechtenstein":"LIE","Taiwan":"TPE","Malta":"MLT","South Africa":"RSA"};
-const FLAG={"United States":"🇺🇸","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Belarus":"🇧🇾","Spain":"🇪🇸","Canada":"🇨🇦","Germany":"🇩🇪","Hong Kong":"🇭🇰","Latvia":"🇱🇻","Malaysia":"🇲🇾","Thailand":"🇹🇭","Russia":"🇷🇺","Finland":"🇫🇮","Austria":"🇦🇹","China":"🇨🇳","France":"🇫🇷","Argentina":"🇦🇷","Indonesia":"🇮🇩","Turkey":"🇹🇷","Australia":"🇦🇺","India":"🇮🇳","Norway":"🇳🇴","Bulgaria":"🇧🇬","Portugal":"🇵🇹","Czech Republic":"🇨🇿","Bosnia & Herzegovina":"🇧🇦","Italy":"🇮🇹","Sweden":"🇸🇪","Belgium":"🇧🇪","Japan":"🇯🇵","Israel":"🇮🇱","South Korea":"🇰🇷","Poland":"🇵🇱","Hungary":"🇭🇺","Vietnam":"🇻🇳","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Netherlands":"🇳🇱","Serbia":"🇷🇸","Morocco":"🇲🇦","Tunisia":"🇹🇳","Estonia":"🇪🇪","Lebanon":"🇱🇧","Armenia":"🇦🇲","Montenegro":"🇲🇪","Greece":"🇬🇷","Georgia":"🇬🇪","Denmark":"🇩🇰","Brazil":"🇧🇷","Switzerland":"🇨🇭","Cyprus":"🇨🇾","Slovakia":"🇸🇰","Liechtenstein":"🇱🇮","Taiwan":"🇹🇼","Malta":"🇲🇹","South Africa":"🇿🇦"};
-const flagOf=c=>`<span class="flag">${FLAG[c]||"🏳️"}</span>`;
+const FLAG={"United States":"us","England":"gb-eng","Belarus":"by","Spain":"es","Canada":"ca","Germany":"de","Hong Kong":"hk","Latvia":"lv","Malaysia":"my","Thailand":"th","Russia":"ru","Finland":"fi","Austria":"at","China":"cn","France":"fr","Argentina":"ar","Indonesia":"id","Turkey":"tr","Australia":"au","India":"in","Norway":"no","Bulgaria":"bg","Portugal":"pt","Czech Republic":"cz","Bosnia & Herzegovina":"ba","Italy":"it","Sweden":"se","Belgium":"be","Japan":"jp","Israel":"il","South Korea":"kr","Poland":"pl","Hungary":"hu","Vietnam":"vn","Wales":"gb-wls","Scotland":"gb-sct","Netherlands":"nl","Serbia":"rs","Morocco":"ma","Tunisia":"tn","Estonia":"ee","Lebanon":"lb","Armenia":"am","Montenegro":"me","Greece":"gr","Georgia":"ge","Denmark":"dk","Brazil":"br","Switzerland":"ch","Cyprus":"cy","Slovakia":"sk","Liechtenstein":"li","Taiwan":"tw","Malta":"mt","South Africa":"za"};
+const flagOf=c=>{const k=FLAG[c];return k?`<img class="flag" src="https://flagcdn.com/24x18/${k}.png" srcset="https://flagcdn.com/48x36/${k}.png 2x" width="20" height="15" alt="" loading="lazy">`:"";};
 /* Openly licensed player photos from Wikimedia Commons (credit in footer + img title) */
 const PHOTOS={
  "Bryn Kenney":["Bryn Kenney 2015.jpg","World Poker Tour · CC BY 3.0"],

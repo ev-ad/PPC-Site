@@ -313,6 +313,21 @@ img, svg, video { max-width:100%; }
   .countrycell { display:none; }
   .flagcell { width:28px; }
 }
+
+/* ---------- MOBILE HAMBURGER MENU ---------- */
+.hamb{display:none;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:18px;line-height:1;padding:8px 13px;margin-left:auto}
+@media(max-width:900px){
+  .hamb{display:block}
+  .planchip{display:none}
+  .nav>.navsearch{display:none}
+  .mobilepanel{display:none;flex-direction:column;gap:12px;padding:14px 16px 18px;border-top:1px solid var(--border);background:var(--bg2)}
+  .mobilepanel.open{display:flex}
+  .mobilepanel nav.links{display:flex;flex-direction:column;flex:none;gap:2px}
+  .mobilepanel nav.links button{text-align:left;font-size:15px;padding:11px 12px}
+  .mobilepanel .navsearch{display:block}
+  .mobilepanel .navsearch input,.mobilepanel .navsearch input:focus{width:100%}
+  .mobilepanel .navsearch .results{left:0;right:0;width:auto;max-width:none}
+}
 </style>
 </head>
 <body>
@@ -340,7 +355,9 @@ img, svg, video { max-width:100%; }
       <input id="navq" placeholder="Search players…" autocomplete="off">
       <div class="results" id="navres"></div>
     </div>
+    <button class="hamb" id="hamb" aria-label="Menu">☰</button>
   </div>
+  <div class="mobilepanel" id="mobilepanel"></div>
 </header>
 
 <!-- ============ HOME ============ -->
@@ -1068,16 +1085,16 @@ function renderRank(t){
   const H=$("#rankHead"),B=$("#rankBody");
   const row=(p,i,money)=>`<tr onclick="openProfile('${p[0].replace("'","\\'")}')"><td class="pos">${i+1}</td><td class="flagcell">${flagOf(p[1])}</td><td class="playerName">${p[0]}</td><td class="countrycell" style="color:var(--muted)">${p[1]}</td>${money?`<td class="money">${fmt(p[2])}</td>`:""}</tr>`;
   if(t==="atml"){
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th><th style='text-align:right'>Earnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class='countrycell'>Country</th><th style='text-align:right'>Earnings</th></tr>";
     B.innerHTML=ATML.map((p,i)=>row(p,i,true)).join("");
   }else if(t==="y26"){
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class='countrycell'>Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
     B.innerHTML=Y26.map((p,i)=>row(p,i,true)).join("");
   }else if(t==="usa"){
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th><th style='text-align:right'>Earnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class='countrycell'>Country</th><th style='text-align:right'>Earnings</th></tr>";
     B.innerHTML=USA.map((p,i)=>row(p,i,true)).join("");
   }else{
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class='countrycell'>Country</th></tr>";
     B.innerHTML=POP.map((p,i)=>row(p,i,false)).join("");
   }
 }
@@ -1222,6 +1239,22 @@ document.querySelectorAll("[data-count]").forEach(el=>{
   }
   requestAnimationFrame(tick);
 });
+
+/* ---------- MOBILE HAMBURGER ---------- */
+(function(){
+  const hamb=document.getElementById("hamb"),mp=document.getElementById("mobilepanel");
+  const navRow=document.querySelector(".nav"),linksEl=document.querySelector("nav.links"),searchEl=navRow.querySelector(".navsearch")||document.querySelector(".navsearch");
+  const planBadge=document.getElementById("planBadge");
+  let open=false;
+  function setMenu(o){
+    open=o;
+    if(o){mp.appendChild(linksEl);mp.appendChild(searchEl);mp.classList.add("open");hamb.textContent="✕";}
+    else{navRow.insertBefore(linksEl,planBadge);navRow.insertBefore(searchEl,hamb);mp.classList.remove("open");hamb.textContent="☰";}
+  }
+  hamb.addEventListener("click",()=>setMenu(!open));
+  mp.addEventListener("click",e=>{if(e.target.closest("nav.links button"))setMenu(false);});
+  window.addEventListener("resize",()=>{if(window.innerWidth>900&&open)setMenu(false);});
+})();
 </script>
 </body>
 </html>

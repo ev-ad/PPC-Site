@@ -96,7 +96,9 @@ table.rank td.money{color:var(--green);font-weight:700;text-align:right;font-var
 .mv{font-size:12px;font-weight:800;margin-left:8px}
 .mv.up{color:var(--green)} .mv.dn{color:var(--red)} .mv.eq{color:var(--dim)}
 .playerName{font-weight:700}
-.flag{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:5px;padding:1px 7px;font-size:10px;font-weight:800;letter-spacing:.8px;color:var(--muted);vertical-align:1.5px;margin-right:9px}
+.flag{display:inline-block;font-size:15px;line-height:1;margin-right:8px;vertical-align:-1px}
+.flagcell{width:34px;text-align:center;padding-right:0!important}
+.flagcell .flag{margin:0;font-size:16px}
 .delta{color:var(--dim);font-size:12.5px;text-align:right}
 
 /* ---------- CARDS GRID ---------- */
@@ -285,6 +287,21 @@ footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;backgro
   .navsearch input{width:150px}
   .profhero{flex-direction:column;text-align:center}
 }
+
+/* ---------- MOBILE OPTIMIZATION (no horizontal scroll) ---------- */
+html, body { max-width:100%; overflow-x:hidden; }
+img, svg, video { max-width:100%; }
+.tblscroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:var(--radius); }
+.tblscroll table.rank { min-width:560px; }
+.navsearch .results { max-width:calc(100vw - 32px); }
+@media (max-width:640px) {
+  .wrap { padding:0 16px; }
+  .nav { gap:14px; padding:12px 16px; }
+  .evgrid, .newsgrid, .pgrid, .plans, .grid2, .fgrid { grid-template-columns:1fr !important; }
+  .hero .orb { width:300px; height:300px; }
+  .navsearch input, .navsearch input:focus { width:140px; }
+  [style*="min-width"] { min-width:0 !important; }
+}
 </style>
 </head>
 <body>
@@ -333,11 +350,11 @@ footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;backgro
       </div>
       <div class="trend">
         <div class="lbl">🔥 Trending this week</div>
-        <button class="pill" onclick="openProfile('Daniel Negreanu')"><span class="flag">CAN</span>Daniel Negreanu</button>
-        <button class="pill" onclick="openProfile('Martin Kabrhel')"><span class="flag">CZE</span>Martin Kabrhel</button>
-        <button class="pill" onclick="openProfile('Masato Yokosawa')"><span class="flag">JPN</span>Masato Yokosawa</button>
-        <button class="pill" onclick="openProfile('Adrian Mateos')"><span class="flag">ESP</span>Adrian Mateos</button>
-        <button class="pill" onclick="openProfile('Bryn Kenney')"><span class="flag">USA</span>Bryn Kenney</button>
+        <button class="pill" onclick="openProfile('Daniel Negreanu')"><span class="flag">🇨🇦</span>Daniel Negreanu</button>
+        <button class="pill" onclick="openProfile('Martin Kabrhel')"><span class="flag">🇨🇿</span>Martin Kabrhel</button>
+        <button class="pill" onclick="openProfile('Masato Yokosawa')"><span class="flag">🇯🇵</span>Masato Yokosawa</button>
+        <button class="pill" onclick="openProfile('Adrian Mateos')"><span class="flag">🇪🇸</span>Adrian Mateos</button>
+        <button class="pill" onclick="openProfile('Bryn Kenney')"><span class="flag">🇺🇸</span>Bryn Kenney</button>
       </div>
     </div>
   </div>
@@ -361,7 +378,7 @@ footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;backgro
       <div class="featpro" onclick="openProfile('Robbi Jade Lew')">
         <div class="favatar"><img class="avimg" alt="Robbi Jade Lew" title="Photo: World Poker Tour (Flickr) · CC BY-ND 2.0" src="https://live.staticflickr.com/65535/52440430381_74ba025a8b_b.jpg" onerror="this.remove();this.parentElement&&(this.parentElement.textContent='RJL')"></div>
         <div class="fpinfo">
-          <h3>Robbi Jade Lew <span class="flag">USA</span></h3>
+          <h3>Robbi Jade Lew <span class="flag">🇺🇸</span></h3>
           <p>United States · Tournament &amp; high-stakes cash game player</p>
           <div class="fpstats">
             <div><span>Total Live Earnings</span><b class="g">$245,706</b></div>
@@ -379,8 +396,8 @@ footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;backgro
         <span class="more" onclick="go('rankings')">Full ranking →</span>
       </div>
       <div class="podium" id="podium"></div>
-      <table class="rank"><thead><tr><th>#</th><th>Player</th><th style="text-align:right">Earnings</th></tr></thead>
-      <tbody id="homeRank"></tbody></table>
+      <div class="tblscroll"><table class="rank"><thead><tr><th>#</th><th></th><th>Player</th><th style="text-align:right">Earnings</th></tr></thead>
+      <tbody id="homeRank"></tbody></table></div>
     </section>
 
     <section>
@@ -391,14 +408,14 @@ footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;backgro
         <div class="kicker">WSOP 2026 · Bracelet Event #60</div>
         <h3>$50,000 Poker Players Championship (7-Handed)</h3>
         <div class="meta">Horseshoe Las Vegas · Sunday 21 June 2026</div>
-        <table class="rank"><thead><tr><th>#</th><th>Player</th><th style="text-align:right">Prize</th></tr></thead>
+        <div class="tblscroll"><table class="rank"><thead><tr><th>#</th><th></th><th>Player</th><th style="text-align:right">Prize</th></tr></thead>
         <tbody>
-          <tr onclick="openProfile('Benny Glaser')"><td class="pos">1</td><td class="playerName"><span class="flag">ENG</span>Benny Glaser</td><td class="money">$1,343,764</td></tr>
-          <tr onclick="openProfile('Josh Arieh')"><td class="pos">2</td><td class="playerName"><span class="flag">USA</span>Josh Arieh</td><td class="money">$895,837</td></tr>
-          <tr onclick="openProfile('Phil Ivey')"><td class="pos">3</td><td class="playerName"><span class="flag">USA</span>Phil Ivey</td><td class="money">$600,698</td></tr>
-          <tr onclick="openProfile('Maxx Coleman')"><td class="pos">4</td><td class="playerName"><span class="flag">USA</span>Maxx Coleman</td><td class="money">$417,607</td></tr>
-          <tr onclick="openProfile('Paul Volpe')"><td class="pos">5</td><td class="playerName"><span class="flag">USA</span>Paul Volpe</td><td class="money">$301,405</td></tr>
-        </tbody></table>
+          <tr onclick="openProfile('Benny Glaser')"><td class="pos">1</td><td class="flagcell"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span></td><td class="playerName">Benny Glaser</td><td class="money">$1,343,764</td></tr>
+          <tr onclick="openProfile('Josh Arieh')"><td class="pos">2</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Josh Arieh</td><td class="money">$895,837</td></tr>
+          <tr onclick="openProfile('Phil Ivey')"><td class="pos">3</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Phil Ivey</td><td class="money">$600,698</td></tr>
+          <tr onclick="openProfile('Maxx Coleman')"><td class="pos">4</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Maxx Coleman</td><td class="money">$417,607</td></tr>
+          <tr onclick="openProfile('Paul Volpe')"><td class="pos">5</td><td class="flagcell"><span class="flag">🇺🇸</span></td><td class="playerName">Paul Volpe</td><td class="money">$301,405</td></tr>
+        </tbody></table></div>
       </div>
     </section>
 
@@ -442,7 +459,7 @@ footer{border-top:1px solid var(--border);margin-top:70px;padding:44px 0;backgro
         <button class="cta">Claim Bonus</button>
         <span class="adlabel">Sponsored</span>
       </div>
-      <table class="rank"><thead id="rankHead"></thead><tbody id="rankBody"></tbody></table>
+      <div class="tblscroll"><table class="rank"><thead id="rankHead"></thead><tbody id="rankBody"></tbody></table></div>
       <p class="note">Live rankings data, updated 8 July 2026.</p>
     </section>
   </div>
@@ -654,7 +671,8 @@ $50,000 Poker Players Championship — WSOP 2026, 2026-06-21, Josh Arieh, 2, 500
 <script>
 /* ---------- DATA (pulled live from thehendonmob.com pokerdb, 8 July 2026) ---------- */
 const CC={"United States":"USA","England":"ENG","Belarus":"BLR","Spain":"ESP","Canada":"CAN","Germany":"GER","Hong Kong":"HKG","Latvia":"LAT","Malaysia":"MAS","Thailand":"THA","Russia":"RUS","Finland":"FIN","Austria":"AUT","China":"CHN","France":"FRA","Argentina":"ARG","Indonesia":"INA","Turkey":"TUR","Australia":"AUS","India":"IND","Norway":"NOR","Bulgaria":"BUL","Portugal":"POR","Czech Republic":"CZE","Bosnia & Herzegovina":"BIH","Italy":"ITA","Sweden":"SWE","Belgium":"BEL","Japan":"JPN","Israel":"ISR","South Korea":"KOR","Poland":"POL","Hungary":"HUN","Vietnam":"VIE","Wales":"WAL","Scotland":"SCO","Netherlands":"NED","Serbia":"SRB","Morocco":"MAR","Tunisia":"TUN","Estonia":"EST","Lebanon":"LIB","Armenia":"ARM","Montenegro":"MNE","Greece":"GRE","Georgia":"GEO","Denmark":"DEN","Brazil":"BRA","Switzerland":"SUI","Cyprus":"CYP","Slovakia":"SVK","Liechtenstein":"LIE","Taiwan":"TPE","Malta":"MLT","South Africa":"RSA"};
-const flagOf=c=>`<span class="flag">${CC[c]||(c||"—").slice(0,3).toUpperCase()}</span>`;
+const FLAG={"United States":"🇺🇸","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Belarus":"🇧🇾","Spain":"🇪🇸","Canada":"🇨🇦","Germany":"🇩🇪","Hong Kong":"🇭🇰","Latvia":"🇱🇻","Malaysia":"🇲🇾","Thailand":"🇹🇭","Russia":"🇷🇺","Finland":"🇫🇮","Austria":"🇦🇹","China":"🇨🇳","France":"🇫🇷","Argentina":"🇦🇷","Indonesia":"🇮🇩","Turkey":"🇹🇷","Australia":"🇦🇺","India":"🇮🇳","Norway":"🇳🇴","Bulgaria":"🇧🇬","Portugal":"🇵🇹","Czech Republic":"🇨🇿","Bosnia & Herzegovina":"🇧🇦","Italy":"🇮🇹","Sweden":"🇸🇪","Belgium":"🇧🇪","Japan":"🇯🇵","Israel":"🇮🇱","South Korea":"🇰🇷","Poland":"🇵🇱","Hungary":"🇭🇺","Vietnam":"🇻🇳","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Netherlands":"🇳🇱","Serbia":"🇷🇸","Morocco":"🇲🇦","Tunisia":"🇹🇳","Estonia":"🇪🇪","Lebanon":"🇱🇧","Armenia":"🇦🇲","Montenegro":"🇲🇪","Greece":"🇬🇷","Georgia":"🇬🇪","Denmark":"🇩🇰","Brazil":"🇧🇷","Switzerland":"🇨🇭","Cyprus":"🇨🇾","Slovakia":"🇸🇰","Liechtenstein":"🇱🇮","Taiwan":"🇹🇼","Malta":"🇲🇹","South Africa":"🇿🇦"};
+const flagOf=c=>`<span class="flag">${FLAG[c]||"🏳️"}</span>`;
 /* Openly licensed player photos from Wikimedia Commons (credit in footer + img title) */
 const PHOTOS={
  "Bryn Kenney":["Bryn Kenney 2015.jpg","World Poker Tour · CC BY 3.0"],
@@ -817,9 +835,9 @@ function openProfile(name){
   let resHtml="";
   if(ft)resHtml+=`
     <div class="sechead" style="margin-top:8px"><div><h2 class="sec">Recent Results</h2><p class="sub" style="margin:0">Latest recorded live cashes</p></div></div>
-    <table class="rank"><thead><tr><th>Date</th><th>Event</th><th>Place</th><th style="text-align:right">Prize</th></tr></thead><tbody>${
+    <div class="tblscroll"><table class="rank"><thead><tr><th>Date</th><th>Event</th><th>Place</th><th style="text-align:right">Prize</th></tr></thead><tbody>${
       ft.results.map(r=>`<tr style="cursor:default"><td style="color:var(--muted);white-space:nowrap">${r[0]}</td><td class="playerName">${r[1]}</td><td class="pos">${r[2]}</td><td class="money">${r[3]}</td></tr>`).join("")
-    }</tbody></table>`;
+    }</tbody></table></div>`;
   if(rows.length)resHtml+=`
     <div class="sechead" style="margin-top:32px"><div><h2 class="sec">Results</h2><p class="sub" style="margin:0">Uploaded results with buy-ins &amp; entries</p></div></div>
     ${resultsTable(rows,false)}`;
@@ -853,14 +871,14 @@ function renderBuyins(){
     <div class="scard"><span>True Net Profit</span><b class="${cls}">${sign}${fmt(Math.abs(net))}</b></div>
     <div class="scard"><span>ROI</span><b class="${tb>0?cls:''}">${roi}</b></div>`;
   $("#biTableWrap").innerHTML=a.length?`
-    <table class="rank"><thead><tr><th>Event</th><th>Date</th><th style="text-align:right">Buy-in</th><th style="text-align:right">Cashed</th><th style="text-align:right">Net</th><th></th></tr></thead>
+    <div class="tblscroll"><table class="rank"><thead><tr><th>Event</th><th>Date</th><th style="text-align:right">Buy-in</th><th style="text-align:right">Cashed</th><th style="text-align:right">Net</th><th></th></tr></thead>
     <tbody>${a.map((x,i)=>{const n=x.cash-x.buyin;return `<tr style="cursor:default">
       <td class="playerName">${x.ev}</td><td style="color:var(--muted)">${x.date||"—"}</td>
       <td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(x.buyin)}</td>
       <td class="money">${fmt(x.cash)}</td>
       <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums" class="${n>=0?'profit-pos':'profit-neg'}">${n>=0?"+":"−"}${fmt(Math.abs(n))}</td>
       <td style="text-align:right"><button class="bidel" onclick="delBuyin(${i})" title="Delete">✕</button></td></tr>`}).join("")}
-    </tbody></table>`:'<div class="empty">No buy-ins logged yet.</div>';
+    </tbody></table></div>`:'<div class="empty">No buy-ins logged yet.</div>';
 }
 
 /* ---------- ACCOUNT CLAIM & CASINO RECORDS ---------- */
@@ -964,7 +982,7 @@ function parseCSV(t){
   return{rows,errs};
 }
 function resultsTable(rows,withDel){
-  return `<table class="rank"><thead><tr><th>Event</th><th>Date</th><th>Player</th><th>#</th><th style="text-align:right">Buy-in</th><th style="text-align:right">Entries</th><th style="text-align:right">Total Cost</th><th style="text-align:right">Prize</th><th style="text-align:right">Net</th>${withDel?"<th></th>":""}</tr></thead><tbody>${
+  return `<div class="tblscroll"><table class="rank"><thead><tr><th>Event</th><th>Date</th><th>Player</th><th>#</th><th style="text-align:right">Buy-in</th><th style="text-align:right">Entries</th><th style="text-align:right">Total Cost</th><th style="text-align:right">Prize</th><th style="text-align:right">Net</th>${withDel?"<th></th>":""}</tr></thead><tbody>${
     rows.map((r,i)=>`<tr style="cursor:default"><td class="playerName">${r.ev}</td><td style="color:var(--muted)">${r.date||"—"}</td><td>${r.player}</td><td class="pos">${r.pos||"—"}</td>
       <td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(r.buyin)}</td>
       <td style="text-align:right;font-variant-numeric:tabular-nums">${r.entries}</td>
@@ -972,7 +990,7 @@ function resultsTable(rows,withDel){
       <td class="money">${fmt(r.prize)}</td>
       <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums" class="${r.net>=0?'profit-pos':'profit-neg'}">${r.net>=0?"+":"−"}${fmt(Math.abs(r.net))}</td>
       ${withDel?`<td style="text-align:right"><button class="bidel" onclick="delResult(${i})" title="Delete">✕</button></td>`:""}</tr>`).join("")
-  }</tbody></table>`;
+  }</tbody></table></div>`;
 }
 let pendingRows=null;
 function setStatus(msg,err){const s=$("#adminStatus");s.textContent=msg;s.className="status"+(err?" err":"");}
@@ -1027,7 +1045,8 @@ $("#podium").innerHTML=ATML.slice(0,3).map((p,i)=>`
 $("#homeRank").innerHTML=ATML.slice(3,15).map((p,i)=>`
   <tr onclick="openProfile('${p[0].replace("'","\\'")}')">
     <td class="pos">${i+4}</td>
-    <td class="playerName">${flagOf(p[1])}${p[0]}</td>
+    <td class="flagcell">${flagOf(p[1])}</td>
+    <td class="playerName">${p[0]}</td>
     <td class="money">${fmt(p[2])}</td>
   </tr>`).join("");
 $("#homeEvents").innerHTML=EVENTS.slice(0,6).map(evCard).join("");
@@ -1036,18 +1055,18 @@ $("#homeNews").innerHTML=NEWS.slice(0,4).map(newsCard).join("");
 /* ---------- RENDER: RANKINGS ---------- */
 function renderRank(t){
   const H=$("#rankHead"),B=$("#rankBody");
-  const row=(p,i,money)=>`<tr onclick="openProfile('${p[0].replace("'","\\'")}')"><td class="pos">${i+1}</td><td class="playerName">${flagOf(p[1])}${p[0]}</td><td style="color:var(--muted)">${p[1]}</td>${money?`<td class="money">${fmt(p[2])}</td>`:""}</tr>`;
+  const row=(p,i,money)=>`<tr onclick="openProfile('${p[0].replace("'","\\'")}')"><td class="pos">${i+1}</td><td class="flagcell">${flagOf(p[1])}</td><td class="playerName">${p[0]}</td><td style="color:var(--muted)">${p[1]}</td>${money?`<td class="money">${fmt(p[2])}</td>`:""}</tr>`;
   if(t==="atml"){
-    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
     B.innerHTML=ATML.map((p,i)=>row(p,i,true)).join("");
   }else if(t==="y26"){
-    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
     B.innerHTML=Y26.map((p,i)=>row(p,i,true)).join("");
   }else if(t==="usa"){
-    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
     B.innerHTML=USA.map((p,i)=>row(p,i,true)).join("");
   }else{
-    H.innerHTML="<tr><th>#</th><th>Player</th><th>Country</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th></tr>";
     B.innerHTML=POP.map((p,i)=>row(p,i,false)).join("");
   }
 }

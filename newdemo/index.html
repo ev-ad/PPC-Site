@@ -334,6 +334,19 @@ img, svg, video { max-width:100%; }
   .mobilepanel .navsearch input,.mobilepanel .navsearch input:focus{width:100%}
   .mobilepanel .navsearch .results{left:0;right:0;width:auto;max-width:none}
 }
+
+/* ---------- TRENDING WHEEL ---------- */
+.tw-stage{perspective:1100px;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:pan-y;cursor:grab;--twr:215px}
+.tw-stage:active{cursor:grabbing}
+.tw-ring{position:relative;width:150px;height:210px;transform-style:preserve-3d}
+.tw-card{position:absolute;inset:0;border-radius:14px;overflow:hidden;cursor:pointer;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;backface-visibility:hidden}
+.tw-card .ph{width:74px;height:74px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#14100a;background:linear-gradient(135deg,var(--gold2),#b07f22);border:2px solid var(--gold)}
+.tw-card .ph img{width:100%;height:100%;object-fit:cover}
+.tw-card .nm{font-weight:800;font-size:12.5px;color:var(--text);text-align:center;padding:0 8px}
+.tw-card .nm .flag{font-size:13px;margin:0 0 0 4px}
+.tw-card .tr{font-size:10px;font-weight:700;color:var(--green)}
+.tw-card .tr.dn{color:var(--red)}
+@media(max-width:640px){.tw-stage{--twr:160px;height:260px}.tw-ring{width:128px;height:188px}}
 </style>
 </head>
 <body>
@@ -432,6 +445,13 @@ img, svg, video { max-width:100%; }
       <div class="podium" id="podium"></div>
       <div class="tblscroll"><table class="rank"><thead><tr><th>#</th><th></th><th>Player</th><th style="text-align:right">Earnings</th></tr></thead>
       <tbody id="homeRank"></tbody></table></div>
+    </section>
+
+    <section>
+      <div class="sechead">
+        <div><h2 class="sec">🔥 Trending This Week</h2><p class="sub" style="margin:0">Most-viewed players · drag to spin</p></div>
+      </div>
+      <div class="tw-stage" id="twStage"><div class="tw-ring" id="twRing"></div></div>
     </section>
 
     <section>
@@ -1276,6 +1296,39 @@ document.querySelectorAll("[data-count]").forEach(el=>{
   const initial=(location.hash||"").slice(1);
   if(initial&&initial!=="home"&&document.getElementById("v-"+initial)){_go(initial);}
   else{history.replaceState(null,"","#home");}
+})();
+
+/* ---------- TRENDING WHEEL ---------- */
+(function(){
+  const TRENDING=[["Daniel Negreanu",214],["Phil Ivey",167],["Kristen Foxen",142],["Shiina Okamoto",128],["Fedor Holz",97],["Adrian Mateos",85],["Masato Yokosawa",76],["Bryn Kenney",-12]];
+  const ring=document.getElementById("twRing"),stage=document.getElementById("twStage");
+  if(!ring||!stage)return;
+  const step=360/TRENDING.length;
+  ring.innerHTML=TRENDING.map(function(t,i){
+    const p=PLAYERS[t[0]]||{country:"—"};
+    const ph=photoImg(t[0]);
+    const av='<div class="ph">'+(ph||initials(t[0]))+'</div>';
+    const up=t[1]>=0;
+    return '<div class="tw-card" data-n="'+t[0].replace(/"/g,"&quot;")+'" style="transform:rotateY('+(i*step)+'deg) translateZ(var(--twr))">'+av+'<div class="nm">'+t[0]+flagOf(p.country)+'</div><div class="tr '+(up?"":"dn")+'">'+(up?"▲":"▼")+" "+Math.abs(t[1])+'% views</div></div>';
+  }).join("");
+  let rot=0,drag=null,hover=false,moved=false;
+  const reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tick(){
+    if(!drag&&!hover&&!reduced)rot+=0.16;
+    ring.style.transform="rotateY("+rot+"deg)";
+    requestAnimationFrame(tick);
+  }
+  stage.addEventListener("pointerdown",function(e){drag={x:e.clientX,r:rot};moved=false;});
+  window.addEventListener("pointermove",function(e){if(drag){const dx=e.clientX-drag.x;if(Math.abs(dx)>8)moved=true;rot=drag.r+dx*0.35;}});
+  window.addEventListener("pointerup",function(){drag=null;});
+  stage.addEventListener("mouseenter",function(){hover=true;});
+  stage.addEventListener("mouseleave",function(){hover=false;});
+  stage.addEventListener("click",function(e){
+    if(moved){moved=false;return;}
+    const c=e.target.closest(".tw-card");
+    if(c)openProfile(c.dataset.n);
+  });
+  requestAnimationFrame(tick);
 })();
 </script>
 </body>

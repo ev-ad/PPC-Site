@@ -394,6 +394,8 @@ img, svg, video { max-width:100%; }
 /* evened hero rhythm: wheel dead-space trimmed to match 34px section rhythm */
 .tw-stage{height:260px}
 @media(max-width:640px){.tw-stage{height:236px}}
+
+.hero-bk{margin-bottom:18px}
 </style>
 </head>
 <body>
@@ -415,7 +417,6 @@ img, svg, video { max-width:100%; }
       <button data-v="pricing" onclick="go('pricing')">Pricing</button>
       <button data-v="admin" onclick="go('admin')">⚙ Admin</button>
     </nav>
-    <button class="bkpill" onclick="go('news')"><span class="bkdot"></span>BREAKING NEWS</button>
     <button class="planchip" id="planBadge" onclick="go('pricing')"></button>
     <div class="navsearch">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -432,6 +433,7 @@ img, svg, video { max-width:100%; }
   <div class="hero">
     <div class="orb a"></div><div class="orb b"></div>
     <div class="wrap">
+      <button class="bkpill hero-bk" onclick="go('news')"><span class="bkdot"></span>BREAKING NEWS</button>
       <h1>The world's largest<br><span>live poker database</span></h1>
       <p>Every result. Every event. Every player. Tracking live tournament poker since 2004.</p>
       <div class="herosearch">

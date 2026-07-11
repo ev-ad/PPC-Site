@@ -187,8 +187,13 @@ table.rank td.money{color:var(--green);font-weight:700;text-align:right;font-var
 .fmtnote code{color:var(--gold);font-family:ui-monospace,Consolas,monospace}
 
 /* ---------- FEATURED PROFILE ---------- */
-.featpro{background:linear-gradient(135deg,rgba(230,179,77,.08),transparent 50%),var(--card);border:1px solid rgba(230,179,77,.5);border-radius:var(--radius);padding:30px;display:flex;align-items:center;gap:28px;cursor:pointer;transition:.2s;text-align:left;animation:featpulse 2.6s ease-in-out infinite}
+.featpro{background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#b07f22);border:1px solid #b07f22;border-radius:var(--radius);padding:30px;display:flex;align-items:center;gap:28px;cursor:pointer;transition:.2s;text-align:left;animation:featpulse 2.6s ease-in-out infinite}
 @keyframes featpulse{0%,100%{box-shadow:0 0 0 0 rgba(230,179,77,.4)}50%{box-shadow:0 0 0 16px rgba(230,179,77,0)}}
+.featpro h3{color:#14100a}
+.featpro .fpinfo p{color:#4a3410}
+.featpro .fpstats span{color:#5a4212}
+.featpro .fpstats b,.featpro .fpstats b.g{color:#14100a}
+.featpro .btn{background:#14100a;color:var(--gold2)}
 .featpro:hover{transform:translateY(-3px);box-shadow:0 16px 46px rgba(0,0,0,.35);border-color:var(--gold)}
 .favatar{width:88px;height:88px;min-width:88px;border-radius:24px;background:linear-gradient(135deg,var(--gold),#b07f22);display:grid;place-items:center;font-size:26px;font-weight:900;color:#14100a}
 .fpinfo{flex:1}
@@ -301,6 +306,12 @@ img, svg, video { max-width:100%; }
   .hero .orb { width:300px; height:300px; }
   .navsearch input, .navsearch input:focus { width:140px; }
   [style*="min-width"] { min-width:0 !important; }
+  .tblscroll table.rank { min-width:0; width:100%; }
+  .rank th, .rank td { padding:10px 8px; font-size:13px; }
+  .rank td.money, .rank td.pos { white-space:nowrap; }
+  .rank td.playerName { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:40vw; }
+  .countrycell { display:none; }
+  .flagcell { width:28px; }
 }
 </style>
 </head>
@@ -383,7 +394,7 @@ img, svg, video { max-width:100%; }
           <div class="fpstats">
             <div><span>Total Live Earnings</span><b class="g">$245,706</b></div>
             <div><span>Best Live Cash</span><b>$22,400</b></div>
-            <div><span>Latest Cash</span><b>WSOP 2026 · 3 Jul</b></div>
+            <div><span>Latest Cash</span><b>Super Turbo Bounty · WSOP 2026</b></div>
           </div>
         </div>
         <button class="btn">View Profile →</button>
@@ -1055,18 +1066,18 @@ $("#homeNews").innerHTML=NEWS.slice(0,4).map(newsCard).join("");
 /* ---------- RENDER: RANKINGS ---------- */
 function renderRank(t){
   const H=$("#rankHead"),B=$("#rankBody");
-  const row=(p,i,money)=>`<tr onclick="openProfile('${p[0].replace("'","\\'")}')"><td class="pos">${i+1}</td><td class="flagcell">${flagOf(p[1])}</td><td class="playerName">${p[0]}</td><td style="color:var(--muted)">${p[1]}</td>${money?`<td class="money">${fmt(p[2])}</td>`:""}</tr>`;
+  const row=(p,i,money)=>`<tr onclick="openProfile('${p[0].replace("'","\\'")}')"><td class="pos">${i+1}</td><td class="flagcell">${flagOf(p[1])}</td><td class="playerName">${p[0]}</td><td class="countrycell" style="color:var(--muted)">${p[1]}</td>${money?`<td class="money">${fmt(p[2])}</td>`:""}</tr>`;
   if(t==="atml"){
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th><th style='text-align:right'>Earnings</th></tr>";
     B.innerHTML=ATML.map((p,i)=>row(p,i,true)).join("");
   }else if(t==="y26"){
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th><th style='text-align:right'>2026 Winnings</th></tr>";
     B.innerHTML=Y26.map((p,i)=>row(p,i,true)).join("");
   }else if(t==="usa"){
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th><th style='text-align:right'>Earnings</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th><th style='text-align:right'>Earnings</th></tr>";
     B.innerHTML=USA.map((p,i)=>row(p,i,true)).join("");
   }else{
-    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th>Country</th></tr>";
+    H.innerHTML="<tr><th>#</th><th></th><th>Player</th><th class="countrycell">Country</th></tr>";
     B.innerHTML=POP.map((p,i)=>row(p,i,false)).join("");
   }
 }

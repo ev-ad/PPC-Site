@@ -1261,6 +1261,22 @@ document.querySelectorAll("[data-count]").forEach(el=>{
   mp.addEventListener("click",e=>{if(e.target.closest("nav.links button"))setMenu(false);});
   window.addEventListener("resize",()=>{if(window.innerWidth>900&&open)setMenu(false);});
 })();
+
+/* ---------- IN-PAGE HISTORY: back button walks demo views, not off-site ---------- */
+(function(){
+  const _go=window.go;
+  window.go=function(v){
+    if(("#"+v)!==location.hash){history.pushState(null,"","#"+v);}
+    _go(v);
+  };
+  window.addEventListener("popstate",function(){
+    const v=(location.hash||"#home").slice(1);
+    if(document.getElementById("v-"+v))_go(v);
+  });
+  const initial=(location.hash||"").slice(1);
+  if(initial&&initial!=="home"&&document.getElementById("v-"+initial)){_go(initial);}
+  else{history.replaceState(null,"","#home");}
+})();
 </script>
 </body>
 </html>

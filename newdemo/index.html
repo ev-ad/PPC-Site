@@ -368,6 +368,12 @@ img, svg, video { max-width:100%; }
 .trackerlink{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-weight:700;font-size:13.5px;cursor:pointer;margin:4px 0 30px}
 .trackerlink:hover{color:var(--gold2)}
 @media(max-width:640px){.pfcharts{grid-template-columns:1fr}}
+
+/* evened home sponsor unit — symmetric rhythm, centered CTA column */
+.ad-even{margin:34px 0;display:grid;grid-template-columns:auto 1fr auto;align-items:center}
+.ad-even .art{font-size:34px;line-height:1}
+@media(max-width:640px){.ad-even{grid-template-columns:1fr;text-align:center}.ad-even .cta{justify-self:center}}
+.scard.bracelet{border-color:rgba(230,179,77,.5)}
 </style>
 </head>
 <body>
@@ -424,9 +430,10 @@ img, svg, video { max-width:100%; }
   </div>
 
   <div class="wrap">
-    <div class="ad purple">
+    <div class="ad purple ad-even">
+      <div class="art">♠</div>
       <div>
-        <div class="brand">♠ SpadeRoom Poker</div>
+        <div class="brand">SpadeRoom Poker</div>
         <h4>2026 Online Summer Series — $5,000,000 GTD</h4>
         <p>140 events. Satellites from $1. Main Event seat giveaways all July.</p>
         <small>Demo sponsor unit · 18+ · Play responsibly · T&amp;Cs apply</small>
@@ -887,6 +894,8 @@ function openProfile(name){
   if(p.pop)cards+=`<div class="scard"><span>Popularity (7 days)</span><b>#${p.pop}</b></div>`;
   const ft=FEATURED[name];
   if(ft){
+    const bracelets=(ft.results||[]).filter(r=>/WSOP/i.test(r[1])&&/^1st$/i.test(String(r[2]).trim())).length;
+    cards+=`<div class="scard bracelet"><span>🏆 WSOP Bracelets</span><b class="gold">${bracelets}</b></div>`;
     cards+=`<div class="scard"><span>Best Live Cash</span><b class="g">${fmt(ft.bestCash)}</b></div>
       <div class="scard"><span>All Time Money List</span><b>${ft.atmlPos}</b></div>
       <div class="scard"><span>GPI Ranking</span><b>${ft.gpi}</b></div>

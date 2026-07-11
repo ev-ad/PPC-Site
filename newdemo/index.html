@@ -374,6 +374,26 @@ img, svg, video { max-width:100%; }
 .ad-even .art{font-size:34px;line-height:1}
 @media(max-width:640px){.ad-even{grid-template-columns:1fr;text-align:center}.ad-even .cta{justify-self:center}}
 .scard.bracelet{border-color:rgba(230,179,77,.5)}
+
+/* breaking news pill */
+@keyframes bkflash{0%,100%{background:rgba(240,106,106,.15);box-shadow:0 0 0 0 rgba(240,106,106,.5)}50%{background:rgba(240,106,106,.4);box-shadow:0 0 12px 2px rgba(240,106,106,.35)}}
+.bkpill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--red);color:var(--red);font-weight:800;font-size:10px;letter-spacing:1.2px;padding:6px 12px;border-radius:99px;background:none;cursor:pointer;white-space:nowrap;animation:bkflash 1.2s ease-in-out infinite}
+.bkdot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+@media(prefers-reduced-motion:reduce){.bkpill{animation:none;background:rgba(240,106,106,.2)}}
+/* breaking news card */
+.news.bknews{border-color:rgba(240,106,106,.4)}
+.news .cat.bk{color:var(--red);font-weight:800}
+/* PPC house ad — real link, gold theme, visible on mobile too */
+.ppcad{background:linear-gradient(120deg,#2a1f08,#4d3a12 55%,#2a1f08);border-color:rgba(230,179,77,.5);color:var(--text)}
+.ppcad .brand{color:#f5cd75;letter-spacing:1px}
+.ppcad p{color:#d9c391}
+.ppcad small{color:#a68d5a}
+.ppcad .cta{background:linear-gradient(135deg,#f5cd75,#e6b34d)}
+.ppcad .adlabel{color:#d9c391}
+@media(max-width:900px){.ad.ppcad{display:grid}}
+/* evened hero rhythm: wheel dead-space trimmed to match 34px section rhythm */
+.tw-stage{height:260px}
+@media(max-width:640px){.tw-stage{height:236px}}
 </style>
 </head>
 <body>
@@ -395,6 +415,7 @@ img, svg, video { max-width:100%; }
       <button data-v="pricing" onclick="go('pricing')">Pricing</button>
       <button data-v="admin" onclick="go('admin')">⚙ Admin</button>
     </nav>
+    <button class="bkpill" onclick="go('news')"><span class="bkdot"></span>BREAKING NEWS</button>
     <button class="planchip" id="planBadge" onclick="go('pricing')"></button>
     <div class="navsearch">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -490,10 +511,21 @@ img, svg, video { max-width:100%; }
       </div>
     </section>
 
+    <a class="ad ad-even ppcad" href="https://ppc.casino" target="_blank" rel="noopener">
+      <span class="art"><svg viewBox="0 0 52 47" width="40" height="36" aria-hidden="true"><defs><linearGradient id="ppcadg" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0%" stop-color="#f5cd75"/><stop offset="100%" stop-color="#e6b34d"/></linearGradient></defs><rect x="12" y="2" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="22" y="2" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="32" y="2" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="2" y="18" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="12" y="18" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="22" y="18" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="32" y="18" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="42" y="18" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="2" y="34" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="12" y="34" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="22" y="34" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="32" y="34" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/><rect x="42" y="34" width="8" height="11" rx="1.5" fill="url(#ppcadg)" stroke="#b07f22" stroke-width="0.4"/></svg></span>
+      <div>
+        <div class="brand">PPC Cards</div>
+        <h4>Eight card games. One table. Crossplay everywhere.</h4>
+        <p>OFC Poker, Rummy, Hearts &amp; more &mdash; free on iOS and web.</p>
+      </div>
+      <span class="cta">Play Free</span>
+      <span class="adlabel">From our team</span>
+    </a>
+
     <section>
       <div class="sechead">
         <div><h2 class="sec">Upcoming Tournament Series</h2><p class="sub" style="margin:0">Live and scheduled around the world</p></div>
-        <span class="more" onclick="go('events')">Full calendar →</span>
+        <span class="more" onclick="go('events')">See all 18 →</span>
       </div>
       <div class="evgrid" id="homeEvents"></div>
     </section>
@@ -501,7 +533,7 @@ img, svg, video { max-width:100%; }
     <section>
       <div class="sechead">
         <div><h2 class="sec">Latest News</h2></div>
-        <span class="more" onclick="go('news')">All news →</span>
+        <span class="more" onclick="go('news')">See all →</span>
       </div>
       <div class="newsgrid" id="homeNews"></div>
     </section>
@@ -823,7 +855,7 @@ const EVENTS=[
  {d:"25 Sep – 7 Oct",m:"SEP",day:"25",name:"Asian Poker Tour — APT Jeju 2026",city:"Jeju",country:"South Korea",flag:"🇰🇷",region:"Asia-Pacific",tour:"APT"}
 ];
 const NEWS=[
- {cat:"The Festival",t:"The Festival Series to Debut Wild Seven-Deuce Tournament Format This Summer",d:"June 26, 2026"},
+ {breaking:true,cat:"The Festival",t:"The Festival Series to Debut Wild Seven-Deuce Tournament Format This Summer",d:"June 26, 2026"},
  {cat:"PPC Champ.",t:"PPC Championship Returns to Nottingham with Over £300,000 Guaranteed",d:"June 22, 2026"},
  {cat:"PS Championship",t:"PS Championship IV Taipei Unveils High Roller Early Bird Package Ahead of 13-Day Festival",d:"June 19, 2026"},
  {cat:"Irish Open",t:"The Irish Open and PPC Championship Set Sights on Sydney in 2026",d:"June 18, 2026"},
@@ -1132,8 +1164,8 @@ $("#homeRank").innerHTML=ATML.slice(3,15).map((p,i)=>`
     <td class="playerName">${p[0]}</td>
     <td class="money">${fmt(p[2])}</td>
   </tr>`).join("");
-$("#homeEvents").innerHTML=EVENTS.slice(0,6).map(evCard).join("");
-$("#homeNews").innerHTML=NEWS.slice(0,4).map(newsCard).join("");
+$("#homeEvents").innerHTML=EVENTS.slice(0,2).map(evCard).join("");
+$("#homeNews").innerHTML=NEWS.slice(0,2).map(newsCard).join("");
 
 /* ---------- RENDER: RANKINGS ---------- */
 function renderRank(t){
@@ -1199,7 +1231,7 @@ $("#evFilters").addEventListener("click",e=>{
 });
 
 /* ---------- RENDER: NEWS ---------- */
-function newsCard(n){return `<div class="news"><div class="cat">${n.cat}</div><h4>${n.t}</h4><div class="date">${n.d}</div></div>`;}
+function newsCard(n){return `<div class="news${n.breaking?" bknews":""}">${n.breaking?`<div class="cat bk">🔴 BREAKING</div>`:`<div class="cat">${n.cat}</div>`}<h4>${n.t}</h4><div class="date">${n.d}</div></div>`;}
 $("#newsgrid").innerHTML=NEWS.map(newsCard).join("");
 
 /* ---------- SEARCH ---------- */

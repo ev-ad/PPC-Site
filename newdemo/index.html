@@ -396,6 +396,9 @@ img, svg, video { max-width:100%; }
 @media(max-width:640px){.tw-stage{height:236px}}
 
 .hero-bk{margin-bottom:28px}
+
+/* 3rd home tile is desktop-only */
+@media(max-width:640px){#homeEvents>*:nth-child(3),#homeNews>*:nth-child(3){display:none}}
 </style>
 </head>
 <body>
@@ -1167,8 +1170,8 @@ $("#homeRank").innerHTML=ATML.slice(3,15).map((p,i)=>`
     <td class="playerName">${p[0]}</td>
     <td class="money">${fmt(p[2])}</td>
   </tr>`).join("");
-$("#homeEvents").innerHTML=EVENTS.slice(0,2).map(evCard).join("");
-$("#homeNews").innerHTML=NEWS.slice(0,2).map(newsCard).join("");
+$("#homeEvents").innerHTML=EVENTS.slice(0,3).map(evCard).join("");
+$("#homeNews").innerHTML=NEWS.slice(0,3).map(newsCard).join("");
 
 /* ---------- RENDER: RANKINGS ---------- */
 function renderRank(t){

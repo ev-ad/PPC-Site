@@ -1,3 +1,7 @@
 # Invite links: /i/<friendCode> all serve the smart landing page,
 # which reads the code from the URL and routes by device.
 /i/*  /i/index.html  200
+
+# NEWDEMO DISABLED — delete the two lines below to re-enable ppc.casino/newdemo
+/newdemo / 302
+/newdemo/* / 302

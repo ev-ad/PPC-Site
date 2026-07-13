@@ -26,3 +26,9 @@
 /newdemo/*
   Cache-Control: no-cache, no-store, must-revalidate
   X-Robots-Tag: noindex, nofollow, noarchive
+/xexe
+  Cache-Control: no-cache, no-store, must-revalidate
+  X-Robots-Tag: noindex, nofollow, noarchive
+/xexe/*
+  Cache-Control: no-cache, no-store, must-revalidate
+  X-Robots-Tag: noindex, nofollow, noarchive

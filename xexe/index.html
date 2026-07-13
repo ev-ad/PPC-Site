@@ -332,7 +332,8 @@ let presets = null;
 let profile = null;
 let quizIdx = 0;
 let quizAcc = { risk: 50, spontaneity: 50, gut: 50, novelty: 50 };
-let options = []; // { name, tag: null|'high'|'med'|'safe'|'boring', next?: {name, options} }
+let options = [];
+let optEdit = true; // { name, tag: null|'high'|'med'|'safe'|'boring', next?: {name, options} }
 const TAGS = [
   { key: 'high',   label: 'high risk',   icon: '🔥', cls: 'active-high' },
   { key: 'med',    label: 'med risk',    icon: '⚖️', cls: 'active-med' },
@@ -691,7 +692,6 @@ if (profile && profile.traits) {
 } else showQuiz();
 
 /* ---------- collapsed options / ready mode ---------- */
-let optEdit = true;
 function setOptMode(edit) { optEdit = edit; syncOptMode(); }
 function syncOptMode() {
   const el = id => document.getElementById(id);

@@ -187,19 +187,26 @@
 
   <!-- DECIDE -->
   <div class="card hidden" id="decideCard">
+    <div id="readyBar" class="hidden" style="text-align:center">
+      <div class="quiz-q" style="font-size:1.05rem">Ready when you are</div>
+      <div class="hint" id="readyCount" style="margin-top:2px"></div>
+      <button class="btn btn-big" style="margin-top:14px" onclick="decide()">🎲 Make Decision</button>
+      <div><button class="btn btn-ghost" style="margin-top:12px;font-size:.85rem;padding:8px 14px" onclick="setOptMode(true)">⚙ Change options</button></div>
+    </div>
     <div id="presetSection">
       <div class="hint" style="margin-bottom:8px">Quick decisions:</div>
       <div class="preset-row" id="presetRow"></div>
     </div>
     <div class="quiz-q" style="font-size:1.05rem" id="decideTitle">What are you deciding between?</div>
-    <div class="hint">Add your options. Optionally rate each one — <b style="color:var(--danger)">high risk</b>, <b style="color:var(--warn)">medium risk</b>, <b style="color:var(--accent2)">safe</b>, or <b style="color:var(--muted)">boring</b> — so the roll leans with your personality.</div>
-    <div class="opt-row">
+    <div class="hint" id="optHint">Add your options. Optionally rate each one — <b style="color:var(--danger)">high risk</b>, <b style="color:var(--warn)">medium risk</b>, <b style="color:var(--accent2)">safe</b>, or <b style="color:var(--muted)">boring</b> — so the roll leans with your personality.</div>
+    <div class="opt-row" id="optRow">
       <input type="text" id="optInput" placeholder="e.g. Try the new ramen place" maxlength="80">
       <button class="btn" onclick="addOption()">Add</button>
     </div>
     <div class="chip-list" id="chipList"></div>
     <button class="btn btn-big" id="decideBtn" onclick="decide()" disabled>Roll the dice</button>
     <button class="btn btn-ghost hidden" id="savePresetBtn" style="width:100%;margin-top:10px" onclick="saveCurrentAsPreset()">💾 Save as preset</button>
+    <button class="btn btn-big hidden" id="doneOptsBtn" style="margin-top:10px" onclick="setOptMode(false)">✓ Done — ready to decide</button>
   </div>
 
   <!-- ROLLING -->
@@ -374,6 +381,7 @@ let currentPresetName = null;
 function loadPreset(p) {
   options = JSON.parse(JSON.stringify(p.options));
   currentPresetName = p.name;
+  optEdit = false;
   document.getElementById('decideTitle').textContent = p.name;
   renderChips();
   show('decideCard');
@@ -459,6 +467,7 @@ function renderChips() {
   });
   document.getElementById('decideBtn').disabled = options.length < 2;
   document.getElementById('savePresetBtn').classList.toggle('hidden', options.length < 2);
+  syncOptMode();
 }
 function mkTag(label, cls, fn) {
   const b = document.createElement('button');
@@ -680,6 +689,27 @@ if (profile && profile.traits) {
   if (presets.length) loadPreset(presets[0]);
   else backToDecide();
 } else showQuiz();
+
+/* ---------- collapsed options / ready mode ---------- */
+let optEdit = true;
+function setOptMode(edit) { optEdit = edit; syncOptMode(); }
+function syncOptMode() {
+  const el = id => document.getElementById(id);
+  if (!el('readyBar')) return;
+  const canDecide = options.length >= 2;
+  const edit = optEdit || !canDecide;
+  el('readyBar').classList.toggle('hidden', edit);
+  el('decideTitle').classList.toggle('hidden', !edit);
+  el('optHint').classList.toggle('hidden', !edit);
+  el('optRow').classList.toggle('hidden', !edit);
+  el('chipList').classList.toggle('hidden', !edit);
+  el('presetSection').classList.toggle('hidden', !edit || presets.length === 0);
+  el('decideBtn').classList.add('hidden');
+  el('savePresetBtn').classList.toggle('hidden', !edit || options.length < 2);
+  el('doneOptsBtn').classList.toggle('hidden', !edit);
+  el('doneOptsBtn').disabled = !canDecide;
+  if (!edit) el('readyCount').textContent = options.length + ' options loaded' + (currentPresetName ? ' · ' + currentPresetName : '');
+}
 </script>
 </body>
 </html>
